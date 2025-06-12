@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useAuth } from '../../lib/auth-context';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -9,35 +8,50 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
-  const { login, error, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [formError, setFormError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormError(null);
+    setError(null);
+    setLoading(true);
 
     if (!email || !password) {
-      setFormError('Please enter both email and password');
+      setError('Please enter both email and password');
+      setLoading(false);
       return;
     }
 
     try {
-      await login(email, password);
-      if (onSuccess) onSuccess();
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data: { error?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+      window.location.href = '/'; 
+
     } catch (err) {
-      setFormError((err as Error).message || 'Login failed');
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login to Business Simulation</h2>
+      <h2 className="text-2xl text-black font-bold mb-6 text-center">Login to Business Simulation</h2>
       
-      {(formError || error) && (
+      {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {formError || error}
+          {error}
         </div>
       )}
       

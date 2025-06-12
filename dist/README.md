@@ -1,1 +1,0 @@
-This folder contains the built output assets for the worker "bsa" generated at 2025-05-17T11:26:00.554Z.

@@ -1,10 +1,57 @@
 import { SimulationState } from './types';
 import { SimulationEngine } from './simulation-engine';
 
+interface CreateSimulationOptions {
+  simulationName: string;
+  description: string;
+  userId: string;
+}
+
 /**
- * Factory class to create simulation instances with initial data
+ * Factory class to create simulation instances
  */
 export class SimulationFactory {
+
+  //Creating a Simulation with user data
+  public static create(options: CreateSimulationOptions): SimulationState {
+    const now = new Date().toISOString();
+    const simId = `sim_${Date.now()}`;
+    const companyId = `company_${Date.now()}`;
+    const initialState: SimulationState = {
+      id: simId,
+      name: options.simulationName,
+      description: options.description,
+      config: JSON.stringify({}),
+      currentPeriod: 0,
+      status: 'active',
+      createdBy: options.userId,
+      createdAt: now,
+      updatedAt: now,
+      companies: [],
+      products: [],
+      decisions: [],
+      marketConditions: [
+        {
+          id: `market_${simId}_0`,
+          simulationId: simId,
+          period: 0,
+          totalMarketSize: 50000000,
+          segmentDistribution: JSON.stringify({ premium: 0.3, 'mid-range': 0.5, budget: 0.2 }),
+          economicIndicators: JSON.stringify({ gdp_growth: 0.02, inflation_rate: 0.01, interest_rate: 0.03, unemployment_rate: 0.05, consumer_confidence: 70, business_sentiment: 75 }),
+          consumerPreferences: JSON.stringify({ premium: { quality_sensitivity: 0.8, price_sensitivity: 0.3 }, 'mid-range': { quality_sensitivity: 0.5, price_sensitivity: 0.5 }, budget: { quality_sensitivity: 0.2, price_sensitivity: 0.8 } }),
+          technologyTrends: JSON.stringify([]),
+          sustainabilityImportance: 0.3,
+          data: JSON.stringify({}),
+          createdAt: now,
+        }
+      ],
+      performanceResults: [],
+      productPerformance: [],
+      events: [],
+    };
+
+    return initialState;
+  }
   /**
    * Create a new simulation with demo data
    */

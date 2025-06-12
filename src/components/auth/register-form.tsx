@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useAuth } from '../../lib/auth-context';
 
 interface RegisterFormProps {
   onSuccess?: () => void;
@@ -9,42 +8,57 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
-  const { register, error, loading } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [formError, setFormError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormError(null);
+    setError(null);
 
     if (!name || !email || !password || !confirmPassword) {
-      setFormError('Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     }
 
     if (password !== confirmPassword) {
-      setFormError('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
 
+    setLoading(true);
+
     try {
-      await register(name, email, password);
-      if (onSuccess) onSuccess();
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data: { error?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+      window.location.href = '/';
+
     } catch (err) {
-      setFormError((err as Error).message || 'Registration failed');
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create an Account</h2>
+      <h2 className="text-2xl text-black font-bold mb-6 text-center">Create an Account</h2>
       
-      {(formError || error) && (
+      {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {formError || error}
+          {error}
         </div>
       )}
       

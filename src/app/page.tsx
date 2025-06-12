@@ -12,7 +12,6 @@ import { useAuth } from '../lib/auth-context';
 // Main app component that handles authentication state
 function AppContent() {
   const { user, loading } = useAuth();
-  console.log("App",user)
   // Show loading state
   if (loading) {
     return (
