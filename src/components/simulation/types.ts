@@ -17,6 +17,17 @@ export interface SimulationState {
   events: Event[];
 }
 
+export interface Simulation {
+  id: string;
+  name: string;
+  description: string;
+  currentPeriod: number;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Company {
   id: string;
   simulationId: string;

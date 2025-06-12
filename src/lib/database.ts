@@ -5,6 +5,7 @@ export interface DatabaseService {
   getSimulation(id: string): Promise<any>;
   createSimulation(simulation: any): Promise<string>;
   updateSimulation(id: string, simulation: any): Promise<void>;
+  getSimulationsByUser(userId: string): Promise<any[]>;
 
   // Company operations
   getCompany(id: string): Promise<any>;
@@ -106,6 +107,14 @@ export class D1DatabaseService implements DatabaseService {
       simulation.updatedAt,
       id
     ).run();
+  }
+
+  async getSimulationsByUser(userId: string): Promise<any[]> {
+    const result = await this.db.prepare(
+      'SELECT * from simulations where created_by = ? ORDER BY created_at DESC'
+    ).bind(userId).all();
+
+    return result.results ?? [];
   }
 
   // Company operations
@@ -603,6 +612,11 @@ export class MockDatabaseService implements DatabaseService {
     this.simulations.set(id, { ...existing, ...simulation });
   }
 
+  async getSimulationsByUser(userId: string): Promise<any[]> {
+    //const sims = Array.from(this.simulations.values().filter(sim => sim.createdBy === userId));
+    return [];
+  }
+
   // Company operations
   async getCompany(id: string): Promise<any> {
     return this.companies.get(id) || null;
@@ -779,13 +793,22 @@ export class MockDatabaseService implements DatabaseService {
   }
 }
 
+const globalForDb = globalThis as unknown as {
+  mockDb: DatabaseService | null;
+};
+let mockDb = globalForDb.mockDb ?? null;
+
 // Factory function to create the appropriate database service
 export function createDatabaseService(db?: D1Database): DatabaseService {
   if (db) {
     console.log("using d1 db")
     return new D1DatabaseService(db);
   }
-  
-  console.log("using d1 mock db")
-  return new MockDatabaseService();
+  if(!mockDb){
+    mockDb = new MockDatabaseService();
+    if (process.env.NODE_ENV !== "production") {
+      globalForDb.mockDb = mockDb;
+    }
+  }
+  return mockDb;
 }
