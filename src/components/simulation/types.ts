@@ -17,12 +17,24 @@ export interface SimulationState {
   events: Event[];
 }
 
+export enum SimulationStatus {
+  ACTIVE = 'active',
+  PAUSED = 'paused',
+  FINISHED = 'finished',
+}
+
+export enum ProductStatus {
+  DEVELOPMENT = 'development',
+  ACTIVE = 'active',
+  DISCONTINUED = 'discontinued',
+}
+
 export interface Simulation {
   id: string;
   name: string;
   description: string;
   currentPeriod: number;
-  status: string;
+  status: SimulationStatus;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -60,7 +72,7 @@ export interface Product {
   productionCapacity: number;
   developmentCost: number;
   marketingBudget: number;
-  status: string;
+  status: ProductStatus;
   launchPeriod: number | null;
   discontinuePeriod: number | null;
   data: string;

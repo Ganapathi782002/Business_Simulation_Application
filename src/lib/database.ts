@@ -217,8 +217,8 @@ export class D1DatabaseService implements DatabaseService {
         id, company_id, name, description, category, quality_rating, 
         innovation_rating, sustainability_rating, production_cost, selling_price, 
         inventory_level, production_capacity, development_cost, marketing_budget, 
-        status, launch_period, discontinue_period, data, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        status, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).bind(
       id,
       product.companyId,
@@ -230,14 +230,11 @@ export class D1DatabaseService implements DatabaseService {
       product.sustainabilityRating,
       product.productionCost,
       product.sellingPrice,
-      product.inventoryLevel,
-      product.productionCapacity,
+      0,
+      2000,
       product.developmentCost,
-      product.marketingBudget,
+      0,
       product.status,
-      product.launchPeriod,
-      product.discontinuePeriod,
-      product.data,
       product.createdAt,
       product.updatedAt
     ).run();
@@ -653,8 +650,8 @@ export class MockDatabaseService implements DatabaseService {
 
   async createProduct(product: any): Promise<string> {
     const id = product.id || `product_${Date.now()}`;
-    product.id = id;
-    this.products.set(id, product);
+    const newProduct = { ...product, id };
+    this.products.set(id, newProduct);
     return id;
   }
 
