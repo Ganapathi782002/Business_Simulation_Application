@@ -25,7 +25,7 @@ var RecoverableError = class extends Error {
   }
 };
 
-// node_modules/.pnpm/@opennextjs+cloudflare@0.3.10_wrangler@4.19.1_@cloudflare+workers-types@4.20250317.0_/node_modules/@opennextjs/cloudflare/dist/api/get-cloudflare-context.js
+// node_modules/.pnpm/@opennextjs+cloudflare@0.3.10_wrangler@4.20.0_@cloudflare+workers-types@4.20250614.0_/node_modules/@opennextjs/cloudflare/dist/api/get-cloudflare-context.js
 var cloudflareContextSymbol = Symbol.for("__cloudflare-context__");
 async function getCloudflareContext() {
   const global = globalThis;
@@ -56,7 +56,7 @@ async function getCloudflareContextInNextDev() {
   return global[cloudflareContextInNextDevSymbol];
 }
 
-// node_modules/.pnpm/@opennextjs+cloudflare@0.3.10_wrangler@4.19.1_@cloudflare+workers-types@4.20250317.0_/node_modules/@opennextjs/cloudflare/dist/api/kvCache.js
+// node_modules/.pnpm/@opennextjs+cloudflare@0.3.10_wrangler@4.20.0_@cloudflare+workers-types@4.20250614.0_/node_modules/@opennextjs/cloudflare/dist/api/kvCache.js
 var CACHE_ASSET_DIR = "cnd-cgi/_next_cache";
 var STATUS_DELETED = 1;
 var Cache = class {

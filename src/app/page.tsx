@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { AuthProvider } from '../lib/auth-context';
-import { DatabaseProvider } from '../lib/database-context';
 import { AuthPage } from '../components/auth/auth-page';
 import { SimulationProvider } from '../components/simulation/simulation-context';
 import { AppLayout } from '../components/layout/app-layout';
@@ -31,21 +30,17 @@ function AppContent() {
   
   // Show main app if logged in
   return (
-    <SimulationProvider>
       <AppLayout>
         <Dashboard />
       </AppLayout>
-    </SimulationProvider>
   );
 }
 
 // Root component with all providers
 export default function App() {
   return (
-    <DatabaseProvider>
       <AuthProvider>
         <AppContent />
       </AuthProvider>
-    </DatabaseProvider>
   );
 }

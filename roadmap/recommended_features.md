@@ -58,7 +58,7 @@ Based on the analysis of common features across business simulation platforms an
 3. **Guidance and Support**
    - Develop an intelligent help system with context-sensitive assistance
    - Create video tutorials for key concepts and features
-   - Implement interactive walkthroughs for first-time users
+   - Implement interactive walkthroughs for first-time users (Tour Guides).
    - Include a comprehensive knowledge base and glossary
 
 ## Technical Architecture

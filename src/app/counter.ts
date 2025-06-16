@@ -5,7 +5,7 @@ import { headers } from 'next/headers'
 // 增加计数并记录访问
 export async function incrementAndLog() {
   const cf = await getCloudflareContext()
-  const headersList = await headers()
+  const headersList = headers()
 
   const { results: countResults } = await cf.env.DB.prepare(
     'INSERT INTO counters (name, value) VALUES (?, 1) ON CONFLICT (name) DO UPDATE SET value = value + 1 RETURNING value'

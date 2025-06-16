@@ -4,11 +4,10 @@ import { SimulationFactory } from '@/components/simulation/simulation-factory';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { saveNewSimulation } from '@/lib/simulation-persistence';
-import { Simulation } from '@/components/simulation/types';
 
 export async function GET(req: NextRequest) {
   try {
-    const token = (await cookies()).get('token')?.value;
+    const token = cookies().get('token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -49,7 +48,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const token = (await cookies()).get('token')?.value;
+    const token = cookies().get('token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized: No session found' }, { status: 401 });
     }

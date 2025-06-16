@@ -173,7 +173,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   <div className="text-xs text-gray-400">{user?.role.toUpperCase()}</div>
                 </div>
               </div>
-              <Button onClick={logout} variant="primary">Logout</Button>
+              <Button onClick={logout} variant="default">Logout</Button>
               </div>
           </SidebarFooter>
         </Sidebar>
@@ -188,7 +188,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 <span className="text-sm font-medium text-gray-900">Q{currentPeriod + 1} 2025</span>
               </div>
               <Button
-                variant="primary"
+                variant="default"
                 onClick={() => setCurrentPeriod(currentPeriod + 1)}
               >
                 Advance to Next Period

@@ -151,3 +151,9 @@ export interface Event {
   data: string;
   createdAt: string;
 }
+
+
+export interface DecisionPayload {
+  type: string;
+  data: string;
+}

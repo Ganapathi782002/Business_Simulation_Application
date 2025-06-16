@@ -1,5 +1,6 @@
 import { SimulationState } from './types';
 import { SimulationEngine } from './simulation-engine';
+import { ProductStatus } from './types';
 
 interface CreateSimulationOptions {
   simulationName: string;
@@ -117,7 +118,7 @@ export class SimulationFactory {
           productionCapacity: 2000,
           developmentCost: 200000,
           marketingBudget: 50000,
-          status: 'active',
+          status: ProductStatus.ACTIVE,
           launchPeriod: 0,
           discontinuePeriod: null,
           data: JSON.stringify({
@@ -142,7 +143,7 @@ export class SimulationFactory {
           productionCapacity: 3000,
           developmentCost: 100000,
           marketingBudget: 30000,
-          status: 'active',
+          status: ProductStatus.ACTIVE,
           launchPeriod: 0,
           discontinuePeriod: null,
           data: JSON.stringify({
@@ -167,7 +168,7 @@ export class SimulationFactory {
           productionCapacity: 4000,
           developmentCost: 50000,
           marketingBudget: 0,
-          status: 'development',
+          status: ProductStatus.DEVELOPMENT,
           launchPeriod: 1,
           discontinuePeriod: null,
           data: JSON.stringify({

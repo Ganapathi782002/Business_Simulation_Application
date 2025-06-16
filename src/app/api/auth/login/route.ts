@@ -13,8 +13,6 @@ export async function POST(req: NextRequest) {
         
         const db = await getDB();
         const user = await db.getUserByEmail(email);
-        //console.log("user", user)
-        //console.log(bcrypt.compare(password, user.password_hash))
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
             return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
         }
@@ -26,7 +24,7 @@ export async function POST(req: NextRequest) {
         }
         const token = jwt.sign({ ...encrypt }, process.env.JWT_SECRETE!, { expiresIn: "1h" });
 
-        const cookieStore = await cookies()
+        const cookieStore = cookies()
 
         cookieStore.set('token',token,{
             httpOnly: true,

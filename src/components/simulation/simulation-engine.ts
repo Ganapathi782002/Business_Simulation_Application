@@ -1,4 +1,4 @@
-import { SimulationState, Company, Product, MarketConditions, Decision, PerformanceResults } from './types';
+import { SimulationState,SimulationStatus, ProductStatus, DecisionPayload, Company, Product, MarketConditions, Decision, PerformanceResults } from './types';
 
 /**
  * Core simulation engine that processes decisions and advances the simulation state
@@ -119,7 +119,7 @@ export class SimulationEngine {
         productionCapacity: data.productionCapacity || 1000,
         developmentCost: data.developmentCost || 0,
         marketingBudget: 0,
-        status: 'development',
+        status: ProductStatus.DEVELOPMENT,
         launchPeriod: this.state.currentPeriod + (data.developmentTime || 1),
         data: JSON.stringify({
           features: data.features || [],
@@ -165,7 +165,7 @@ export class SimulationEngine {
       const product = this.state.products.find(p => p.id === data.productId);
       if (!product) return;
 
-      product.status = 'discontinued';
+      product.status = ProductStatus.DISCONTINUED;
       product.discontinuePeriod = this.state.currentPeriod;
       product.updatedAt = new Date().toISOString();
     }
@@ -842,7 +842,7 @@ export class SimulationEngine {
       activeProducts.forEach(product => {
         const productPerformance = this.calculateProductPerformance(
           product, 
-          activeProducts, 
+          this.state.products, 
           marketConditions
         );
 
@@ -1081,7 +1081,7 @@ export class SimulationEngine {
   /**
    * Submit a decision for a company
    */
-  submitDecision(companyId: string, decision: Omit<Decision, 'id' | 'processed' | 'processedAt'>): void {
+  submitDecision(companyId: string, decision: DecisionPayload): void {
     const newDecision: Decision = {
       id: `decision_${Date.now()}`,
       companyId,

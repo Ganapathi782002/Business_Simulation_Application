@@ -48,6 +48,11 @@ export interface DatabaseService {
   getUserByEmail(email: string): Promise<any>;
   createUser(user: any): Promise<string>;
   updateUser(id: string, user: any): Promise<void>;
+
+  getDecisionsBySimulation(simulationId: string): Promise<any[]>;
+  getMarketConditionsBySimulation(simulationId: string): Promise<any[]>;
+  getPerformanceResultsBySimulation(simulationId: string): Promise<any[]>;
+  getProductPerformanceBySimulation(simulationId: string): Promise<any[]>;
 }
 
 export class D1DatabaseService implements DatabaseService {
@@ -130,7 +135,6 @@ export class D1DatabaseService implements DatabaseService {
     const result = await this.db.prepare(
       'SELECT * FROM companies WHERE simulation_id = ?'
     ).bind(simulationId).all();
-
     return result.results;
   }
 
@@ -576,6 +580,26 @@ export class D1DatabaseService implements DatabaseService {
       id
     ).run();
   }
+
+  async getDecisionsBySimulation(simulationId: string): Promise<any[]> {
+    const result = await this.db.prepare(`SELECT d.* FROM decisions d JOIN companies c ON d.company_id = c.id WHERE c.simulation_id = ?`).bind(simulationId).all();
+    return result.results ?? [];
+  }
+
+  async getMarketConditionsBySimulation(simulationId: string): Promise<any[]> {
+    const result = await this.db.prepare(`SELECT * FROM market_conditions WHERE simulation_id = ?`).bind(simulationId).all();
+    return result.results ?? [];
+  }
+
+  async getPerformanceResultsBySimulation(simulationId: string): Promise<any[]> {
+    const result = await this.db.prepare(`SELECT pr.* FROM performance_results pr JOIN companies c ON pr.company_id = c.id WHERE c.simulation_id = ?`).bind(simulationId).all();
+    return result.results ?? [];
+  }
+
+  async getProductPerformanceBySimulation(simulationId: string): Promise<any[]>{
+    const result = await this.db.prepare(`SELECT pp.* FROM product_performance pp JOIN products p ON pp.product_id = p.id JOIN companies c ON p.company_id = c.id WHERE c.simulation_id = ?`).bind(simulationId).all();
+    return result.results ?? [];
+  }
 }
 
 // Create a mock database service for development
@@ -787,6 +811,27 @@ export class MockDatabaseService implements DatabaseService {
     if (!existing) return;
 
     this.users.set(id, { ...existing, ...user });
+  }
+
+  //getting everything by using simulation_id
+  async getDecisionsBySimulation(simulationId: string): Promise<any[]> {
+    const companyIds = Array.from(this.companies.values()).filter(c => c.simulationId === simulationId).map(c => c.id);
+    return Array.from(this.decisions.values()).filter(d => companyIds.includes(d.companyId));
+  }
+
+  async getMarketConditionsBySimulation(simulationId: string): Promise<any[]> {
+    return Array.from(this.marketConditions.values()).filter(mc => mc.simulationId === simulationId);
+  }
+
+  async getPerformanceResultsBySimulation(simulationId: string): Promise<any[]> {
+      const companyIds = Array.from(this.companies.values()).filter(c => c.simulationId === simulationId).map(c => c.id);
+      return Array.from(this.performanceResults.values()).filter(pr => companyIds.includes(pr.companyId));
+  }
+
+  async getProductPerformanceBySimulation(simulationId: string): Promise<any[]> {
+      const companyIds = Array.from(this.companies.values()).filter(c => c.simulationId === simulationId).map(c => c.id);
+      const productIds = Array.from(this.products.values()).filter(p => companyIds.includes(p.companyId)).map(p => p.id);
+      return Array.from(this.productPerformance.values()).filter(pp => productIds.includes(pp.productId));
   }
 }
 

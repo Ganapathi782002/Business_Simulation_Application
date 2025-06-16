@@ -1,56 +1,42 @@
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { redirect } from 'next/navigation';
 import { getDB } from '@/lib/get-db';
+import { loadSimulationState } from '@/lib/simulation-persistence';
+import { SimulationProvider } from '@/components/simulation/simulation-context';
+import { ManageCompany } from '@/components/game/manage-company';
+import { GameDashboard } from '@/components/game/game-dashboard';
+import { notFound } from 'next/navigation';
+import { auth } from '@/lib/auth';
 
 export default async function SimulationPage({ params }: { params: { simId: string } }) {
-  
-  const token = (await cookies()).get('token')?.value;
-  if (!token) {
-    redirect('/');
+
+  const session = await auth();
+  if (!session?.user) {
+    return null;
   }
-  const decoded = jwt.verify(token, process.env.JWT_SECRETE!) as { id: string };
-  const userId = decoded.id;
+  const userId = session.user.id;
 
   const db = await getDB();
-  const [simulation, companies] = await Promise.all([
-    db.getSimulation(params.simId),
-    db.getCompaniesBySimulation(params.simId)
-  ]);
-  
-  if (!simulation) {
-    return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-red-500">Simulation Not Found</h1>
-            <p>The requested simulation does not exist.</p>
-        </div>
-    );
+  const initialState = await loadSimulationState(params.simId, db);
+
+  if (!initialState) {
+    notFound();
   }
 
-  const userCompany = companies.find((c: any) => c.user_id === userId);
+  const userCompany = initialState.companies.find(c => c.userId === userId);
+  // if(!userCompany){
+  //   notFound();
+  // }
 
   return (
-    <div className="p-6">
+    <div>
       {userCompany ? (
-        // --- IF A COMPANY EXISTS, RENDER THIS ---
-        //replace this with a full <GameDashboard /> component
-        <div>
-          <h1 className="text-3xl font-bold">Welcome back to {userCompany.name}</h1>
-          <p className="text-lg text-gray-500">You are in Period {simulation.current_period}.</p>
-          <div className="mt-8 p-4 bg-green-100 border border-green-300 rounded-lg">
-            <p><strong>Next Step:</strong> Display the main game dashboard here.</p>
-          </div>
-        </div>
-
+        <SimulationProvider initialState={initialState}>
+          <GameDashboard />
+        </SimulationProvider>
       ) : (
-        // --- IF NO COMPANY EXISTS, RENDER THIS ---
-        //replace this with a full <CreateCompanyForm />
-        <div>
-            <h1 className="text-3xl font-bold">Create Your Company</h1>
-            <p className="text-lg text-gray-500">For the simulation: "{simulation.name}"</p>
-            <div className="mt-8 p-4 bg-blue-100 border border-blue-300 rounded-lg">
-                <p><strong>Next Step:</strong> Display the 'Create Company' form here.</p>
-            </div>
+        <div className="text-center py-16">
+          <h2 className="text-xl font-semibold">Welcome to "{initialState.name}"</h2>
+          <p className="text-gray-500 mt-2 mb-4">You haven't established a company in this simulation yet. Click the button below to found your company.</p>
+          <ManageCompany simulationId={params.simId} />
         </div>
       )}
     </div>

@@ -23,7 +23,7 @@ interface WizardData {
 
 export async function POST(req: NextRequest) {
   try {
-    const token = (await cookies()).get('token')?.value;
+    const token = cookies().get('token')?.value;
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
