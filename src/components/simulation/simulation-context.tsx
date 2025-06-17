@@ -16,6 +16,7 @@ interface SimulationContextType {
   advancePeriod: () => void;
   submitDecision: (decision: DecisionPayload) => void;
   refreshState: () => void;
+  saveState: () => Promise<void>;
 }
 
 // Create the context with default values
@@ -28,7 +29,8 @@ const SimulationContext = createContext<SimulationContextType>({
   companyProducts: [],
   advancePeriod: () => { },
   submitDecision: () => { },
-  refreshState: () => { }
+  refreshState: () => { },
+  saveState: async () => { }
 });
 
 // Hook to use the simulation context
@@ -64,25 +66,18 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
   }, [initialState]);
 
   const advancePeriod = () => {
-    if (!simulation) return;
+    if (!simulation || !userCompany) return;
 
-    try {
-      const newState = simulation.advancePeriod();
-      setState(newState);
-
-      if (userCompany) {
-        const updatedCompany = newState.companies.find(c => c.id === userCompany.id);
-        setUserCompany(updatedCompany || null);
-
-        if (updatedCompany) {
-          const updatedProducts = newState.products.filter(p => p.companyId === updatedCompany.id);
-          setCompanyProducts(updatedProducts);
-        }
-      }
-    } catch (err) {
-      setError('Failed to advance period: ' + (err instanceof Error ? err.message : String(err)));
-    }
-  };
+    simulation.advancePeriod();
+    const newState = simulation.getState();
+    const updatedCompany = newState.companies.find(c => c.id === userCompany.id);
+    setState(newState);
+    setUserCompany(updatedCompany || null);
+    if (updatedCompany) {
+      const updatedProducts = newState.products.filter(p => p.companyId === updatedCompany.id);
+      setCompanyProducts(updatedProducts);
+    };
+  }
 
   const submitDecision = async (decision: DecisionPayload) => {
     if (!simulation || !userCompany || !state) return;
@@ -130,6 +125,31 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
     }
   };
 
+  const saveState = async () => {
+    if (!state) return;
+
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/simulations/${state.id}/state`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save the simulation state.");
+      }
+
+      console.log("Game saved successfully!");
+
+    } catch (err) {
+      setError('Failed to save progress: ' + (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Context value
   const value = {
     simulation,
@@ -140,7 +160,8 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
     companyProducts,
     advancePeriod,
     submitDecision,
-    refreshState
+    refreshState,
+    saveState,
   };
 
   return (

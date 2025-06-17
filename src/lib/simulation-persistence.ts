@@ -87,6 +87,30 @@ export async function loadSimulationState(simulationId: string, db: DatabaseServ
   return state;
 }
 
+export async function saveSimulationState(state: SimulationState, db: DatabaseService): Promise<void> {
+  try {
+    console.log("Attempting to save state for period:", state.currentPeriod);
+    await Promise.all([
+      db.updateSimulation(state.id, state),
+      ...state.companies.map(company => db.updateCompany(company.id, company)),
+      ...state.products.map(product => db.updateProduct(product.id, product)),
+      ...state.performanceResults
+        .filter(pr => pr.period === state.currentPeriod - 1)
+        .map(pr => db.createPerformanceResults(pr)),
+
+      ...state.productPerformance
+        .filter(pp => pp.period === state.currentPeriod - 1)
+        .map(pp => db.createProductPerformance(pp)),
+    ]);
+
+    console.log("Game saved successfully!");
+
+  } catch (error) {
+    console.error("Error saving simulation state:", error);
+    throw error;
+  }
+}
+
 export async function saveNewSimulation(state: SimulationState, db: DatabaseService): Promise<void> {
     try{
         await db.createSimulation(state)

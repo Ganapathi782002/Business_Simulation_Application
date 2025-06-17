@@ -13,9 +13,7 @@ export function ManageCompany({ simulationId }: { simulationId: string }) {
     const handleCompanyCreate = async (data: { companyName: string }) => {
         setLoading(true);
         setError(null);
-
-        console.log("Submitting to API: Create company", data);
-        await new Promise(r => setTimeout(r, 1000)); // Simulate API call
+        await new Promise(r => setTimeout(r, 1000));
 
         setLoading(false);
         setDialogOpen(false);

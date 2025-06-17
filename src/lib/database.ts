@@ -93,7 +93,7 @@ export class D1DatabaseService implements DatabaseService {
     return id;
   }
 
-  async updateSimulation(id: string, simulation: any): Promise<void> {
+  async updateSimulation(id: string, data: any): Promise<void> {
     await this.db.prepare(
       `UPDATE simulations SET 
         name = ?, 
@@ -104,12 +104,12 @@ export class D1DatabaseService implements DatabaseService {
         updated_at = ?
       WHERE id = ?`
     ).bind(
-      simulation.name,
-      simulation.description,
-      simulation.config,
-      simulation.currentPeriod,
-      simulation.status,
-      simulation.updatedAt,
+      data.name,
+      data.description,
+      data.config,
+      data.currentPeriod,
+      data.status,
+      new Date().toISOString(),
       id
     ).run();
   }
@@ -167,7 +167,7 @@ export class D1DatabaseService implements DatabaseService {
     return id;
   }
 
-  async updateCompany(id: string, company: any): Promise<void> {
+  async updateCompany(id: string, data: any): Promise<void> {
     await this.db.prepare(
       `UPDATE companies SET 
         name = ?, 
@@ -182,16 +182,16 @@ export class D1DatabaseService implements DatabaseService {
         updated_at = ?
       WHERE id = ?`
     ).bind(
-      company.name,
-      company.description,
-      company.logoUrl,
-      company.cashBalance,
-      company.totalAssets,
-      company.totalLiabilities,
-      company.creditRating,
-      company.brandValue,
-      company.data,
-      company.updatedAt,
+      data.name,
+      data.description,
+      data.logoUrl,
+      data.cashBalance,
+      data.totalAssets,
+      data.totalLiabilities,
+      data.creditRating,
+      data.brandValue,
+      data.data,
+      new Date().toISOString(),
       id
     ).run();
   }
@@ -284,7 +284,7 @@ export class D1DatabaseService implements DatabaseService {
       product.launchPeriod,
       product.discontinuePeriod,
       product.data,
-      product.updatedAt,
+      new Date().toISOString(),
       id
     ).run();
   }
@@ -300,7 +300,7 @@ export class D1DatabaseService implements DatabaseService {
 
   async getDecisionsByCompany(companyId: string, period?: number): Promise<any[]> {
     let query = 'SELECT * FROM decisions WHERE company_id = ?';
-    let params = [companyId];
+    let params: (string | number)[] =  [companyId];
 
     if (period !== undefined) {
       query += ' AND period = ?';
@@ -475,7 +475,7 @@ export class D1DatabaseService implements DatabaseService {
   // Event operations
   async getEvents(simulationId: string, period?: number): Promise<any[]> {
     let query = 'SELECT * FROM events WHERE simulation_id = ?';
-    let params = [simulationId];
+    let params: (string | number)[] =  [simulationId];
 
     if (period !== undefined) {
       query += ' AND period = ?';

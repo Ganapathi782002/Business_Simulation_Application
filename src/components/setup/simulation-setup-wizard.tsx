@@ -59,7 +59,7 @@ export function SimulationSetupWizard() {
             <DialogTrigger asChild>
                 <Button>Create New Simulation</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>New Simulation Setup</DialogTitle>
                     <DialogDescription>

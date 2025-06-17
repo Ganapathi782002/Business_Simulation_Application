@@ -18,7 +18,13 @@ export async function POST(
     const decisionPayload: DecisionPayload = await req.json();
 
     const db = await getDB();
-    const companies = await db.getCompaniesBySimulation(params.simId);
+    const [simulation, companies] = await Promise.all([
+        db.getSimulation(params.simId),
+        db.getCompaniesBySimulation(params.simId)
+    ]);
+    if (!simulation) {
+        return NextResponse.json({ error: 'Simulation not found' }, { status: 404 });
+    }
     const userCompany = companies.find((c: any) => c.user_id === userId);
 
     if (!userCompany) {
@@ -26,9 +32,12 @@ export async function POST(
     }
     const fullDecision = {
       companyId: userCompany.id,
-      period: 0,
+      period: simulation.current_period,
       type: decisionPayload.type,
       data: decisionPayload.data,
+      submittedAt: new Date().toISOString(),
+      processed: false,
+      processedAt: null, 
     };
 
     await db.createDecision(fullDecision);
