@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS simulations;
 DROP TABLE IF EXISTS companies;
@@ -27,17 +29,16 @@ CREATE TABLE simulations (
   config TEXT NOT NULL,
   current_period INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'active',
-  created_by TEXT NOT NULL,
+  created_by TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  FOREIGN KEY (created_by) REFERENCES users(id)
+  updated_at TEXT NOT NULL
 );
 
 -- Companies table
 CREATE TABLE companies (
   id TEXT PRIMARY KEY,
-  simulation_id TEXT NOT NULL,
-  user_id TEXT,
+  simulation_id TEXT NOT NULL REFERENCES simulations(id) ON DELETE CASCADE,
+  user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
   name TEXT NOT NULL,
   description TEXT,
   logo_url TEXT,
@@ -48,15 +49,13 @@ CREATE TABLE companies (
   brand_value REAL NOT NULL DEFAULT 50,
   data TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  FOREIGN KEY (simulation_id) REFERENCES simulations(id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  updated_at TEXT NOT NULL
 );
 
 -- Products table
 CREATE TABLE products (
   id TEXT PRIMARY KEY,
-  company_id TEXT NOT NULL,
+  company_id TEXT NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   description TEXT,
   category TEXT NOT NULL,
@@ -74,27 +73,25 @@ CREATE TABLE products (
   discontinue_period INTEGER,
   data TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  FOREIGN KEY (company_id) REFERENCES companies(id)
+  updated_at TEXT NOT NULL
 );
 
 -- Decisions table
 CREATE TABLE decisions (
   id TEXT PRIMARY KEY,
-  company_id TEXT NOT NULL,
+  company_id TEXT NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   period INTEGER NOT NULL,
   type TEXT NOT NULL,
   data TEXT NOT NULL,
   submitted_at TEXT NOT NULL,
   processed INTEGER NOT NULL DEFAULT 0,
-  processed_at TEXT,
-  FOREIGN KEY (company_id) REFERENCES companies(id)
+  processed_at TEXT
 );
 
 -- Market conditions table
 CREATE TABLE market_conditions (
   id TEXT PRIMARY KEY,
-  simulation_id TEXT NOT NULL,
+  simulation_id TEXT NOT NULL REFERENCES simulations(id) ON DELETE CASCADE,
   period INTEGER NOT NULL,
   total_market_size REAL NOT NULL,
   segment_distribution TEXT NOT NULL,
@@ -104,14 +101,13 @@ CREATE TABLE market_conditions (
   sustainability_importance REAL NOT NULL DEFAULT 0.5,
   data TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  FOREIGN KEY (simulation_id) REFERENCES simulations(id),
   UNIQUE (simulation_id, period)
 );
 
 -- Performance results table
 CREATE TABLE performance_results (
   id TEXT PRIMARY KEY,
-  company_id TEXT NOT NULL,
+  company_id TEXT NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   period INTEGER NOT NULL,
   revenue REAL NOT NULL DEFAULT 0,
   costs REAL NOT NULL DEFAULT 0,
@@ -126,14 +122,13 @@ CREATE TABLE performance_results (
   brand_value_change REAL NOT NULL DEFAULT 0,
   data TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  FOREIGN KEY (company_id) REFERENCES companies(id),
   UNIQUE (company_id, period)
 );
 
 -- Product performance table
 CREATE TABLE product_performance (
   id TEXT PRIMARY KEY,
-  product_id TEXT NOT NULL,
+  product_id TEXT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
   period INTEGER NOT NULL,
   sales_volume INTEGER NOT NULL DEFAULT 0,
   revenue REAL NOT NULL DEFAULT 0,
@@ -143,14 +138,13 @@ CREATE TABLE product_performance (
   customer_satisfaction REAL NOT NULL DEFAULT 0,
   data TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES products(id),
   UNIQUE (product_id, period)
 );
 
 -- Events table
 CREATE TABLE events (
   id TEXT PRIMARY KEY,
-  simulation_id TEXT NOT NULL,
+  simulation_id TEXT NOT NULL REFERENCES simulations(id) ON DELETE CASCADE,
   period INTEGER NOT NULL,
   type TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -159,8 +153,7 @@ CREATE TABLE events (
   impact_strength REAL NOT NULL,
   affected_companies TEXT,
   data TEXT NOT NULL DEFAULT '{}',
-  created_at TEXT NOT NULL,
-  FOREIGN KEY (simulation_id) REFERENCES simulations(id)
+  created_at TEXT NOT NULL
 );
 
 -- Create indexes for performance
