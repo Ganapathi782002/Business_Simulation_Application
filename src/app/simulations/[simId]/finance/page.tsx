@@ -1,12 +1,10 @@
 import { loadSimulationState } from '@/lib/simulation-persistence';
 import { SimulationProvider } from '@/components/simulation/simulation-context';
-import { PerformancePage } from '@/components/performance/performance-page';
+import { FinancePage } from '@/components/game/finance-page';
 import { getDB } from '@/lib/get-db';
 import { notFound } from 'next/navigation';
-import { AppLayout } from '@/components/layout/app-layout';
 
-export default async function ViewPerformancePage({ params }: { params: { simId: string } }) {
-
+export default async function ViewFinancePage({ params }: { params: { simId: string } }) {
   const db = await getDB();
   const initialState = await loadSimulationState(params.simId, db);
 
@@ -15,10 +13,8 @@ export default async function ViewPerformancePage({ params }: { params: { simId:
   }
 
   return (
-    <AppLayout>
-      <SimulationProvider initialState={initialState}>
-        <PerformancePage />
-      </SimulationProvider>
-    </AppLayout>
+    <SimulationProvider initialState={initialState}>
+      <FinancePage />
+    </SimulationProvider>
   );
 }

@@ -62,7 +62,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                    <SidebarNavItem href="#" active={false} icon={<HeartPulse className="w-5 h-5" />}>Human Resources</SidebarNavItem>
                    <SidebarNavItem href="#" active={false} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
                    <SidebarNavItem href="#" active={false} icon={<Factory className="w-5 h-5" />}>Production</SidebarNavItem>
-                   <SidebarNavItem href="#" active={false} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
+                   <SidebarNavItem href={`/simulations/${simId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
                    <SidebarNavItem href="#" active={false} icon={<FlaskConical className="w-5 h-5" />}>R&D</SidebarNavItem>
                 </SidebarNavGroup>
 

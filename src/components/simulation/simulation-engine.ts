@@ -219,7 +219,7 @@ export class SimulationEngine {
     if (data.productId) {
       // Update production for a specific product
       const product = this.state.products.find(
-        (p) => p.id === data.productId && p.companyId === company.id
+        p => p.id === data.productId && p.companyId === company.id
       );
       if (!product) return;
 
@@ -228,20 +228,17 @@ export class SimulationEngine {
         data.productionVolume,
         product.productionCapacity
       );
+      const totalProductionCost = productionVolume * product.productionCost;
 
-      product.inventoryLevel += productionVolume;
+      if (company.cashBalance >= totalProductionCost) {
+        company.cashBalance -= totalProductionCost;
+        product.inventoryLevel += productionVolume;
+      } else {
+        console.warn(
+          `[Engine] ${company.name} could not afford production. Decision ignored.`
+        );
+      }
       product.updatedAt = new Date().toISOString();
-      //const totalProductionCost = productionVolume * product.productionCost;
-
-      // if (company.cashBalance >= totalProductionCost) {
-      //   company.cashBalance -= totalProductionCost;
-      //   product.inventoryLevel += productionVolume;
-      // } else {
-      //   console.warn(
-      //     `[Engine] ${company.name} could not afford production. Decision ignored.`
-      //   );
-      // }
-
     }
   }
 

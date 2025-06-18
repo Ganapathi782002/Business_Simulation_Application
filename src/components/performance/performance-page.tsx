@@ -1,73 +1,82 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSimulation } from '../simulation/simulation-context';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { PerformanceResults } from '@/components/simulation/types';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-// This component now needs to know which simulation to fetch data for
-export function PerformancePage({ simulationId }: { simulationId: string }) {
-  const [history, setHistory] = useState<PerformanceResults[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const formatCurrency = (value: number) => {
+    if (typeof value !== 'number' || isNaN(value)) return '$0';
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
 
-  useEffect(() => {
-    if (!simulationId) return;
+export function PerformancePage() {
+  const { state, userCompany, loading, error } = useSimulation();
 
-    const fetchHistory = async () => {
-      try {
-        const response = await fetch(`/api/simulations/${simulationId}/performance`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch performance history.');
-        }
-        const data: { history?: PerformanceResults[] } = await response.json();
-        setHistory(data.history || []);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (loading) {
+    return <div>Loading Performance Data...</div>;
+  }
 
-    fetchHistory();
-  }, [simulationId]);
+  if (error) {
+    return <div className="p-6 text-red-500">Error: {error}</div>;
+  }
 
-  const formatCurrency = (value: number) => `$${(value / 1000).toFixed(0)}k`;
+  if (!state || !userCompany) {
+    return <div>Loading...</div>;
+  }
 
-  if (loading) return <div>Loading performance data...</div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  const historicalPerformance = state.performanceResults.filter(p => p.period < state.currentPeriod);
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Performance Review</h1>
+      <h1 className="text-2xl text-black font-bold">Performance Review</h1>
 
-      {history.length < 1 ? (
-        <p>No performance history available yet. Advance a few periods to see your results.</p>
+      {historicalPerformance.length === 0 ? (
+        <p className="text-black">No performance history available yet. Advance a few periods to see your results.</p>
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>Financials Over Time</CardTitle>
-            <CardDescription>
-              Your company's profit and revenue history, month by month.
-            </CardDescription>
+            <CardTitle>Income Statement</CardTitle>
+            <CardDescription>A summary of your revenue, costs, and profit over time.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={history} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" tickFormatter={(p) => `P${p}`} />
-                  <YAxis tickFormatter={formatCurrency} />
-                  <Tooltip formatter={(value: number) => value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} />
-                  <Legend />
-                  <Line type="monotone" dataKey="revenue" stroke="#8884d8" name="Revenue" />
-                  <Line type="monotone" dataKey="profit" stroke="#82ca9d" name="Profit" />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Period</TableHead>
+                  <TableHead className="text-right">Revenue</TableHead>
+                  <TableHead className="text-right">Costs</TableHead>
+                  <TableHead className="text-right font-semibold">Profit</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {historicalPerformance.map(p => (
+                  <TableRow key={p.period}>
+                    <TableCell className="font-medium">Period {p.period}</TableCell>
+                    <TableCell className="text-right">{formatCurrency(p.revenue)}</TableCell>
+                    <TableCell className="text-right text-red-400">({formatCurrency(p.costs)})</TableCell>
+                    <TableCell className={`text-right font-semibold ${p.profit >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatCurrency(p.profit)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}
+
+      <Card>
+          <CardHeader>
+              <CardTitle>Balance Sheet (Current)</CardTitle>
+              <CardDescription>A snapshot of your company's current assets and liabilities.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 text-sm">
+                <div className="flex justify-between"><span>Cash Balance:</span> <span className="font-medium">{formatCurrency(userCompany.cashBalance)}</span></div>
+                <div className="flex justify-between"><span>Total Assets:</span> <span className="font-medium">{formatCurrency(userCompany.totalAssets)}</span></div>
+                <div className="flex justify-between border-t pt-2 mt-2"><span>Total Liabilities:</span> <span className="font-medium">{formatCurrency(userCompany.totalLiabilities)}</span></div>
+            </div>
+          </CardContent>
+      </Card>
     </div>
   );
 }
