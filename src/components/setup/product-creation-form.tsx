@@ -83,7 +83,7 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
       </div>
       <div className="grid gap-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your initial product..." />
+        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your product..." />
       </div>
       <div className="grid gap-2 pt-2">
         <Label>Quality Rating: {qualityRating.toFixed(1)}</Label>
@@ -111,7 +111,7 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
       <div className="flex justify-between mt-4">
         <Button variant="outline" onClick={onPrevious} disabled={loading}>Previous</Button>
         <Button onClick={handleFinishClick} disabled={loading}>
-          {loading ? 'Creating World...' : 'Finish & Create'}
+          {loading ? 'Creating Simulation...' : 'Finish & Create'}
         </Button>
       </div>
     </div>

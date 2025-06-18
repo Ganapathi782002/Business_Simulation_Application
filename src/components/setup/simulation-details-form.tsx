@@ -29,7 +29,7 @@ export function SimulationDetailsForm({ onNext }: SimulationDetailsFormProps) {
         <Label htmlFor="name">Simulation Name</Label>
         <Input
           id="name"
-          placeholder="e.g., My Tech Startup Adventure"
+          placeholder="e.g., My Tech Startup"
           value={simulationName}
           onChange={(e) => setSimulationName(e.target.value)}
         />
@@ -38,7 +38,7 @@ export function SimulationDetailsForm({ onNext }: SimulationDetailsFormProps) {
         <Label htmlFor="description">Description</Label>
         <Textarea
           id="description"
-          placeholder="A simulation focused on dominating the premium market."
+          placeholder="Simulating my ideas in a startup"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

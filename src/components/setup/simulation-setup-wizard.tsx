@@ -57,7 +57,7 @@ export function SimulationSetupWizard() {
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Create New Simulation</Button>
+                <Button variant="outline">Create New Simulation</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>

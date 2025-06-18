@@ -7,6 +7,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/comp
 import { Simulation } from '@/components/simulation/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SimulationSetupWizard } from '../setup/simulation-setup-wizard';
+import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { AlertDialog, AlertDialogHeader, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogContent, AlertDialogTrigger } from '../ui/alert-dialog';
 
 export function Dashboard() {
   const [simulations, setSimulations] = useState<Simulation[]>([]);
@@ -32,6 +35,19 @@ export function Dashboard() {
     fetchSimulations();
   }, []);
 
+  const handleDelete = async (simId: string) => {
+    try {
+      const response = await fetch(`/api/simulations/${simId}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Failed to delete simulation');
+      }
+      setSimulations(currentSims => currentSims.filter(s => s.id !== simId));
+      toast.success("Simulation deleted successfully.");
+    } catch (err) {
+      toast.error((err as Error).message)
+    }
+  };
+
   if (loading) {
     return <DashboardLoadingSkeleton />;
   }
@@ -50,23 +66,49 @@ export function Dashboard() {
       {simulations.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
           <h2 className="text-xl text-black font-semibold">No Simulations Found</h2>
-          <p className="text-gray-500 mt-2 mb-4">Get started by creating your simulation.</p>
+          <p className="text-gray-500 mt-2 mb-4">Get started by creating your first simulation.</p>
           <SimulationSetupWizard />
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {simulations.map((sim) => (
-            <Link href={`/simulations/${sim.id}`} key={sim.id} className="block hover:shadow-lg transition-shadow rounded-lg">
-              <Card className="h-full cursor-pointer">
-                <CardHeader>
-                  <CardTitle>{sim.name}</CardTitle>
-                  <CardDescription>{sim.description}</CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <p className="text-sm text-gray-500">Period {sim.currentPeriod}</p>
-                </CardFooter>
-              </Card>
-            </Link>
+            <Card key={sim.id} className="flex flex-col justify-between">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle>{sim.name}</CardTitle>
+                    <CardDescription>{sim.description}</CardDescription>
+                    <CardFooter>
+                      <p className="text-sm text-gray-500">Period {sim.currentPeriod}</p>
+                    </CardFooter>
+                  </div>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" size="icon" className="text-destructive hover:text-destructive flex-shrink-0">
+                        <Trash2 className="h-5 w-5" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete the "{sim.name}" simulation and all of its associated data. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleDelete(sim.id)}>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </CardHeader>
+              <CardFooter>
+                <Link href={`/simulations/${sim.id}`} className="w-full">
+                  <Button className="w-full">Enter Simulation</Button>
+                </Link>
+              </CardFooter>
+            </Card>
           ))}
         </div>
       )}

@@ -6,6 +6,7 @@ export interface DatabaseService {
   createSimulation(simulation: any): Promise<string>;
   updateSimulation(id: string, simulation: any): Promise<void>;
   getSimulationsByUser(userId: string): Promise<any[]>;
+  deleteSimulation(id: string): Promise<void>;
 
   // Company operations
   getCompany(id: string): Promise<any>;
@@ -120,6 +121,10 @@ export class D1DatabaseService implements DatabaseService {
     ).bind(userId).all();
 
     return result.results ?? [];
+  }
+
+  async deleteSimulation(id: string): Promise<void> {
+    await this.db.prepare('DELETE FROM simulations WHERE id = ?').bind(id).run();
   }
 
   // Company operations
@@ -636,6 +641,10 @@ export class MockDatabaseService implements DatabaseService {
   async getSimulationsByUser(userId: string): Promise<any[]> {
     //const sims = Array.from(this.simulations.values().filter(sim => sim.createdBy === userId));
     return [];
+  }
+
+  async deleteSimulation(id: string): Promise<void> {
+    this.simulations.delete(id);
   }
 
   // Company operations
