@@ -9,6 +9,7 @@ import { useSimulation } from '../simulation/simulation-context';
 import { Product } from '../simulation/types';
 import { json } from 'stream/consumers';
 
+
 interface ManageProductDialogProps {
   product: Product;
 }
@@ -23,18 +24,18 @@ export function ManageProductDialog({ product }: ManageProductDialogProps) {
 
   const handleSaveChanges = () => {
     submitDecision({
-        type: 'pricing',
-        data: JSON.stringify({ productId: product.id, price: Number(price) })
+      type: 'pricing',
+      data: JSON.stringify({ productId: product.id, price: Number(price) })
     });
 
     submitDecision({
-        type: 'production',
-        data: JSON.stringify({ productId: product.id, productionVolume: Number(productionVolume) })
+      type: 'production',
+      data: JSON.stringify({ productId: product.id, productionVolume: Number(productionVolume) })
     });
 
     submitDecision({
-        type: 'marketing',
-        data: JSON.stringify({ productId: product.id, budget: Number(marketingBudget) })
+      type: 'marketing',
+      data: JSON.stringify({ productId: product.id, budget: Number(marketingBudget) })
     });
 
     console.log(`Decisions submitted for ${product.name}`);
@@ -49,9 +50,7 @@ export function ManageProductDialog({ product }: ManageProductDialogProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Manage: {product.name}</DialogTitle>
-          <DialogDescription>
-            Set your decisions for this product for the upcoming period. Click save when you're done.
-          </DialogDescription>
+          <DialogDescription>Set your decisions for this product for the upcoming period.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -61,14 +60,16 @@ export function ManageProductDialog({ product }: ManageProductDialogProps) {
           <div className="grid gap-2">
             <Label htmlFor="production">Production Volume (Units)</Label>
             <Input id="production" type="number" value={productionVolume} onChange={e => setProductionVolume(Number(e.target.value))} />
+            <p className="text-xs text-muted-foreground">Cost: Volume × Production Cost/Unit ({`$${product.productionCost}`}).</p>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="marketing">Marketing Budget ($)</Label>
             <Input id="marketing" type="number" value={marketingBudget} onChange={e => setMarketingBudget(Number(e.target.value))} />
+            <p className="text-xs text-muted-foreground">This amount is a direct expense for this period.</p>
           </div>
         </div>
         <div className="flex justify-end">
-            <Button onClick={handleSaveChanges}>Save Changes</Button>
+          <Button onClick={handleSaveChanges}>Save Changes</Button>
         </div>
       </DialogContent>
     </Dialog>

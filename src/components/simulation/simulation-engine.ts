@@ -30,53 +30,45 @@ export class SimulationEngine {
   /**
    * Process all pending decisions and advance to the next period
    */
-  advancePeriod(): void {
+  public advancePeriod(): void {
     // 1. Process all pending decisions
     this.state = JSON.parse(JSON.stringify(this.state));
-    this.processDecisions();
+    const currentPeriod = this.state.currentPeriod;
+    const nextPeriod = currentPeriod + 1;
+    this.processDecisions(currentPeriod);
 
     // 2. Update market conditions
-    this.updateMarketConditions();
+    this.updateMarketConditions(currentPeriod);
 
     // 3. Calculate performance for all companies
-    this.calculatePerformance();
+    this.calculatePerformance(currentPeriod);
 
     // 4. Advance to next period
-    this.state.currentPeriod += 1;
-    console.log(
-      `[Engine] End of advancePeriod. Final event count in state: ${this.state.events.length}`
-    );
+    this.state.currentPeriod = nextPeriod;
+    // console.log(
+    //   `[Engine] End of advancePeriod. Final event count in state: ${this.state.events.length}`
+    // );
   }
 
   /**
    * Process all pending decisions for the current period
    */
-  private processDecisions(): void {
+  private processDecisions(period: number): void {
     // Get all unprocessed decisions for the current period
     const pendingDecisions = this.state.decisions.filter(
-      (decision) =>
-        decision.period === this.state.currentPeriod && !decision.processed
+      (decision) => decision.period === period && !decision.processed
     );
 
     // Group decisions by company
-    const decisionsByCompany: Record<string, Decision[]> = {};
     pendingDecisions.forEach((decision) => {
-      if (!decisionsByCompany[decision.companyId]) {
-        decisionsByCompany[decision.companyId] = [];
-      }
-      decisionsByCompany[decision.companyId].push(decision);
-    });
-
-    // Process decisions for each company
-    Object.entries(decisionsByCompany).forEach(([companyId, decisions]) => {
-      const company = this.state.companies.find((c) => c.id === companyId);
-      if (!company) return;
-
-      decisions.forEach((decision) => {
+      const company = this.state.companies.find(
+        (c) => c.id === decision.companyId
+      );
+      if (company) {
         this.processDecision(company, decision);
         decision.processed = true;
         decision.processedAt = new Date().toISOString();
-      });
+      }
     });
   }
 
@@ -225,7 +217,6 @@ export class SimulationEngine {
    */
   private processProduction(company: Company, data: any): void {
     if (data.productId) {
-      console.log(`--- [Engine] Processing Production Decision ---`);
       // Update production for a specific product
       const product = this.state.products.find(
         (p) => p.id === data.productId && p.companyId === company.id
@@ -237,72 +228,20 @@ export class SimulationEngine {
         data.productionVolume,
         product.productionCapacity
       );
-      console.log(
-        `[Engine] productionVolume: ${productionVolume}, product.productionCost: ${product.productionCost}`
-      );
-      const totalProductionCost = productionVolume * product.productionCost;
-      console.log(
-        `[Engine] Calculated totalProductionCost: ${totalProductionCost}`
-      );
-      console.log(`[Engine] Old cashBalance: ${company.cashBalance}`);
 
-      // Update inventory
       product.inventoryLevel += productionVolume;
-
-      // Deduct production cost from company cash
-      company.cashBalance -= totalProductionCost;
-      console.log(
-        `[Engine] New cashBalance after production: ${company.cashBalance}`
-      );
-      console.log(`-----------------------------------------`);
-
       product.updatedAt = new Date().toISOString();
-    } else if (data.products) {
-      // Update production for multiple products
-      let totalProductionCost = 0;
+      //const totalProductionCost = productionVolume * product.productionCost;
 
-      data.products.forEach((productData: any) => {
-        const product = this.state.products.find(
-          (p) => p.id === productData.productId && p.companyId === company.id
-        );
-        if (!product) return;
+      // if (company.cashBalance >= totalProductionCost) {
+      //   company.cashBalance -= totalProductionCost;
+      //   product.inventoryLevel += productionVolume;
+      // } else {
+      //   console.warn(
+      //     `[Engine] ${company.name} could not afford production. Decision ignored.`
+      //   );
+      // }
 
-        // Calculate production cost
-        const productionVolume = Math.min(
-          productData.productionVolume,
-          product.productionCapacity
-        );
-        const productionCost = productionVolume * product.productionCost;
-
-        // Update inventory
-        product.inventoryLevel += productionVolume;
-
-        // Add to total production cost
-        totalProductionCost += productionCost;
-
-        product.updatedAt = new Date().toISOString();
-      });
-
-      // Deduct total production cost from company cash
-      company.cashBalance -= totalProductionCost;
-    }
-
-    // Handle capacity expansion if included
-    if (data.capacityExpansion) {
-      const product = this.state.products.find(
-        (p) =>
-          p.id === data.capacityExpansion.productId &&
-          p.companyId === company.id
-      );
-      if (!product) return;
-
-      // Increase production capacity
-      product.productionCapacity += data.capacityExpansion.capacityIncrease;
-
-      // Deduct investment cost from company cash
-      company.cashBalance -= data.capacityExpansion.investmentAmount;
-
-      product.updatedAt = new Date().toISOString();
     }
   }
 
@@ -311,71 +250,20 @@ export class SimulationEngine {
    */
   private processMarketing(company: Company, data: any): void {
     if (data.productId) {
-      // Update marketing for a specific product
-      console.log(`--- [Engine] Processing Marketing Decision ---`);
       const product = this.state.products.find(
         (p) => p.id === data.productId && p.companyId === company.id
       );
       if (!product) return;
 
-      // Update marketing budget
-      console.log(`[Engine] Marketing budget: ${data.budget}`);
-      console.log(`[Engine] Old cashBalance: ${company.cashBalance}`);
-      product.marketingBudget = data.budget;
-
-      // Deduct marketing budget from company cash
-      company.cashBalance -= data.budget;
-      console.log(
-        `[Engine] New cashBalance after marketing: ${company.cashBalance}`
-      );
-      console.log(`-----------------------------------------`);
-
-      product.updatedAt = new Date().toISOString();
-    } else if (data.products) {
-      // Update marketing for multiple products
-      let totalMarketingBudget = 0;
-
-      data.products.forEach((productData: any) => {
-        const product = this.state.products.find(
-          (p) => p.id === productData.productId && p.companyId === company.id
+      if (company.cashBalance >= data.budget) {
+        product.marketingBudget = data.budget;
+        company.cashBalance -= data.budget;
+      } else {
+        console.warn(
+          `[Engine] ${company.name} could not afford marketing budget. Decision ignored.`
         );
-        if (!product) return;
-
-        // Update marketing budget
-        product.marketingBudget = productData.budget;
-
-        // Add to total marketing budget
-        totalMarketingBudget += productData.budget;
-
-        product.updatedAt = new Date().toISOString();
-      });
-
-      // Deduct total marketing budget from company cash
-      company.cashBalance -= totalMarketingBudget;
-    } else if (data.campaignType === "company") {
-      // Company-wide marketing campaign
-      company.cashBalance -= data.budget;
-
-      // Store campaign data for future reference
-      const campaignData = {
-        id: `campaign_${Date.now()}`,
-        companyId: company.id,
-        name: data.name,
-        budget: data.budget,
-        startPeriod: this.state.currentPeriod,
-        duration: data.duration || 1,
-        targetSegment: data.targetSegment || "all",
-        channelAllocation: data.channelAllocation || {},
-        message: data.message || "",
-      };
-
-      // Add campaign to company data
-      const companyData = JSON.parse(company.data);
-      if (!companyData.marketingCampaigns) {
-        companyData.marketingCampaigns = [];
       }
-      companyData.marketingCampaigns.push(campaignData);
-      company.data = JSON.stringify(companyData);
+      product.updatedAt = new Date().toISOString();
     }
   }
 
@@ -383,80 +271,58 @@ export class SimulationEngine {
    * Process research decisions
    */
   private processResearch(company: Company, data: any): void {
-    // Create a new research project
-    const researchProject = {
-      id: `research_${Date.now()}`,
-      companyId: company.id,
-      name: data.name || "General R&D",
-      description: data.description || "",
-      type: data.type || "product_improvement",
-      budget: data.amount,
-      startPeriod: this.state.currentPeriod,
-      duration: data.duration || 1,
-      progress: 0,
-      status: "active",
-    };
-    console.log(`[Engine] Research budget: ${data.budget}`);
-    console.log(`[Engine] Old cashBalance: ${company.cashBalance}`);
-    // Deduct research budget from company cash
-    company.cashBalance -= data.amount;
-    console.log(
-      `[Engine] New cashBalance after research: ${company.cashBalance}`
-    );
-    console.log(`-----------------------------------------`);
-
-    // Store research project data for future reference
-    const companyData = JSON.parse(company.data);
-    if (!companyData.researchProjects) {
-      companyData.researchProjects = [];
+    const investment = data.amount || 0;
+    if (company.cashBalance >= investment) {
+      company.cashBalance -= investment;
+      const companyData = JSON.parse(company.data || "{}");
+      if (!companyData.researchProjects) companyData.researchProjects = [];
+      companyData.researchProjects.push({
+        id: `research_${Date.now()}`,
+        companyId: company.id,
+        budget: investment,
+        startPeriod: this.state.currentPeriod,
+      });
+      company.data = JSON.stringify(companyData);
+    } else {
+      console.warn(
+        `[Engine] ${company.name} could not afford R&D investment. Decision ignored.`
+      );
     }
-    companyData.researchProjects.push(researchProject);
-    company.data = JSON.stringify(companyData);
   }
 
   /**
    * Process human resources decisions
    */
   private processHumanResources(company: Company, data: any): void {
-    // Get current HR data or initialize if not exists
-    const companyData = JSON.parse(company.data);
+    const companyData = JSON.parse(company.data || "{}");
     if (!companyData.humanResources) {
       companyData.humanResources = {
         totalEmployees: 100,
         averageSalary: 50000,
-        trainingBudget: 0,
-        employeeSatisfaction: 50,
-        productivity: 1,
-        turnoverRate: 0.15,
       };
     }
-
     const hr = companyData.humanResources;
 
-    // Update HR data based on decisions
-    if (data.hiring) {
-      hr.totalEmployees += data.hiring.newEmployees;
-
-      // Calculate hiring cost
-      const hiringCost = data.hiring.newEmployees * (hr.averageSalary * 0.2); // 20% of salary as hiring cost
-      company.cashBalance -= hiringCost;
+    if (data.hiring && data.hiring.newEmployees > 0) {
+      const hiringCost = data.hiring.newEmployees * (hr.averageSalary * 0.2);
+      if (company.cashBalance >= hiringCost) {
+        company.cashBalance -= hiringCost;
+        hr.totalEmployees += data.hiring.newEmployees;
+      } else {
+        console.warn(
+          `[Engine] Not enough cash to hire ${data.hiring.newEmployees} employees.`
+        );
+      }
     }
 
-    if (data.salary) {
-      const oldSalary = hr.averageSalary;
-      hr.averageSalary = data.salary.newAverageSalary;
-
-      // Calculate salary change cost
-      const salaryCost = (hr.averageSalary - oldSalary) * hr.totalEmployees;
-      company.cashBalance -= salaryCost;
+    if (data.training && data.training.budget > 0) {
+      if (company.cashBalance >= data.training.budget) {
+        company.cashBalance -= data.training.budget;
+        hr.trainingBudget = (hr.trainingBudget || 0) + data.training.budget;
+      } else {
+        console.warn(`[Engine] Not enough cash for training budget.`);
+      }
     }
-
-    if (data.training) {
-      hr.trainingBudget = data.training.budget;
-      company.cashBalance -= data.training.budget;
-    }
-
-    // Update company data
     company.data = JSON.stringify(companyData);
   }
 
@@ -517,14 +383,14 @@ export class SimulationEngine {
   /**
    * Update market conditions for the next period
    */
-  private updateMarketConditions(): void {
+  private updateMarketConditions(currentPeriod: number): void {
     const currentConditions = this.state.marketConditions.find(
-      (mc) => mc.period === this.state.currentPeriod
+      (mc) => mc.period === currentPeriod
     );
     if (!currentConditions) return;
 
     // Create new market conditions for the next period
-    const nextPeriod = this.state.currentPeriod + 1;
+    const nextPeriod = currentPeriod + 1;
 
     // Base the new conditions on the current ones with some changes
     const segmentDistribution = JSON.parse(
@@ -919,10 +785,10 @@ export class SimulationEngine {
   /**
    * Calculate performance for all companies
    */
-  private calculatePerformance(): void {
+  private calculatePerformance(currentPeriod: number): void {
     // Get market conditions for the current period
     const marketConditions = this.state.marketConditions.find(
-      (mc) => mc.period === this.state.currentPeriod
+      (mc) => mc.period === currentPeriod
     );
     if (!marketConditions) return;
 
@@ -967,9 +833,9 @@ export class SimulationEngine {
 
         // Save product performance
         this.state.productPerformance.push({
-          id: `prod_perf_${product.id}_${this.state.currentPeriod}`,
+          id: `prod_perf_${product.id}_${currentPeriod}`,
           productId: product.id,
-          period: this.state.currentPeriod,
+          period: currentPeriod,
           salesVolume: productPerformance.salesVolume,
           revenue: productPerformance.revenue,
           costs: productPerformance.costs,
@@ -1001,7 +867,7 @@ export class SimulationEngine {
       // Calculate customer satisfaction (average of product satisfaction)
       const avgCustomerSatisfaction =
         this.state.productPerformance
-          .filter((pp) => pp.period === this.state.currentPeriod)
+          .filter((pp) => pp.period === currentPeriod)
           .filter((pp) => {
             const product = this.state.products.find(
               (p) => p.id === pp.productId
@@ -1039,9 +905,9 @@ export class SimulationEngine {
 
       // Create performance results
       const performanceResults: PerformanceResults = {
-        id: `perf_${company.id}_${this.state.currentPeriod}`,
+        id: `perf_${company.id}_${currentPeriod}`,
         companyId: company.id,
-        period: this.state.currentPeriod,
+        period: currentPeriod,
         revenue: totalRevenue,
         costs: totalCosts,
         profit,
@@ -1236,7 +1102,7 @@ export class SimulationEngine {
   /**
    * Submit a decision for a company
    */
-  submitDecision(companyId: string, decision: DecisionPayload): void {
+  public submitDecision(companyId: string, decision: DecisionPayload): void {
     const newDecision: Decision = {
       id: `decision_${Date.now()}`,
       companyId,

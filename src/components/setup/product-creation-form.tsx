@@ -65,25 +65,23 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
       <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="product-name">Product Name</Label>
-          <Input id="product-name" value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="e.g., Lumel BI" />
+          <Input id="product-name" value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="e.g., Quantum Drive" />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="category">Category</Label>
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="budget">Budget</SelectItem>
-              <SelectItem value="mid-range">Mid-Range</SelectItem>
-              <SelectItem value="premium">Premium</SelectItem>
+              <SelectItem value="budget">Budget - Base Cost: 15$</SelectItem>
+              <SelectItem value="mid-range">Mid-Range - Base Cost: 30$</SelectItem>
+              <SelectItem value="premium">Premium - Base Cost: 50$</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your product..." />
+        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe your initial product..." />
       </div>
       <div className="grid gap-2 pt-2">
         <Label>Quality Rating: {qualityRating.toFixed(1)}</Label>
@@ -101,18 +99,27 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
         <Label htmlFor="selling-price">Selling Price ($)</Label>
         <Input id="selling-price" type="number" value={sellingPrice} onChange={(e) => setSellingPrice(Number(e.target.value))} />
       </div>
-
-      <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
-        <h4 className="font-medium mb-2 text-gray-800">Calculated Stats</h4>
-        <div className="flex justify-between text-sm"><span className="text-gray-600">Upfront R&D Cost:</span><span className="font-semibold text-gray-600">${rndCost.toLocaleString()}</span></div>
-        <div className="flex justify-between text-sm mt-1"><span className="text-gray-600">Production Cost / Unit:</span><span className="font-semibold text-gray-600">${productionCost.toLocaleString()}</span></div>
+      <div className="mt-4 p-4 bg-gray-50 rounded-lg border space-y-3">
+        <h4 className="font-medium text-gray-800">Calculated Stats</h4>
+        <div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Upfront R&D Cost:</span>
+            <span className="font-semibold text-gray-800">${rndCost.toLocaleString()}</span>
+          </div>
+          <p className="text-xs text-muted-foreground">Formula: (Quality*10k) + (Innovation*15k) + (Sustainability*8k)</p>
+        </div>
+        <div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Production Cost / Unit:</span>
+            <span className="font-semibold text-gray-800">${productionCost.toLocaleString()}</span>
+          </div>
+          <p className="text-xs text-muted-foreground">Formula: Base Cost + (Quality*10) + (Innovation*5) + (Sustainability*3)</p>
+        </div>
       </div>
 
       <div className="flex justify-between mt-4">
         <Button variant="outline" onClick={onPrevious} disabled={loading}>Previous</Button>
-        <Button onClick={handleFinishClick} disabled={loading}>
-          {loading ? 'Creating Simulation...' : 'Finish & Create'}
-        </Button>
+        <Button onClick={handleFinishClick} disabled={loading}>{loading ? 'Creating Simulation...' : 'Finish & Create'}</Button>
       </div>
     </div>
   );

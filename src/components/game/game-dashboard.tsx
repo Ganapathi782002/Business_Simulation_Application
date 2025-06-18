@@ -13,6 +13,8 @@ import { ManageRndDialog } from './manage-rnd-dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { AlertDialog, AlertDialogHeader, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogContent } from '../ui/alert-dialog';
+import { ManageHrDialog } from './manage-hr-dialog';
+import { DecisionCard } from './decision-card';
 
 export function GameDashboard() {
   const { state, userCompany, companyProducts, advancePeriod, loading, error, saveState, submitDecision } = useSimulation();
@@ -62,6 +64,21 @@ export function GameDashboard() {
     )
   }
 
+  const pendingDecisions = state.decisions.filter(
+    d => d.period === state.currentPeriod && !d.processed
+  );
+
+  const capitalize = (s: string) => {
+    if (typeof s !== 'string' || s.length === 0) return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
+  const statusColors: { [key: string]: string } = {
+    active: "text-green-500",
+    development: "text-yellow-500",
+    discontinued: "text-red-500",
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -71,6 +88,7 @@ export function GameDashboard() {
         </div>
         <div className="flex items-center space-x-2">
           <ManageRndDialog />
+          <ManageHrDialog />
           <Button variant="default" onClick={saveState} disabled={loading}>
             {loading ? 'Saving...' : 'Save Game'}
           </Button>
@@ -110,6 +128,21 @@ export function GameDashboard() {
       </div>
 
       <div>
+        <h2 className="text-xl text-black font-bold mb-4">Pending Decisions for Period {state.currentPeriod}</h2>
+        {pendingDecisions.length > 0 ? (
+          <div className="space-y-3">
+            {pendingDecisions.map(decision => (
+              <DecisionCard key={decision.id} decision={decision} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground p-4 border-2 border-dashed rounded-lg text-center">
+            No new decisions submitted for this period yet.
+          </p>
+        )}
+      </div>
+
+      <div>
         <h2 className="text-xl text-black font-bold mb-4">Your Products</h2>
         {companyProducts.length > 0 ? (
           <div className="space-y-4">
@@ -121,10 +154,9 @@ export function GameDashboard() {
                     <div className="flex items-center space-x-2">
                       <ManageProductDialog product={p} />
 
-                      {/* ADD THIS DROPDOWN MENU */}
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="default" size="icon">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -145,9 +177,13 @@ export function GameDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-sm text-muted-foreground space-y-1">
-                    <p>Status: <span className="font-medium text-foreground">{p.status}</span></p>
+                    <p>Status:
+                      <span className={`font-medium ml-1 ${statusColors[p.status] || 'text-foreground'}`}>
+                        {capitalize(p.status)}
+                      </span>
+                    </p>
                     <p>Price: <span className="font-medium text-foreground">${p.sellingPrice.toLocaleString()}</span></p>
-                    <p>Category: <span className="font-medium text-foreground">{p.category}</span></p>
+                    <p>Category: <span className="font-medium text-foreground">{capitalize(p.category)}</span></p>
                     <p>Current Inventory: <span className="font-medium text-foreground">{p.inventoryLevel.toLocaleString()} units</span></p>
                   </div>
                 </CardContent>
