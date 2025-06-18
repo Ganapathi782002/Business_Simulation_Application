@@ -39,8 +39,6 @@ function AppContent() {
 // Root component with all providers
 export default function App() {
   return (
-      <AuthProvider>
         <AppContent />
-      </AuthProvider>
   );
 }

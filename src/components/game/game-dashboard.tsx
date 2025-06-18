@@ -66,12 +66,12 @@ export function GameDashboard() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">{userCompany.name}</h1>
+          <h1 className="text-2xl text-black font-bold">Company Name: {userCompany.name}</h1>
           <p className="text-gray-500">Period {state.currentPeriod} - {state.name}</p>
         </div>
         <div className="flex items-center space-x-2">
           <ManageRndDialog />
-          <Button variant="outline" onClick={saveState} disabled={loading}>
+          <Button variant="default" onClick={saveState} disabled={loading}>
             {loading ? 'Saving...' : 'Save Game'}
           </Button>
           <Button onClick={advancePeriod} disabled={loading || state.currentPeriod >= 11}>
@@ -110,7 +110,7 @@ export function GameDashboard() {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold mb-4">Your Products</h2>
+        <h2 className="text-xl text-black font-bold mb-4">Your Products</h2>
         {companyProducts.length > 0 ? (
           <div className="space-y-4">
             {companyProducts.map(p => (

@@ -33,7 +33,7 @@ export function ManageRndDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">R&D</Button>
+        <Button variant="default">R&D</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
