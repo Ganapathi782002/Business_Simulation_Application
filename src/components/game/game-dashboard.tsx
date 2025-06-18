@@ -46,6 +46,7 @@ export function GameDashboard() {
   if (loading || !state || !userCompany) {
     return (<div>Loading Simulation...</div>);
   }
+  console.log(`[Dashboard] Rendering for period ${state.currentPeriod}. Received ${state.events.length} total events from context.`);
   const currentEvents = state.events.filter(event => event.period === state.currentPeriod);
 
   if (error) {

@@ -43,6 +43,9 @@ export class SimulationEngine {
 
     // 4. Advance to next period
     this.state.currentPeriod += 1;
+    console.log(
+      `[Engine] End of advancePeriod. Final event count in state: ${this.state.events.length}`
+    );
   }
 
   /**
@@ -181,12 +184,12 @@ export class SimulationEngine {
       product.status = ProductStatus.DISCONTINUED;
       product.discontinuePeriod = this.state.currentPeriod;
       product.updatedAt = new Date().toISOString();
-    } else if(data.action === 'update_status') {
-        const product = this.state.products.find(p => p.id === data.productId);
-        if (product) {
-            product.status = data.newStatus;
-            product.updatedAt = new Date().toISOString();
-        }
+    } else if (data.action === "update_status") {
+      const product = this.state.products.find((p) => p.id === data.productId);
+      if (product) {
+        product.status = data.newStatus;
+        product.updatedAt = new Date().toISOString();
+      }
     }
   }
 
@@ -604,10 +607,9 @@ export class SimulationEngine {
    * Generate random market events for the given period
    */
   private generateMarketEvents(period: number): void {
-    // 30% chance of generating an event
-    // if (Math.random() > 0.9) return;
-    console.log(`[Engine] STEP 1: Generating an event for period ${period}...`);
-
+    console.log(
+      `[Engine] STEP A: generateMarketEvents called for period ${period}.`
+    );
     const eventTypes = [
       "economic",
       "technological",
@@ -616,32 +618,48 @@ export class SimulationEngine {
       "consumer",
     ];
     const eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+    console.log(`[Engine] STEP B: Random eventType chosen: "${eventType}"`);
 
     let event;
 
     switch (eventType) {
       case "economic":
+        console.log("[Engine] STEP C: Entering 'economic' case.");
         event = this.generateEconomicEvent(period);
         break;
       case "technological":
+        console.log("[Engine] STEP C: Entering 'technological' case.");
         event = this.generateTechnologicalEvent(period);
         break;
       case "regulatory":
+        console.log("[Engine] STEP C: Entering 'regulatory' case.");
         event = this.generateRegulatoryEvent(period);
         break;
       case "competitive":
+        console.log("[Engine] STEP C: Entering 'competitive' case.");
         event = this.generateCompetitiveEvent(period);
         break;
       case "consumer":
+        console.log("[Engine] STEP C: Entering 'consumer' case.");
         event = this.generateConsumerEvent(period);
         break;
       default:
+        console.error(
+          "[Engine] STEP C: FAILED. Entered default case in switch. This should not happen."
+        );
         return;
     }
 
     if (event) {
       // Add event to state
       this.state.events.push(event);
+      console.log(
+        `[Engine] Event PUSHED: "${event.name}". Events array now has ${this.state.events.length} item(s).`
+      );
+    } else {
+      console.error(
+        "[Engine] STEP E: FAILED. Event object was null or undefined after switch statement."
+      );
     }
   }
 
