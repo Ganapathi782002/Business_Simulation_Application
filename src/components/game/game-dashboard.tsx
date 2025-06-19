@@ -92,9 +92,14 @@ export function GameDashboard() {
           <Button variant="default" onClick={saveState} disabled={loading}>
             {loading ? 'Saving...' : 'Save Game'}
           </Button>
-          <Button onClick={advancePeriod} disabled={loading || state.currentPeriod >= 11}>
-            Advance to Next Period
-          </Button>
+          {state.currentPeriod < 12 && (
+            <Button
+              onClick={advancePeriod}
+              disabled={loading || state.currentPeriod >= 11}
+            >
+              Advance to Next Period
+            </Button>
+          )}
         </div>
       </div>
 

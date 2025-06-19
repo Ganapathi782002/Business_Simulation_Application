@@ -7,13 +7,14 @@ import { Header } from '../ui/header';
 import { Layout } from '../ui/layout';
 import { Button } from '../ui/button';
 import { useAuth } from '@/lib/auth-context';
-import { BarChart3, Boxes, Factory, FlaskConical, HandCoins, HeartPulse, LayoutGrid, Megaphone, Users } from 'lucide-react';
+import { BarChart3, Users, Building2, Library, HandCoins, FlaskConical, Factory, Megaphone, Boxes } from 'lucide-react';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const pathParts = pathname.split('/');
   const simId = pathParts.length > 2 && pathParts[1] === 'simulations' ? pathParts[2] : null;
+  const isInGameSession = pathParts[1] === 'simulations' && pathParts.length > 3;
 
   return (
     <Layout
@@ -33,43 +34,50 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarNavItem
                 href="/"
                 active={pathname === '/'}
-                icon={<LayoutGrid className="w-5 h-5" />}
+                icon={<Library className="w-5 h-5" />}
               >
                 My Simulations
               </SidebarNavItem>
             </SidebarNavGroup>
-            
-            {simId && (
+
+            {isInGameSession && simId && (
               <>
                 <SidebarNavGroup title="Game Menu">
-                  <SidebarNavItem 
-                    href={`/simulations/${simId}`} 
+                  <SidebarNavItem
+                    href={`/simulations/${simId}`}
                     active={pathname === `/simulations/${simId}`}
-                    icon={<LayoutGrid className="w-5 h-5" />}
+                    icon={<Building2 className="w-5 h-5" />}
                   >
-                    Game Dashboard
+                    My Companies
                   </SidebarNavItem>
-                  <SidebarNavItem 
-                    href={`/simulations/${simId}/performance`} 
+                  <SidebarNavItem
+                    href={`/simulations/${simId}/performance`}
                     active={pathname.endsWith('/performance')}
                     icon={<BarChart3 className="w-5 h-5" />}
                   >
                     Performance
                   </SidebarNavItem>
+                  <SidebarNavItem
+                    href={`/simulations/${simId}/competitors`}
+                    active={pathname.endsWith('/competitors')}
+                    icon={<Users className="w-5 h-5" />}
+                  >
+                    Competitors
+                  </SidebarNavItem>
                 </SidebarNavGroup>
 
                 <SidebarNavGroup title="Departments">
-                   <SidebarNavItem href="#" active={false} icon={<HeartPulse className="w-5 h-5" />}>Human Resources</SidebarNavItem>
-                   <SidebarNavItem href="#" active={false} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
-                   <SidebarNavItem href="#" active={false} icon={<Factory className="w-5 h-5" />}>Production</SidebarNavItem>
-                   <SidebarNavItem href={`/simulations/${simId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
-                   <SidebarNavItem href="#" active={false} icon={<FlaskConical className="w-5 h-5" />}>R&D</SidebarNavItem>
+                  <SidebarNavItem href="#" active={false} icon={<Users className="w-5 h-5" />}>Human Resources</SidebarNavItem>
+                  <SidebarNavItem href="#" active={false} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
+                  <SidebarNavItem href="#" active={false} icon={<Factory className="w-5 h-5" />}>Production</SidebarNavItem>
+                  <SidebarNavItem href={`/simulations/${simId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
+                  <SidebarNavItem href="#" active={false} icon={<FlaskConical className="w-5 h-5" />}>R&D</SidebarNavItem>
                 </SidebarNavGroup>
 
                 <SidebarNavGroup title="Catalog">
-                    <SidebarNavItem href="#" active={false} icon={<Boxes className="w-5 h-5" />}>
-                        Products
-                    </SidebarNavItem>
+                  <SidebarNavItem href="#" active={false} icon={<Boxes className="w-5 h-5" />}>
+                    Products
+                  </SidebarNavItem>
                 </SidebarNavGroup>
               </>
             )}
@@ -79,7 +87,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             <div className='flex justify-between items-center w-full'>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold mr-3">
-                    {user?.name?.split(' ').map(n => n[0]).join('') || 'NN'}
+                  {user?.name?.split(' ').map(n => n[0]).join('') || 'NN'}
                 </div>
                 <div>
                   <div className="font-medium text-white">{user?.name}</div>
