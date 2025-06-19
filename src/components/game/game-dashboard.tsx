@@ -39,12 +39,6 @@ export function GameDashboard() {
     setAlertOpen(true);
   }
 
-  useEffect(() => {
-    if (state && state.currentPeriod === 11) {
-      toast.warning("Final Round!", {});
-    }
-  }, [state?.currentPeriod]);
-
   if (loading || !state || !userCompany) {
     return (<div>Loading Simulation...</div>);
   }
@@ -55,17 +49,8 @@ export function GameDashboard() {
     return <div className="p-4 text-red-500">Error: {error}</div>;
   }
 
-  if (state.currentPeriod >= 12) {
-    return (
-      <div className="p-6 text-center">
-        <h1 className="text-3xl font-bold">Simulation Completed!</h1>
-        <p className="text-lg text-gray-500 mt-2">You have completed 12 months. Check the Performance page for your final results.</p>
-      </div>
-    )
-  }
-
   const pendingDecisions = state.decisions.filter(
-    d => d.period === state.currentPeriod && !d.processed
+    d => d.companyId === userCompany.id && d.period === state.currentPeriod && !d.processed
   );
 
   const capitalize = (s: string) => {
@@ -92,14 +77,11 @@ export function GameDashboard() {
           <Button variant="default" onClick={saveState} disabled={loading}>
             {loading ? 'Saving...' : 'Save Game'}
           </Button>
-          {state.currentPeriod < 12 && (
-            <Button
-              onClick={advancePeriod}
-              disabled={loading || state.currentPeriod >= 11}
-            >
-              Advance to Next Period
-            </Button>
-          )}
+          <Button
+            onClick={advancePeriod}
+          >
+            Advance to Next Period
+          </Button>
         </div>
       </div>
 

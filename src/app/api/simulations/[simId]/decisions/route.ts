@@ -1,40 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
 import { getDB } from '@/lib/get-db';
 import { DecisionPayload } from '@/components/simulation/types';
+import { auth } from '@/lib/auth';
 
 export async function POST(
   req: NextRequest,
   { params }: { params: { simId: string } }
 ) {
   try {
-    const token = cookies().get('token')?.value;
-    if (!token) {
+    const session = await auth();
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRETE!) as { id: string };
-    const userId = decoded.id;
-    const decisionPayload: DecisionPayload = await req.json();
+    const { type, data, companyId }: DecisionPayload & { companyId: string } = await req.json();
 
     const db = await getDB();
-    const [simulation, companies] = await Promise.all([
-        db.getSimulation(params.simId),
-        db.getCompaniesBySimulation(params.simId)
-    ]);
-    if (!simulation) {
-        return NextResponse.json({ error: 'Simulation not found' }, { status: 404 });
-    }
-    const userCompany = companies.find((c: any) => c.user_id === userId);
+    const simulation = await db.getSimulation(params.simId);
 
-    if (!userCompany) {
-      return NextResponse.json({ error: 'No company found for this user in this simulation' }, { status: 403 });
+    if (!simulation) {
+      return NextResponse.json({ error: 'Simulation not found' }, { status: 404 });
     }
+
     const fullDecision = {
-      companyId: userCompany.id,
+      companyId: companyId, // Use the ID directly from the request body
       period: simulation.current_period,
-      type: decisionPayload.type,
-      data: decisionPayload.data,
+      type: type,
+      data: data,
       submittedAt: new Date().toISOString(),
       processed: false,
       processedAt: null, 

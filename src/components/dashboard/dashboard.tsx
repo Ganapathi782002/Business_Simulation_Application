@@ -107,7 +107,6 @@ export function Dashboard() {
                     </CardDescription>
 
                     <div className="flex justify-between items-center text-xs text-muted-foreground border-t pt-2">
-                        <span>Period: <span className="font-semibold text-foreground">{sim.currentPeriod}</span></span>
                         <span>Last Saved: <span className="font-semibold text-foreground">{new Date(sim.updatedAt).toLocaleDateString()}</span></span>
                     </div>
                 </div>

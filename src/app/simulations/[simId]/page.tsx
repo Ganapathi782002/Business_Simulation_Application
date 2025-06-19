@@ -6,7 +6,7 @@ import { AppLayout } from '@/components/layout/app-layout';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ManageCompany } from '@/components/game/manage-company';
+import { SimulationSetupWizard } from '@/components/setup/simulation-setup-wizard';
 
 export default async function SimulationLobbyPage({ params }: { params: { simId: string } }) {
   const token = cookies().get('token')?.value;
@@ -28,10 +28,14 @@ export default async function SimulationLobbyPage({ params }: { params: { simId:
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl text-black font-bold">Select available companies in: {simulation.name}</h1>
+            <h1 className="text-2xl text-black font-bold">Available companies in: {simulation.name}</h1>
             <p className="text-muted-foreground">Select a company to manage or create a new one.</p>
           </div>
-          <ManageCompany simulationId={params.simId} />
+          <SimulationSetupWizard
+            startStep={2}
+            simulationId={params.simId}
+            triggerButton={<Button>Establish New Company</Button>}
+          />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

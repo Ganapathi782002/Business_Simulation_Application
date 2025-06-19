@@ -90,7 +90,7 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
       const response = await fetch(`/api/simulations/${state.id}/decisions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(decision),
+        body: JSON.stringify({...decision, companyId: userCompany.id}),
       });
 
       if (!response.ok) {

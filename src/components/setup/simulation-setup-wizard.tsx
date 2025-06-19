@@ -6,10 +6,17 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { SimulationDetailsForm } from './simulation-details-form';
 import { CompanyDetailsForm } from './company-details-form';
 import { ProductCreationForm } from './product-creation-form';
+import { toast } from 'sonner';
 
-export function SimulationSetupWizard() {
+interface SimulationSetupWizardProps {
+    startStep?: number;
+    simulationId?: string;
+    triggerButton?: React.ReactNode;
+}
+
+export function SimulationSetupWizard({ startStep = 1, simulationId, triggerButton }: SimulationSetupWizardProps) {
     const [isOpen, setOpen] = useState(false);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(startStep);
     const [wizardData, setWizardData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,23 +38,30 @@ export function SimulationSetupWizard() {
         setLoading(true);
         setError(null);
         const finalData = { ...wizardData, product: data };
+        console.log("Wizard Finished. Mode:", simulationId ? 'New Company' : 'New Simulation', "Data:", finalData);
 
         try {
-            const response = await fetch('/api/setup/create-full-simulation', {
+            const apiEndpoint = simulationId
+                ? `/api/simulations/${simulationId}/add-company`
+                : '/api/setup/create-full-simulation';
+
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(finalData),
             });
 
             if (!response.ok) {
-                const errorData: { error: string} = await response.json();
+                const errorData: { error?: string } = await response.json();
                 throw new Error(errorData.error || 'An unknown error occurred.');
             }
+
+            toast.success("Success! Reloading page...");
             setOpen(false);
-            window.location.reload();
+            setTimeout(() => window.location.reload(), 1500);
 
         } catch (err) {
-            console.error("Wizard submission failed:", err);
+            toast.error("An error occurred", { description: (err as Error).message });
             setError((err as Error).message);
         } finally {
             setLoading(false);
@@ -57,31 +71,19 @@ export function SimulationSetupWizard() {
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Create New Simulation</Button>
+                {triggerButton || <Button>Create New Simulation</Button>}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>New Simulation Setup</DialogTitle>
                     <DialogDescription>
-                        Step {step} of 3: {step === 1 ? "Simulation Details" : step === 2 ? "Company Details" : "Initial Product Design"}
+                        Step {simulationId ? step + 1 : step} of 3
                     </DialogDescription>
                 </DialogHeader>
 
-                {step === 1 && (
-                    <SimulationDetailsForm onNext={handleStep1Next} />
-                )}
-
-                {step === 2 && (
-                    <CompanyDetailsForm onNext={handleStep2Next} onPrevious={goToPreviousStep} />
-                )}
-
-                {step === 3 && (
-                    <ProductCreationForm
-                        onFinish={handleFinish}
-                        onPrevious={goToPreviousStep}
-                        loading={loading}
-                    />
-                )}
+                {step === 1 && <SimulationDetailsForm onNext={handleStep1Next} />}
+                {step === 2 && <CompanyDetailsForm onNext={handleStep2Next} onPrevious={startStep === 1 ? goToPreviousStep : undefined} />}
+                {step === 3 && <ProductCreationForm onFinish={handleFinish} onPrevious={goToPreviousStep} loading={loading} />}
             </DialogContent>
         </Dialog>
     );
