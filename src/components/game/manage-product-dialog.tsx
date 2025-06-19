@@ -72,7 +72,6 @@ export function ManageProductDialog({ product }: ManageProductDialogProps) {
             <Input id="marketing" type="number" value={marketingBudget} onChange={e => setMarketingBudget(Number(e.target.value))} />
           </div>
 
-          {/* --- NEW DISPLAY FOR CALCULATED STATS --- */}
           <div className="mt-4 p-4 bg-gray-50 rounded-lg border space-y-2">
             <h4 className="font-medium text-gray-800">Estimated Financial Impact this Period</h4>
             <div className="flex justify-between text-sm">

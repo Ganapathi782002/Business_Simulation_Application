@@ -127,7 +127,6 @@ export async function saveSimulationState(
     );
 
     for (const pr of newPerformanceResults) {
-      // Wrap the database call in its own try...catch to isolate errors
       try {
         console.log(
           "[SAVE STATE] Attempting to save this performance record:",

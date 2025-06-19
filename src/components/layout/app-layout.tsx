@@ -14,7 +14,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const pathParts = pathname.split('/');
   const simId = pathParts.length > 2 && pathParts[1] === 'simulations' ? pathParts[2] : null;
-  const isInGameSession = pathParts[1] === 'simulations' && pathParts.length > 3;
+  const companyId = pathParts[3] === 'company' ? pathParts[4] : null;
 
   return (
     <Layout
@@ -40,7 +40,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarNavItem>
             </SidebarNavGroup>
 
-            {isInGameSession && simId && (
+            {companyId && simId && (
               <>
                 <SidebarNavGroup title="Game Menu">
                   <SidebarNavItem
@@ -51,15 +51,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                     My Companies
                   </SidebarNavItem>
                   <SidebarNavItem
-                    href={`/simulations/${simId}/performance`}
+                    href={`/simulations/${simId}/company/${companyId}/performance`}
                     active={pathname.endsWith('/performance')}
                     icon={<BarChart3 className="w-5 h-5" />}
                   >
                     Performance
                   </SidebarNavItem>
                   <SidebarNavItem
-                    href={`/simulations/${simId}/competitors`}
-                    active={pathname.endsWith('/competitors')}
+                    href={`/simulations/${simId}/company/${companyId}/competitors`}
+                    active={pathname.endsWith('/competitors')} 
                     icon={<Users className="w-5 h-5" />}
                   >
                     Competitors
@@ -70,7 +70,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   <SidebarNavItem href="#" active={false} icon={<Users className="w-5 h-5" />}>Human Resources</SidebarNavItem>
                   <SidebarNavItem href="#" active={false} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
                   <SidebarNavItem href="#" active={false} icon={<Factory className="w-5 h-5" />}>Production</SidebarNavItem>
-                  <SidebarNavItem href={`/simulations/${simId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
+                  <SidebarNavItem href={`/simulations/${simId}/company/${companyId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
                   <SidebarNavItem href="#" active={false} icon={<FlaskConical className="w-5 h-5" />}>R&D</SidebarNavItem>
                 </SidebarNavGroup>
 

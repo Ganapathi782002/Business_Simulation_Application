@@ -196,7 +196,7 @@ export function GameDashboard() {
             ))}
           </div>
         ) : (
-          <p>You have not developed any products yet.</p>
+          <p className="text-gray-600">You have not developed any products yet.</p>
         )}
 
       </div>

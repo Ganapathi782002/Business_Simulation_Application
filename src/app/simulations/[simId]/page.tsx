@@ -42,7 +42,6 @@ export default async function SimulationLobbyPage({ params }: { params: { simId:
                 <CardDescription>Cash Balance: ${company.cash_balance.toLocaleString()}</CardDescription>
               </CardHeader>
               <CardFooter>
-                {/* This is the corrected link */}
                 <Link href={`/simulations/${params.simId}/company/${company.id}`} className="w-full">
                   <Button className="w-full">Manage Company</Button>
                 </Link>

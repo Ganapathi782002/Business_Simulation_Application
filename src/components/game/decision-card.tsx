@@ -11,10 +11,9 @@ const decisionIcons: { [key: string]: React.ReactNode } = {
     marketing: <Megaphone className="h-5 w-5 text-gray-400" />,
     research: <FlaskConical className="h-5 w-5 text-gray-400" />,
     human_resources: <Users className="h-5 w-5 text-gray-400" />,
-    product_development: <Boxes className="h-5 w-5 text-gray-400" />, // Added icon for status changes
+    product_development: <Boxes className="h-5 w-5 text-gray-400" />,
 };
 
-// This helper function makes the decision data readable
 const formatDecisionData = (decision: Decision): string => {
     try {
         const data = JSON.parse(decision.data);
@@ -42,7 +41,6 @@ const formatDecisionData = (decision: Decision): string => {
     }
 };
 
-// This new helper function gets the direct cost of a decision
 const getDecisionCost = (decision: Decision): number | null => {
     try {
         const data = JSON.parse(decision.data);
@@ -52,7 +50,6 @@ const getDecisionCost = (decision: Decision): number | null => {
             case 'research':
                 return data.amount;
             case 'human_resources':
-                // Note: This only shows the direct training budget cost, not hiring/salary costs which are more complex.
                 return data.training?.budget || 0;
             default:
                 return null;
@@ -76,8 +73,6 @@ export function DecisionCard({ decision }: { decision: Decision }) {
                         <CardDescription className="text-sm text-muted-foreground mt-1"> {/* IMPROVED VISIBILITY */}
                             {formatDecisionData(decision)}
                         </CardDescription>
-                        
-                        {/* NEW COST DISPLAY */}
                         {(cost !== null && cost > 0) && (
                             <p className="text-xs font-semibold text-red-400 mt-2">
                                 Cost: -${cost.toLocaleString()}

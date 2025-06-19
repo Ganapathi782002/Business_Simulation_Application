@@ -37,7 +37,7 @@ const SimulationContext = createContext<SimulationContextType>({
 export const useSimulation = () => useContext(SimulationContext);
 
 // Provider component
-export const SimulationProvider: React.FC<{ children: React.ReactNode; initialState: SimulationState }> = ({ children, initialState }) => {
+export const SimulationProvider: React.FC<{ children: React.ReactNode; initialState: SimulationState; activeCompanyId: string }> = ({ children, initialState, activeCompanyId }) => {
   const [simulation, setSimulation] = useState<SimulationEngine | null>(null);
   const [state, setState] = useState<SimulationState | null>(initialState);
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,23 +47,25 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
 
   // Initialize simulation
   useEffect(() => {
-    if (initialState) {
+    if (initialState && activeCompanyId) {
       try {
         const sim = new SimulationEngine(initialState);
         setSimulation(sim);
         setState(initialState);
 
-        const company = initialState.companies.find(c => c.userId === initialState.createdBy);
+        const company = initialState.companies.find(c => c.id === activeCompanyId);
         setUserCompany(company || null);
         if (company) {
           const products = initialState.products.filter(p => p.companyId === company.id);
           setCompanyProducts(products || []);
+        }else{
+          setCompanyProducts([]);
         }
       } catch (err) {
         setError('Failed to initialize simulation engine: ' + (err instanceof Error ? err.message : String(err)));
       }
     }
-  }, [initialState]);
+  }, [initialState, activeCompanyId]);
 
   const advancePeriod = () => {
     if (!simulation || !userCompany) return;
