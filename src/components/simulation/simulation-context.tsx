@@ -17,6 +17,7 @@ interface SimulationContextType {
   submitDecision: (decision: DecisionPayload) => void;
   refreshState: () => void;
   saveState: () => Promise<void>;
+  isStateDirty: boolean;
 }
 
 // Create the context with default values
@@ -30,7 +31,8 @@ const SimulationContext = createContext<SimulationContextType>({
   advancePeriod: () => { },
   submitDecision: () => { },
   refreshState: () => { },
-  saveState: async () => { }
+  saveState: async () => { },
+  isStateDirty: false,
 });
 
 // Hook to use the simulation context
@@ -44,6 +46,7 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
   const [error, setError] = useState<string | null>(null);
   const [userCompany, setUserCompany] = useState<Company | null>(null);
   const [companyProducts, setCompanyProducts] = useState<Product[]>([]);
+  const [isStateDirty, setIsStateDirty] = useState(false);
 
   // Initialize simulation
   useEffect(() => {
@@ -79,6 +82,7 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
       const updatedProducts = newState.products.filter(p => p.companyId === updatedCompany.id);
       setCompanyProducts(updatedProducts);
     };
+    setIsStateDirty(true);
   }
 
   const submitDecision = async (decision: DecisionPayload) => {
@@ -144,6 +148,7 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
       }
 
       console.log("Game saved successfully!");
+      setIsStateDirty(false);
 
     } catch (err) {
       setError('Failed to save progress: ' + (err as Error).message);
@@ -164,6 +169,7 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode; initialSt
     submitDecision,
     refreshState,
     saveState,
+    isStateDirty,
   };
 
   return (

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { getDB } from '@/lib/get-db';
 import { SimulationStatus, ProductStatus } from '@/components/simulation/types';
+import { SimulationFactory } from '@/components/simulation/simulation-factory';
 
 interface WizardData {
   simulationName: string;
@@ -33,37 +34,44 @@ export async function POST(req: NextRequest) {
     const wizardData: WizardData = await req.json();
     const { simulationName, description, companyName, product } = wizardData;
 
+    const newSimulationState = SimulationFactory.create({
+      simulationName: simulationName,
+      description: description,
+      userId: userId
+    });
+
     const now = new Date().toISOString();
     const simId = `sim_${Date.now()}`;
     const companyId = `company_${Date.now()}`;
 
     const newSimulation = {
-      id: simId,
-      name: simulationName,
-      description: description,
-      config: '{}',
-      currentPeriod: 0,
-      status: SimulationStatus.ACTIVE,
-      createdBy: userId,
-      createdAt: now,
-      updatedAt: now,
+        id: newSimulationState.id,
+        name: newSimulationState.name,
+        description: newSimulationState.description,
+        config: newSimulationState.config,
+        currentPeriod: newSimulationState.currentPeriod,
+        status: newSimulationState.status,
+        createdBy: newSimulationState.createdBy,
+        createdAt: newSimulationState.createdAt,
+        updatedAt: newSimulationState.updatedAt,
     };
+    
 
     const newCompany = {
       id: companyId,
-      simulationId: simId,
+      simulationId: newSimulation.id,
       userId: userId,
       name: companyName,
       description: `This company is present inside ${simulationName}`,
       logoUrl: null,
-      cashBalance: 1000000 - product.rndCost,
-      totalAssets: 1000000 - product.rndCost,
+      cashBalance: 5000000 - product.rndCost,
+      totalAssets: 5000000 - product.rndCost,
       totalLiabilities: 0,
       creditRating: 'A',
       brandValue: 50,
       data: '{}',
-      createdAt: now,
-      updatedAt: now,
+      createdAt: newSimulation.createdAt,
+      updatedAt: newSimulation.updatedAt,
     };
 
     const newProduct = {
@@ -78,20 +86,21 @@ export async function POST(req: NextRequest) {
       productionCost: product.productionCost,
       sellingPrice: product.sellingPrice,
       developmentCost: product.rndCost,
-      status: ProductStatus.ACTIVE,
+      status: ProductStatus.DEVELOPMENT,
       inventoryLevel: 0,
       productionCapacity: 2000,
       marketingBudget: 0,
-      createdAt: now,
-      updatedAt: now,
+      createdAt: newSimulation.createdBy,
+      updatedAt: newSimulation.updatedAt,
     };
 
     const db = await getDB();
     await db.createSimulation(newSimulation);
     await db.createCompany(newCompany);
     await db.createProduct(newProduct);
+    await db.createMarketConditions(newSimulationState.marketConditions[0]); 
 
-    return NextResponse.json({ simulationId: simId }, { status: 201 });
+    return NextResponse.json({ simulationId: newSimulation.id }, { status: 201 });
 
   } catch (err) {
     console.error("Full simulation creation failed:", err);

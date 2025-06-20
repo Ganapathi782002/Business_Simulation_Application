@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ManageProductDialog } from './manage-product-dialog';
 import { toast } from 'sonner';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Zap } from "lucide-react";
+import { Lightbulb, Zap } from "lucide-react";
 import { ManageRndDialog } from './manage-rnd-dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
@@ -17,7 +17,7 @@ import { ManageHrDialog } from './manage-hr-dialog';
 import { DecisionCard } from './decision-card';
 
 export function GameDashboard() {
-  const { state, userCompany, companyProducts, advancePeriod, loading, error, saveState, submitDecision } = useSimulation();
+  const { state, userCompany, companyProducts, advancePeriod, loading, error, saveState, submitDecision, isStateDirty } = useSimulation();
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [productToDiscontinue, setProductToDiscontinue] = useState<Product | null>(null);
 
@@ -66,6 +66,16 @@ export function GameDashboard() {
 
   return (
     <div className="p-6 space-y-6">
+      <Alert variant="warning"> {/* Use the new "warning" variant */}
+        <Lightbulb className="h-4 w-4" />
+        <AlertTitle className="font-semibold">How to Play a Turn</AlertTitle>
+        <AlertDescription>
+          1. Make decisions using the 'Manage', 'HR', and 'R&D' buttons below.
+          2. Finance Side bar to take new loans / repay loans
+          3. Click 'Advance to Next Period' to see the results.
+          4. Click 'Save Game' to make your progress permanent!
+        </AlertDescription>
+      </Alert>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl text-black font-bold">Company Name: {userCompany.name}</h1>
@@ -74,7 +84,7 @@ export function GameDashboard() {
         <div className="flex items-center space-x-2">
           <ManageRndDialog />
           <ManageHrDialog />
-          <Button variant="default" onClick={saveState} disabled={loading}>
+          <Button variant="default" onClick={saveState} disabled={loading || !isStateDirty}>
             {loading ? 'Saving...' : 'Save Game'}
           </Button>
           <Button

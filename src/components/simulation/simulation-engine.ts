@@ -219,7 +219,7 @@ export class SimulationEngine {
     if (data.productId) {
       // Update production for a specific product
       const product = this.state.products.find(
-        p => p.id === data.productId && p.companyId === company.id
+        (p) => p.id === data.productId && p.companyId === company.id
       );
       if (!product) return;
 
@@ -251,15 +251,7 @@ export class SimulationEngine {
         (p) => p.id === data.productId && p.companyId === company.id
       );
       if (!product) return;
-
-      if (company.cashBalance >= data.budget) {
-        product.marketingBudget = data.budget;
-        company.cashBalance -= data.budget;
-      } else {
-        console.warn(
-          `[Engine] ${company.name} could not afford marketing budget. Decision ignored.`
-        );
-      }
+      product.marketingBudget = data.budget || 0; //calculatePerformance will take care of calculating marketingBudget later
       product.updatedAt = new Date().toISOString();
     }
   }
@@ -270,7 +262,7 @@ export class SimulationEngine {
   private processResearch(company: Company, data: any): void {
     const investment = data.amount || 0;
     if (company.cashBalance >= investment) {
-      company.cashBalance -= investment;
+      //company.cashBalance -= investment;
       const companyData = JSON.parse(company.data || "{}");
       if (!companyData.researchProjects) companyData.researchProjects = [];
       companyData.researchProjects.push({
@@ -299,26 +291,15 @@ export class SimulationEngine {
       };
     }
     const hr = companyData.humanResources;
-
-    if (data.hiring && data.hiring.newEmployees > 0) {
-      const hiringCost = data.hiring.newEmployees * (hr.averageSalary * 0.2);
-      if (company.cashBalance >= hiringCost) {
-        company.cashBalance -= hiringCost;
-        hr.totalEmployees += data.hiring.newEmployees;
-      } else {
-        console.warn(
-          `[Engine] Not enough cash to hire ${data.hiring.newEmployees} employees.`
-        );
-      }
+    if (data.hiring?.newEmployees > 0) {
+      hr.totalEmployees += data.hiring.newEmployees;
+    }
+    if (data.salary?.newAverageSalary) {
+      hr.averageSalary = data.salary.newAverageSalary;
     }
 
-    if (data.training && data.training.budget > 0) {
-      if (company.cashBalance >= data.training.budget) {
-        company.cashBalance -= data.training.budget;
-        hr.trainingBudget = (hr.trainingBudget || 0) + data.training.budget;
-      } else {
-        console.warn(`[Engine] Not enough cash for training budget.`);
-      }
+    if (data.training?.budget > 0) {
+      hr.trainingBudget = (hr.trainingBudget || 0) + data.training.budget;
     }
     company.data = JSON.stringify(companyData);
   }
@@ -381,89 +362,31 @@ export class SimulationEngine {
    * Update market conditions for the next period
    */
   private updateMarketConditions(currentPeriod: number): void {
-    const currentConditions = this.state.marketConditions.find(
-      (mc) => mc.period === currentPeriod
-    );
-    if (!currentConditions) return;
+    // Find the most recent market conditions to use as a template
+    const lastPeriodConditions = this.state.marketConditions.sort(
+      (a, b) => b.period - a.period
+    )[0];
 
-    // Create new market conditions for the next period
+    if (!lastPeriodConditions) {
+      console.error(
+        "[Engine] CRITICAL ERROR: No market conditions exist at all."
+      );
+      return;
+    }
+
     const nextPeriod = currentPeriod + 1;
 
-    // Base the new conditions on the current ones with some changes
-    const segmentDistribution = JSON.parse(
-      currentConditions.segmentDistribution
+    // Create a new market condition object for the next period
+    const newMarketConditions: MarketConditions = JSON.parse(
+      JSON.stringify(lastPeriodConditions)
     );
-    const economicIndicators = JSON.parse(currentConditions.economicIndicators);
-    const consumerPreferences = JSON.parse(
-      currentConditions.consumerPreferences
-    );
-    const technologyTrends = JSON.parse(currentConditions.technologyTrends);
+    newMarketConditions.id = `market_${this.state.id}_${nextPeriod}`;
+    newMarketConditions.period = nextPeriod;
+    newMarketConditions.createdAt = new Date().toISOString();
 
-    // Apply random changes to market size (±5%)
-    const marketSizeChange = 1 + (Math.random() * 0.1 - 0.05);
-    const newMarketSize = currentConditions.totalMarketSize * marketSizeChange;
-
-    // Apply small random changes to segment distribution
-    Object.keys(segmentDistribution).forEach((segment) => {
-      const change = 1 + (Math.random() * 0.06 - 0.03); // ±3%
-      segmentDistribution[segment] *= change;
-    });
-
-    // Normalize segment distribution to sum to 1
-    const totalDistribution = Object.values(segmentDistribution).reduce(
-      (sum: number, val: any) => sum + val,
-      0
-    );
-    Object.keys(segmentDistribution).forEach((segment) => {
-      segmentDistribution[segment] /= totalDistribution;
-    });
-
-    // Apply small changes to economic indicators
-    economicIndicators.gdp_growth += Math.random() * 0.01 - 0.005; // ±0.5%
-    economicIndicators.inflation_rate += Math.random() * 0.01 - 0.005; // ±0.5%
-    economicIndicators.interest_rate += Math.random() * 0.01 - 0.005; // ±0.5%
-    economicIndicators.unemployment_rate += Math.random() * 0.01 - 0.005; // ±0.5%
-    economicIndicators.consumer_confidence += Math.random() * 5 - 2.5; // ±2.5 points
-    economicIndicators.business_sentiment += Math.random() * 5 - 2.5; // ±2.5 points
-
-    // Apply small changes to consumer preferences
-    Object.keys(consumerPreferences).forEach((segment) => {
-      Object.keys(consumerPreferences[segment]).forEach((preference) => {
-        consumerPreferences[segment][preference] += Math.random() * 0.1 - 0.05; // ±0.05 points
-        // Ensure values stay between 0 and 1
-        consumerPreferences[segment][preference] = Math.max(
-          0,
-          Math.min(1, consumerPreferences[segment][preference])
-        );
-      });
-    });
-
-    // Adjust sustainability importance (trending upward)
-    const sustainabilityChange = Math.random() * 0.05; // 0-5% increase
-    const newSustainabilityImportance = Math.min(
-      1,
-      currentConditions.sustainabilityImportance + sustainabilityChange
-    );
-
-    // Create new market conditions
-    const newMarketConditions: MarketConditions = {
-      id: `market_${nextPeriod}`,
-      simulationId: currentConditions.simulationId,
-      period: nextPeriod,
-      totalMarketSize: newMarketSize,
-      segmentDistribution: JSON.stringify(segmentDistribution),
-      economicIndicators: JSON.stringify(economicIndicators),
-      consumerPreferences: JSON.stringify(consumerPreferences),
-      technologyTrends: JSON.stringify(technologyTrends),
-      sustainabilityImportance: newSustainabilityImportance,
-      data: "{}",
-      createdAt: new Date().toISOString(),
-    };
+    // In the future, we can add random fluctuations here
 
     this.state.marketConditions.push(newMarketConditions);
-
-    // Randomly generate market events
-    this.generateMarketEvents(nextPeriod);
   }
 
   /**
@@ -783,168 +706,153 @@ export class SimulationEngine {
    * Calculate performance for all companies
    */
   private calculatePerformance(currentPeriod: number): void {
-    // Get market conditions for the current period
     const marketConditions = this.state.marketConditions.find(
       (mc) => mc.period === currentPeriod
     );
-    if (!marketConditions) return;
-
-    // Parse market data
-    const segmentDistribution = JSON.parse(
-      marketConditions.segmentDistribution
-    );
-    const consumerPreferences = JSON.parse(
-      marketConditions.consumerPreferences
-    );
-    const totalMarketSize = marketConditions.totalMarketSize;
-
-    // Calculate performance for each company
-    this.state.companies.forEach((company) => {
-      // Get active products for the company
-      const activeProducts = this.state.products.filter(
-        (p) => p.companyId === company.id && p.status === "active"
+    if (!marketConditions) {
+      console.error(
+        `[Engine] Could not find market conditions for period ${currentPeriod}. Halting performance calculation.`
       );
-
-      if (activeProducts.length === 0) {
-        // No active products, create minimal performance results
-        this.createMinimalPerformanceResults(company);
-        return;
+      return;
+    }
+    const allActiveProducts = this.state.products.filter(
+      (p) => p.status === ProductStatus.ACTIVE
+    );
+    console.log("Starting HR Logic");
+    this.state.companies.forEach((company) => {
+      const companyData = JSON.parse(company.data || "{}");
+      let hr = companyData.humanResources;
+      if (!hr) {
+        hr = {
+          totalEmployees: 100,
+          averageSalary: 50000,
+          trainingBudget: 0,
+          productivity: 1,
+          turnoverRate: 0.1,
+        };
       }
 
-      // Calculate product performance
-      let totalRevenue = 0;
-      let totalCosts = 0;
-      let totalMarketShare = 0;
+      let satisfactionScore = 50;
+      if (hr.totalEmployees > 0) {
+        satisfactionScore += (hr.averageSalary / 60000) * 15;
+        satisfactionScore +=
+          ((hr.trainingBudget || 0) / hr.totalEmployees / 1000) * 10;
+      }
+      hr.employeeSatisfaction = Math.max(0, Math.min(100, satisfactionScore));
+      console.log("Final satisfaction score: ", hr.employeeSatisfaction);
+      hr.productivity = 0.8 + (hr.employeeSatisfaction / 100) * 0.4;
+      const turnoverRate =
+        hr.totalEmployees > 0
+          ? Math.max(0.01, 0.2 - (hr.employeeSatisfaction / 100) * 0.18)
+          : 0;
+      const employeesLost = Math.floor(hr.totalEmployees * turnoverRate);
+      hr.totalEmployees -= employeesLost;
+      hr.turnoverRate = turnoverRate;
+      hr.trainingBudget = 0;
+      companyData.humanResources = hr;
+      company.data = JSON.stringify(companyData);
+      console.log("Ending HR Logic");
 
-      activeProducts.forEach((product) => {
-        const productPerformance = this.calculateProductPerformance(
-          product,
-          this.state.products,
-          marketConditions
-        );
+      const companyProducts = allActiveProducts.filter(
+        (p) => p.companyId === company.id
+      );
 
-        // Add to company totals
-        totalRevenue += productPerformance.revenue;
-        totalCosts += productPerformance.costs;
-        totalMarketShare += productPerformance.marketShare;
+      let totalRevenue = 0,
+        totalCosts = 0,
+        totalMarketShare = 0,
+        cumulativeCustomerSatisfaction = 0;
 
-        // Save product performance
-        this.state.productPerformance.push({
-          id: `prod_perf_${product.id}_${currentPeriod}`,
-          productId: product.id,
-          period: currentPeriod,
-          salesVolume: productPerformance.salesVolume,
-          revenue: productPerformance.revenue,
-          costs: productPerformance.costs,
-          profit: productPerformance.profit,
-          marketShare: productPerformance.marketShare,
-          customerSatisfaction: productPerformance.customerSatisfaction,
-          data: JSON.stringify(productPerformance),
-          createdAt: new Date().toISOString(),
-        });
-
-        // Update product inventory
-        product.inventoryLevel = Math.max(
-          0,
-          product.inventoryLevel - productPerformance.salesVolume
-        );
-      });
-
-      // Calculate company performance metrics
-      const profit = totalRevenue - totalCosts;
-      const cashFlow = profit; // Simplified cash flow calculation
-      const roi = totalCosts > 0 ? profit / totalCosts : 0;
-
-      // Get HR data for employee satisfaction
-      const companyData = JSON.parse(company.data);
-      const hr = companyData.humanResources || {
-        employeeSatisfaction: 50,
-      };
-
-      // Calculate customer satisfaction (average of product satisfaction)
-      const avgCustomerSatisfaction =
-        this.state.productPerformance
-          .filter((pp) => pp.period === currentPeriod)
-          .filter((pp) => {
-            const product = this.state.products.find(
-              (p) => p.id === pp.productId
+      if (companyProducts.length > 0) {
+        companyProducts.forEach((product) => {
+          const perf = this.calculateProductPerformance(
+            product,
+            allActiveProducts,
+            marketConditions
+          );
+          totalRevenue += perf.revenue;
+          totalCosts += perf.costs;
+          totalMarketShare += perf.marketShare;
+          cumulativeCustomerSatisfaction += perf.customerSatisfaction;
+          this.state.productPerformance.push({
+            ...perf,
+            id: `prod_perf_${product.id}_${currentPeriod}`,
+            productId: product.id,
+            period: currentPeriod,
+            data: "{}",
+            createdAt: new Date().toISOString(),
+          });
+          const pIndex = this.state.products.findIndex(
+            (p) => p.id === product.id
+          );
+          if (pIndex !== -1)
+            this.state.products[pIndex].inventoryLevel = Math.max(
+              0,
+              product.inventoryLevel - perf.salesVolume
             );
-            return product && product.companyId === company.id;
-          })
-          .reduce((sum, pp) => sum + pp.customerSatisfaction, 0) /
-        activeProducts.length;
+        });
+      }
 
-      // Calculate innovation score based on product innovation ratings
-      const innovationScore =
-        activeProducts.reduce((sum, p) => sum + p.innovationRating, 0) /
-        activeProducts.length;
+      // Add salary costs to total costs
+      const monthlySalaryCost = (hr.totalEmployees * hr.averageSalary) / 12;
+      totalCosts += monthlySalaryCost;
 
-      // Calculate sustainability score based on product sustainability ratings
-      const sustainabilityScore =
-        activeProducts.reduce((sum, p) => sum + p.sustainabilityRating, 0) /
-        activeProducts.length;
-
-      // Calculate brand value change (simplified)
+      const profit = totalRevenue - totalCosts;
       const brandValueChange =
-        totalMarketShare * 0.3 +
-        avgCustomerSatisfaction * 0.3 +
-        innovationScore * 0.2 +
-        sustainabilityScore * 0.2 -
-        5;
+        totalMarketShare * 10 +
+        (companyProducts.length > 0
+          ? cumulativeCustomerSatisfaction / companyProducts.length
+          : 0) /
+          20 -
+        2.5;
 
-      // Update company financials
-      company.cashBalance += cashFlow;
-      company.totalAssets = company.cashBalance + totalRevenue * 0.5; // Simplified asset calculation
+      company.cashBalance += profit;
       company.brandValue = Math.max(
-        1,
+        0,
         Math.min(100, company.brandValue + brandValueChange)
       );
 
-      // Create performance results
-      const performanceResults: PerformanceResults = {
+      const perfResult: PerformanceResults = {
         id: `perf_${company.id}_${currentPeriod}`,
         companyId: company.id,
         period: currentPeriod,
         revenue: totalRevenue,
         costs: totalCosts,
-        profit,
+        profit: profit,
         marketShare: totalMarketShare,
-        cashFlow,
-        roi,
-        customerSatisfaction: avgCustomerSatisfaction,
+        cashFlow: profit,
+        roi: totalCosts > 0 ? profit / totalCosts : 0,
+        customerSatisfaction:
+          companyProducts.length > 0
+            ? cumulativeCustomerSatisfaction / companyProducts.length
+            : 0,
         employeeSatisfaction: hr.employeeSatisfaction,
-        sustainabilityScore,
-        innovationScore,
+        sustainabilityScore:
+          companyProducts.length > 0
+            ? companyProducts.reduce(
+                (sum, p) => sum + p.sustainabilityRating,
+                0
+              ) / companyProducts.length
+            : 0,
+        innovationScore:
+          companyProducts.length > 0
+            ? companyProducts.reduce((sum, p) => sum + p.innovationRating, 0) /
+              companyProducts.length
+            : 0,
         brandValueChange,
-        data: JSON.stringify({
-          productBreakdown: activeProducts.map((p) => ({
-            productId: p.id,
-            name: p.name,
-            revenue:
-              this.state.productPerformance.find(
-                (pp) =>
-                  pp.productId === p.id &&
-                  pp.period === this.state.currentPeriod
-              )?.revenue || 0,
-            marketShare:
-              this.state.productPerformance.find(
-                (pp) =>
-                  pp.productId === p.id &&
-                  pp.period === this.state.currentPeriod
-              )?.marketShare || 0,
-          })),
-        }),
+        data: "{}",
         createdAt: new Date().toISOString(),
       };
-
-      this.state.performanceResults.push(performanceResults);
+      this.state.performanceResults.push(perfResult);
     });
   }
 
   /**
    * Create minimal performance results for a company with no active products
    */
-  private createMinimalPerformanceResults(company: Company): void {
+  private createMinimalPerformanceResults(
+    company: Company,
+    currentPeriod: number
+  ): void {
     // Get HR data for employee satisfaction
     const companyData = JSON.parse(company.data);
     const hr = companyData.humanResources || {
@@ -957,9 +865,9 @@ export class SimulationEngine {
 
     // Create performance results
     const performanceResults: PerformanceResults = {
-      id: `perf_${company.id}_${this.state.currentPeriod}`,
+      id: `perf_${company.id}_${currentPeriod}`,
       companyId: company.id,
-      period: this.state.currentPeriod,
+      period: currentPeriod,
       revenue: 0,
       costs: fixedCosts,
       profit: -fixedCosts,
@@ -988,27 +896,27 @@ export class SimulationEngine {
    */
   private calculateProductPerformance(
     product: Product,
-    allProducts: Product[],
+    allActiveProducts: Product[],
     marketConditions: MarketConditions
   ): any {
+    // This is the full, robust calculation logic
     const segmentDistribution = JSON.parse(
       marketConditions.segmentDistribution
     );
     const consumerPreferences = JSON.parse(
       marketConditions.consumerPreferences
     );
-    const totalMarketSize = marketConditions.totalMarketSize;
 
     const segment = product.category;
     const segmentShare = segmentDistribution[segment] || 0;
-    const segmentSize = totalMarketSize * segmentShare;
+    const segmentSize = marketConditions.totalMarketSize * segmentShare;
     const segmentPreferences = consumerPreferences[segment] || {};
 
     const qualityScore =
       product.qualityRating * (segmentPreferences.quality_sensitivity ?? 0.5);
     const priceScore =
       product.sellingPrice > 0
-        ? (10 - product.sellingPrice / 50) *
+        ? (10 - product.sellingPrice / 150) *
           (segmentPreferences.price_sensitivity ?? 0.5)
         : 0;
     const innovationScore =
@@ -1018,7 +926,7 @@ export class SimulationEngine {
       product.sustainabilityRating *
       (segmentPreferences.sustainability_preference ?? 0.5);
     const marketingEffectiveness =
-      Math.sqrt(product.marketingBudget ?? 0) * 0.5;
+      Math.sqrt(product.marketingBudget ?? 0) * 0.15;
 
     const attractiveness =
       qualityScore +
@@ -1028,71 +936,71 @@ export class SimulationEngine {
       marketingEffectiveness;
 
     let segmentMarketShare = 0;
-    const allCompetitorsInSegment = allProducts.filter(
-      (p) => p.status === "active" && p.category === segment
+    const allProductsInSegment = allActiveProducts.filter(
+      (p) => p.category === segment
     );
 
-    const totalAttractiveness = allCompetitorsInSegment.reduce((sum, p) => {
-      const compSegmentPrefs = consumerPreferences[p.category] || {};
-      const compQualityScore =
-        p.qualityRating * (compSegmentPrefs.quality_sensitivity ?? 0.5);
-      const compPriceScore =
-        p.sellingPrice > 0
-          ? (10 - p.sellingPrice / 50) *
-            (compSegmentPrefs.price_sensitivity ?? 0.5)
-          : 0;
-      const compInnovationScore =
-        p.innovationRating * (compSegmentPrefs.innovation_preference ?? 0.5);
-      const compSustainabilityScore =
-        p.sustainabilityRating *
-        (compSegmentPrefs.sustainability_preference ?? 0.5);
-      const compMarketingEffectiveness =
-        Math.sqrt(p.marketingBudget ?? 0) * 0.5;
-      return (
-        sum +
-        compQualityScore +
-        compPriceScore +
-        compInnovationScore +
-        compSustainabilityScore +
-        compMarketingEffectiveness
-      );
-    }, 0);
+    const totalAttractivenessInSegment = allProductsInSegment.reduce(
+      (sum, p) => {
+        const pSegmentPrefs = consumerPreferences[p.category] || {};
+        const pQualityScore =
+          p.qualityRating * (pSegmentPrefs.quality_sensitivity ?? 0.5);
+        const pPriceScore =
+          p.sellingPrice > 0
+            ? (10 - p.sellingPrice / 150) *
+              (pSegmentPrefs.price_sensitivity ?? 0.5)
+            : 0;
+        const pInnovationScore =
+          p.innovationRating * (pSegmentPrefs.innovation_preference ?? 0.5);
+        const pSustainabilityScore =
+          p.sustainabilityRating *
+          (pSegmentPrefs.sustainability_preference ?? 0.5);
+        const pMarketingEffectiveness =
+          Math.sqrt(p.marketingBudget ?? 0) * 0.15;
+        return (
+          sum +
+          pQualityScore +
+          pPriceScore +
+          pInnovationScore +
+          pSustainabilityScore +
+          pMarketingEffectiveness
+        );
+      },
+      0
+    );
 
-    if (totalAttractiveness > 0) {
-      segmentMarketShare = attractiveness / totalAttractiveness;
+    if (totalAttractivenessInSegment > 0) {
+      segmentMarketShare = attractiveness / totalAttractivenessInSegment;
     }
 
-    const overallMarketShare = segmentMarketShare * segmentShare;
     const potentialSales =
       product.sellingPrice > 0
         ? Math.round((segmentSize * segmentMarketShare) / product.sellingPrice)
         : 0;
-    const actualSales = Math.min(potentialSales, product.inventoryLevel);
+    const salesVolume = Math.min(product.inventoryLevel, potentialSales);
 
-    const revenue = actualSales * product.sellingPrice;
-    const productionCosts = actualSales * product.productionCost;
-    const marketingCosts = product.marketingBudget;
-    const totalCosts = productionCosts + marketingCosts;
-    const profit = revenue - totalCosts;
+    const revenue = salesVolume * product.sellingPrice;
+    const costs =
+      salesVolume * product.productionCost + product.marketingBudget;
 
-    const inventorySatisfaction =
-      potentialSales > 0 ? actualSales / potentialSales : 1;
     const valueSatisfaction =
       product.sellingPrice > 0
-        ? product.qualityRating / (product.sellingPrice / 50)
+        ? (product.qualityRating / product.sellingPrice) * 15
         : 0;
-    const customerSatisfaction =
-      qualityScore * 0.4 +
-      valueSatisfaction * 0.4 +
-      inventorySatisfaction * 0.2;
+    const inventorySatisfaction =
+      potentialSales > 0 ? salesVolume / potentialSales : 1;
+    const customerSatisfaction = Math.min(
+      100,
+      valueSatisfaction * 5 + inventorySatisfaction * 10
+    );
 
     return {
-      salesVolume: actualSales,
+      salesVolume,
       revenue,
-      costs: totalCosts,
-      profit,
-      marketShare: overallMarketShare,
-      customerSatisfaction: Math.min(10, customerSatisfaction),
+      costs,
+      profit: revenue - costs,
+      marketShare: segmentMarketShare * segmentShare,
+      customerSatisfaction,
     };
   }
 

@@ -76,9 +76,9 @@ export function SimulationSetupWizard({ startStep = 1, simulationId, triggerButt
             <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>New Simulation Setup</DialogTitle>
-                    <DialogDescription>
+                    {/* <DialogDescription>
                         Step {simulationId ? step + 1 : step} of 3
-                    </DialogDescription>
+                    </DialogDescription> */}
                 </DialogHeader>
 
                 {step === 1 && <SimulationDetailsForm onNext={handleStep1Next} />}

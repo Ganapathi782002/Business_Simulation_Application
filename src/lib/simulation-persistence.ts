@@ -89,7 +89,19 @@ export async function loadSimulationState(
       processed: !!d.processed,
       processedAt: d.processed_at,
     })),
-    marketConditions: marketConditions,
+    marketConditions: marketConditions.map((mc: any) => ({
+      id: mc.id,
+      simulationId: mc.simulation_id,
+      period: mc.period,
+      totalMarketSize: mc.total_market_size,
+      segmentDistribution: mc.segment_distribution,
+      economicIndicators: mc.economic_indicators,
+      consumerPreferences: mc.consumer_preferences,
+      technologyTrends: mc.technology_trends,
+      sustainabilityImportance: mc.sustainability_importance,
+      data: mc.data,
+      createdAt: mc.created_at,
+    })),
     performanceResults: performanceResults,
     productPerformance: productPerformance,
     events: events,
@@ -165,6 +177,18 @@ export async function saveSimulationState(
         `[SAVE STATE] Found 1 new market condition to save for upcoming period ${state.currentPeriod}.`
       );
       databasePromises.push(db.createMarketConditions(newMarketConditions));
+    }
+    const processedDecisions = state.decisions.filter(
+      (d) => d.period === justCompletedPeriod && d.processed
+    );
+    for (const decision of processedDecisions) {
+      // We only need to update the 'processed' and 'processedAt' fields
+      databasePromises.push(
+        db.updateDecision(decision.id, {
+          processed: decision.processed,
+          processedAt: decision.processedAt,
+        })
+      );
     }
     await Promise.all(databasePromises);
 

@@ -42,7 +42,7 @@ export function CompanyDetailsForm({ onNext, onPrevious, submitButtonText = 'Nex
 
       <div className="mt-4 space-y-4">
         <h4 className="font-medium text-gray-500">Starting Conditions</h4>
-        <div className="grid gap-2"><Label htmlFor="cash">Starting Cash</Label><Input id="cash" defaultValue="$1,000,000" disabled /></div>
+        <div className="grid gap-2"><Label htmlFor="cash">Starting Cash</Label><Input id="cash" defaultValue="$5,000,000" disabled /></div>
         <div className="grid gap-2"><Label htmlFor="brandValue">Starting Brand Value</Label><Input id="brandValue" defaultValue="50 / 100" disabled /></div>
         <div className="grid gap-2"><Label htmlFor="creditRating">Credit Rating</Label><Input id="creditRating" defaultValue="A" disabled /></div>
       </div>
