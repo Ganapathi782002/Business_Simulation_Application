@@ -13,8 +13,10 @@ export interface DatabaseService {
   getCompaniesBySimulation(simulationId: string): Promise<any[]>;
   createCompany(company: any): Promise<string>;
   updateCompany(id: string, company: any): Promise<void>;
+  deleteCompany(id: string): Promise<void>;
   getPerformanceResultsByCompany(companyId: string): Promise<any[]>;
   getProductPerformanceByCompany(companyId: string): Promise<any[]>;
+  getAllProductPerformanceByCompany(companyId: string): Promise<any[]>;
 
   // Product operations
   getProduct(id: string): Promise<any>;
@@ -224,6 +226,10 @@ export class D1DatabaseService implements DatabaseService {
       .run();
   }
 
+  async deleteCompany(id: string): Promise<void> {
+    await this.db.prepare("DELETE FROM companies WHERE id = ?").bind(id).run();
+  }
+
   async getPerformanceResultsByCompany(companyId: string): Promise<any[]> {
     const result = await this.db
       .prepare("SELECT * FROM performance_results WHERE company_id = ?")
@@ -236,6 +242,16 @@ export class D1DatabaseService implements DatabaseService {
     const result = await this.db
       .prepare(
         `SELECT pp.* FROM product_performance pp JOIN products p ON pp.product_id = p.id WHERE p.company_id = ?`
+      )
+      .bind(companyId)
+      .all();
+    return result.results ?? [];
+  }
+
+  async getAllProductPerformanceByCompany(companyId: string): Promise<any[]> {
+    const result = await this.db
+      .prepare(
+        `SELECT pp.* FROM product_performance pp JOIN products p ON pp.product_id = p.id WHERE p.company_id = ? ORDER BY pp.period ASC`
       )
       .bind(companyId)
       .all();
@@ -791,6 +807,10 @@ export class MockDatabaseService implements DatabaseService {
     this.companies.set(id, { ...existing, ...company });
   }
 
+  async deleteCompany(id: string): Promise<void> {
+    this.companies.delete(id);
+  }
+
   async getPerformanceResultsByCompany(companyId: string): Promise<any[]> {
     return Array.from(this.performanceResults.values())
       .filter((pr) => pr.companyId === companyId)
@@ -804,6 +824,15 @@ export class MockDatabaseService implements DatabaseService {
     return Array.from(this.productPerformance.values()).filter((pp) =>
       productIds.includes(pp.productId)
     );
+  }
+
+  async getAllProductPerformanceByCompany(companyId: string): Promise<any[]> {
+    const productIds = Array.from(this.products.values())
+      .filter((p) => p.companyId === companyId)
+      .map((p) => p.id);
+    return Array.from(this.productPerformance.values())
+      .filter((pp) => productIds.includes(pp.productId))
+      .sort((a, b) => a.period - b.period);
   }
 
   // Product operations

@@ -75,7 +75,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 </SidebarNavGroup>
 
                 <SidebarNavGroup title="Catalog">
-                  <SidebarNavItem href="#" active={false} icon={<Boxes className="w-5 h-5" />}>
+                  <SidebarNavItem href={`/simulations/${simId}/company/${companyId}/products`} active={pathname.endsWith('/products')} icon={<Boxes className="w-5 h-5" />}>
                     Products
                   </SidebarNavItem>
                 </SidebarNavGroup>

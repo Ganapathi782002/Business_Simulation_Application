@@ -22,7 +22,7 @@ interface ProductData {
 
 interface ProductCreationFormProps {
   onFinish: (data: ProductData) => void;
-  onPrevious: () => void;
+  onPrevious?: () => void;
   loading: boolean;
 }
 
@@ -118,7 +118,11 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
       </div>
 
       <div className="flex justify-between mt-4">
-        <Button variant="outline" onClick={onPrevious} disabled={loading}>Previous</Button>
+        {onPrevious && (
+          <Button variant="outline" onClick={onPrevious} disabled={loading}>
+            Previous
+          </Button>
+        )}
         <Button onClick={handleFinishClick} disabled={loading}>{loading ? 'Creating Simulation...' : 'Finish & Create'}</Button>
       </div>
     </div>

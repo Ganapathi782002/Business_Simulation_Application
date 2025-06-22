@@ -33,7 +33,7 @@ export function LobbyClient({ initialSimulation, initialUserCompanies, simId }: 
             toast.success("Company deleted successfully.");
         } catch (error) {
             toast.error((error as Error).message);
-            setCompanies(originalCompanies); // Revert UI on error
+            setCompanies(originalCompanies);
         }
     };
 
@@ -44,9 +44,9 @@ export function LobbyClient({ initialSimulation, initialUserCompanies, simId }: 
                     <h1 className="text-2xl text-black font-bold">Available Companies in: {initialSimulation.name}</h1>
                     <p className="text-muted-foreground">Select a company to manage or create a new one.</p>
                 </div>
-                <SimulationSetupWizard 
-                    startStep={2} 
-                    simulationId={simId} 
+                <SimulationSetupWizard
+                    startStep={2}
+                    simulationId={simId}
                     triggerButton={<Button>Establish New Company</Button>}
                 />
             </div>
@@ -58,23 +58,23 @@ export function LobbyClient({ initialSimulation, initialUserCompanies, simId }: 
                             <div className="flex justify-between items-start">
                                 <CardTitle>{company.name}</CardTitle>
                                 <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive flex-shrink-0">
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This will permanently delete "{company.name}" and all of its associated data.
-                                    </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => handleDelete(company.id, company.name)}>Continue</AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
+                                    <AlertDialogTrigger asChild>
+                                        <Button variant="outline" size="icon">
+                                            <Trash2 className="h-5 w-5" />
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This will permanently delete "{company.name}" and all of its associated data.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction onClick={() => handleDelete(company.id, company.name)}>Continue</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
                                 </AlertDialog>
                             </div>
                             {/* This now uses the correct camelCase property */}

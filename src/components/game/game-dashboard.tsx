@@ -15,6 +15,7 @@ import { MoreHorizontal } from "lucide-react";
 import { AlertDialog, AlertDialogHeader, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogContent } from '../ui/alert-dialog';
 import { ManageHrDialog } from './manage-hr-dialog';
 import { DecisionCard } from './decision-card';
+import { AddProductDialog } from './add-product-dialog';
 
 export function GameDashboard() {
   const { state, userCompany, companyProducts, advancePeriod, loading, error, saveState, submitDecision, isStateDirty } = useSimulation();
@@ -140,7 +141,10 @@ export function GameDashboard() {
       </div>
 
       <div>
-        <h2 className="text-xl text-black font-bold mb-4">Your Products</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl text-black font-bold">Your Products</h2>
+          <AddProductDialog />
+        </div>
         {companyProducts.length > 0 ? (
           <div className="space-y-4">
             {companyProducts.map(p => (
