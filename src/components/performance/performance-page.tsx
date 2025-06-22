@@ -46,7 +46,7 @@ export function PerformancePage() {
                   <TableHead className="w-[100px]">Period</TableHead>
                   <TableHead className="text-right">Revenue</TableHead>
                   <TableHead className="text-right">Costs</TableHead>
-                  <TableHead className="text-right font-semibold">Profit</TableHead>
+                  <TableHead className="text-right font-semibold">Profit / Loss</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

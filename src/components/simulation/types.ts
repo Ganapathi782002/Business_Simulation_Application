@@ -122,6 +122,14 @@ export interface PerformanceResults {
   brandValueChange: number;
   data: string;
   createdAt: string;
+  salaryCost?: number;
+  marketingCost?: number;
+  rdCost?: number;
+  avgSalary?: number;
+  trainingBudget?: number;
+  totalEmployees?: number;
+  productivity?: number;
+  turnoverRate?: number;
 }
 
 export interface ProductPerformance {

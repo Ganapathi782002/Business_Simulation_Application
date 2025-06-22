@@ -501,8 +501,9 @@ export class D1DatabaseService implements DatabaseService {
         id, company_id, period, revenue, costs, profit, market_share, 
         cash_flow, roi, customer_satisfaction, employee_satisfaction, 
         sustainability_score, innovation_score, brand_value_change, 
-        data, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        data, created_at, salary_cost, marketing_cost, rd_cost,
+        avg_salary, training_budget, total_employees, productivity, turnover_rate
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         id,
@@ -520,7 +521,15 @@ export class D1DatabaseService implements DatabaseService {
         results.innovationScore,
         results.brandValueChange,
         results.data,
-        results.createdAt
+        results.createdAt,
+        results.salaryCost ?? 0,
+        results.marketingCost ?? 0,
+        results.rdCost ?? 0,
+        results.avgSalary ?? 0,
+        results.trainingBudget ?? 0,
+        results.totalEmployees ?? 0,
+        results.productivity ?? 0,
+        results.turnoverRate ?? 0
       )
       .run();
 

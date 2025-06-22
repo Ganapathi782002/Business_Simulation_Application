@@ -1,37 +1,33 @@
-import { Product, SimulationState } from "@/components/simulation/types";
-import { DatabaseService } from "./database";
+import { SimulationState, Product, Decision, PerformanceResults, ProductPerformance } from '@/components/simulation/types';
+import { DatabaseService } from './database';
 
-export async function loadSimulationState(
+// This function now inly loads data shared across the entire simulation
+export async function loadSharedSimulationState(
   simulationId: string,
   db: DatabaseService
-): Promise<SimulationState | null> {
+): Promise<Partial<SimulationState> | null> {
   const [
     simulation,
-    companies,
-    decisions,
+    allCompanies,
     marketConditions,
-    performanceResults,
-    productPerformance,
     events,
   ] = await Promise.all([
     db.getSimulation(simulationId),
     db.getCompaniesBySimulation(simulationId),
-    db.getDecisionsBySimulation(simulationId),
     db.getMarketConditionsBySimulation(simulationId),
-    db.getPerformanceResultsBySimulation(simulationId),
-    db.getProductPerformanceBySimulation(simulationId),
     db.getEvents(simulationId),
   ]);
 
   if (!simulation) {
     return null;
   }
+  
   const allProducts: Product[] = [];
-  for (const company of companies) {
+  for (const company of allCompanies) {
     const products = await db.getProductsByCompany(company.id);
     allProducts.push(...products);
   }
-  const state: SimulationState = {
+  const partialState: Partial<SimulationState> = {
     id: simulation.id,
     name: simulation.name,
     description: simulation.description,
@@ -41,181 +37,63 @@ export async function loadSimulationState(
     createdBy: simulation.created_by,
     createdAt: simulation.created_at,
     updatedAt: simulation.updated_at,
-    companies: companies.map((c: any) => ({
-      id: c.id,
-      simulationId: c.simulation_id,
-      userId: c.user_id,
-      name: c.name,
-      description: c.description,
-      logoUrl: c.logo_url,
-      cashBalance: c.cash_balance,
-      totalAssets: c.total_assets,
-      totalLiabilities: c.total_liabilities,
-      creditRating: c.credit_rating,
-      brandValue: c.brand_value,
-      data: c.data,
-      createdAt: c.created_at,
-      updatedAt: c.updated_at,
-    })),
-    products: allProducts.map((p: any) => ({
-      id: p.id,
-      companyId: p.company_id,
-      name: p.name,
-      description: p.description,
-      category: p.category,
-      qualityRating: p.quality_rating,
-      innovationRating: p.innovation_rating,
-      sustainabilityRating: p.sustainability_rating,
-      productionCost: p.production_cost,
-      sellingPrice: p.selling_price,
-      inventoryLevel: p.inventory_level,
-      productionCapacity: p.production_capacity,
-      developmentCost: p.development_cost,
-      marketingBudget: p.marketing_budget,
-      status: p.status,
-      launchPeriod: p.launch_period,
-      discontinuePeriod: p.discontinue_period,
-      data: p.data,
-      createdAt: p.created_at,
-      updatedAt: p.updated_at,
-    })),
-    decisions: decisions.map((d: any) => ({
-      id: d.id,
-      companyId: d.company_id,
-      period: d.period,
-      type: d.type,
-      data: d.data,
-      submittedAt: d.submitted_at,
-      processed: !!d.processed,
-      processedAt: d.processed_at,
-    })),
-    marketConditions: marketConditions.map((mc: any) => ({
-      id: mc.id,
-      simulationId: mc.simulation_id,
-      period: mc.period,
-      totalMarketSize: mc.total_market_size,
-      segmentDistribution: mc.segment_distribution,
-      economicIndicators: mc.economic_indicators,
-      consumerPreferences: mc.consumer_preferences,
-      technologyTrends: mc.technology_trends,
-      sustainabilityImportance: mc.sustainability_importance,
-      data: mc.data,
-      createdAt: mc.created_at,
-    })),
-    performanceResults: performanceResults,
-    productPerformance: productPerformance,
+    companies: allCompanies.map((c: any) => ({ id: c.id, simulationId: c.simulation_id, userId: c.user_id, name: c.name, description: c.description, logoUrl: c.logo_url, cashBalance: c.cash_balance, totalAssets: c.total_assets, totalLiabilities: c.total_liabilities, creditRating: c.credit_rating, brandValue: c.brand_value, data: c.data, createdAt: c.created_at, updatedAt: c.updated_at })),
+    products: allProducts.map((p: any) => ({ id: p.id, companyId: p.company_id, name: p.name, description: p.description, category: p.category, qualityRating: p.quality_rating, innovationRating: p.innovation_rating, sustainabilityRating: p.sustainability_rating, productionCost: p.production_cost, sellingPrice: p.selling_price, inventoryLevel: p.inventory_level, productionCapacity: p.production_capacity, developmentCost: p.development_cost, marketingBudget: p.marketing_budget, status: p.status, launchPeriod: p.launch_period, discontinuePeriod: p.discontinue_period, data: p.data, createdAt: p.created_at, updatedAt: p.updated_at })),
+    marketConditions: marketConditions.map((mc: any) => ({ id: mc.id, simulationId: mc.simulation_id, period: mc.period, totalMarketSize: mc.total_market_size, segmentDistribution: mc.segment_distribution, economicIndicators: mc.economic_indicators, consumerPreferences: mc.consumer_preferences, technologyTrends: mc.technology_trends, sustainabilityImportance: mc.sustainability_importance, data: mc.data, createdAt: mc.created_at })),
     events: events,
   };
-
-  return state;
+  
+  return partialState;
 }
 
-export async function saveSimulationState(
-  state: SimulationState,
-  db: DatabaseService
-): Promise<void> {
+
+export async function saveSimulationState(state: SimulationState, db: DatabaseService): Promise<void> {
   try {
-    console.log(
-      `--- [SAVE STATE] Saving state for sim ${state.id}. The game is now advancing to Period ${state.currentPeriod}. ---`
-    );
     const databasePromises = [];
     const justCompletedPeriod = state.currentPeriod - 1;
-    console.log(
-      `[SAVE STATE] Looking for new records from the just-completed period: ${justCompletedPeriod}`
-    );
+
     databasePromises.push(db.updateSimulation(state.id, state));
+
     for (const company of state.companies) {
       databasePromises.push(db.updateCompany(company.id, company));
     }
+
     for (const product of state.products) {
       databasePromises.push(db.updateProduct(product.id, product));
     }
-    const newPerformanceResults = state.performanceResults.filter(
-      (pr) => pr.period === justCompletedPeriod
-    );
-    console.log(
-      `[SAVE STATE] Found ${newPerformanceResults.length} new 'performance_results' records to save:`,
-      JSON.stringify(newPerformanceResults, null, 2)
-    );
-
+    
+    const newPerformanceResults = state.performanceResults.filter(pr => pr.period === justCompletedPeriod);
     for (const pr of newPerformanceResults) {
-      try {
-        console.log(
-          "[SAVE STATE] Attempting to save this performance record:",
-          pr
-        );
         databasePromises.push(db.createPerformanceResults(pr));
-      } catch (e) {
-        console.error(
-          "---!!! FAILED TO SAVE THIS SPECIFIC PERFORMANCE RECORD !!!---"
-        );
-        console.error("The problematic data object was:", pr);
-        console.error("The error was:", e);
-      }
     }
-    const newProductPerformance = state.productPerformance.filter(
-      (pp) => pp.period === justCompletedPeriod
-    );
-    console.log(
-      `[SAVE STATE] Found ${newProductPerformance.length} new 'product_performance' records to save.`
-    );
+
+    const newProductPerformance = state.productPerformance.filter(pp => pp.period === justCompletedPeriod);
     for (const pp of newProductPerformance) {
-      databasePromises.push(db.createProductPerformance(pp));
+        databasePromises.push(db.createProductPerformance(pp));
     }
-    const newEvents = state.events.filter(
-      (e) => e.period === justCompletedPeriod
-    );
-    console.log(`[SAVE STATE] Found ${newEvents.length} new events to save.`);
+    
+    const newEvents = state.events.filter(e => e.period === justCompletedPeriod);
     for (const event of newEvents) {
-      databasePromises.push(db.createEvent(event));
+        databasePromises.push(db.createEvent(event));
     }
-    const newMarketConditions = state.marketConditions.find(
-      (mc) => mc.period === state.currentPeriod
-    );
+
+    const newMarketConditions = state.marketConditions.find(mc => mc.period === state.currentPeriod);
     if (newMarketConditions) {
-      console.log(
-        `[SAVE STATE] Found 1 new market condition to save for upcoming period ${state.currentPeriod}.`
-      );
-      databasePromises.push(db.createMarketConditions(newMarketConditions));
+        databasePromises.push(db.createMarketConditions(newMarketConditions));
     }
-    const processedDecisions = state.decisions.filter(
-      (d) => d.period === justCompletedPeriod && d.processed
-    );
+
+    const processedDecisions = state.decisions.filter(d => d.period === justCompletedPeriod && d.processed);
     for (const decision of processedDecisions) {
-      // We only need to update the 'processed' and 'processedAt' fields
-      databasePromises.push(
-        db.updateDecision(decision.id, {
-          processed: decision.processed,
-          processedAt: decision.processedAt,
-        })
-      );
+        databasePromises.push(db.updateDecision(decision.id, { 
+            processed: decision.processed, 
+            processedAt: decision.processedAt 
+        }));
     }
+    
     await Promise.all(databasePromises);
 
-    console.log(
-      "--- [SAVE STATE] Game save API call finished successfully! ---"
-    );
   } catch (error) {
     console.error("Error saving simulation state:", error);
-    throw error;
-  }
-}
-
-export async function saveNewSimulation(
-  state: SimulationState,
-  db: DatabaseService
-): Promise<void> {
-  try {
-    await db.createSimulation(state);
-
-    for (const company of state.companies) {
-      await db.createCompany(company);
-    }
-    for (const marketCondition of state.marketConditions) {
-      await db.createMarketConditions(marketCondition);
-    }
-  } catch (error) {
-    console.error("Error saving new simulation state to database:", error);
     throw error;
   }
 }

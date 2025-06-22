@@ -718,8 +718,7 @@ export class SimulationEngine {
     const allActiveProducts = this.state.products.filter(
       (p) => p.status === ProductStatus.ACTIVE
     );
-    console.log("Starting HR Logic");
-    this.state.companies.forEach((company) => {
+    this.state.companies.forEach(company => {
       const companyData = JSON.parse(company.data || "{}");
       let hr = companyData.humanResources;
       if (!hr) {
@@ -739,7 +738,6 @@ export class SimulationEngine {
           ((hr.trainingBudget || 0) / hr.totalEmployees / 1000) * 10;
       }
       hr.employeeSatisfaction = Math.max(0, Math.min(100, satisfactionScore));
-      console.log("Final satisfaction score: ", hr.employeeSatisfaction);
       hr.productivity = 0.8 + (hr.employeeSatisfaction / 100) * 0.4;
       const turnoverRate =
         hr.totalEmployees > 0
@@ -751,16 +749,18 @@ export class SimulationEngine {
       hr.trainingBudget = 0;
       companyData.humanResources = hr;
       company.data = JSON.stringify(companyData);
-      console.log("Ending HR Logic");
 
-      const companyProducts = allActiveProducts.filter(
-        (p) => p.companyId === company.id
-      );
+      
 
       let totalRevenue = 0,
         totalCosts = 0,
         totalMarketShare = 0,
-        cumulativeCustomerSatisfaction = 0;
+        cumulativeCustomerSatisfaction = 0,
+        totalMarketingCost = 0, totalProductionCost = 0;
+
+      const companyProducts = allActiveProducts.filter(
+        p => p.companyId === company.id
+      );
 
       if (companyProducts.length > 0) {
         companyProducts.forEach((product) => {
@@ -771,6 +771,8 @@ export class SimulationEngine {
           );
           totalRevenue += perf.revenue;
           totalCosts += perf.costs;
+          totalMarketingCost += product.marketingBudget;
+          totalProductionCost += (perf.salesVolume * product.productionCost);
           totalMarketShare += perf.marketShare;
           cumulativeCustomerSatisfaction += perf.customerSatisfaction;
           this.state.productPerformance.push({
@@ -794,7 +796,9 @@ export class SimulationEngine {
 
       // Add salary costs to total costs
       const monthlySalaryCost = (hr.totalEmployees * hr.averageSalary) / 12;
-      totalCosts += monthlySalaryCost;
+      const decisionsForPeriod = this.state.decisions.filter(d => d.period === currentPeriod && d.companyId === company.id);
+      const rdCost = decisionsForPeriod.filter(d => d.type === 'research').reduce((sum, d) => sum + JSON.parse(d.data).amount, 0);
+      totalCosts += monthlySalaryCost + rdCost
 
       const profit = totalRevenue - totalCosts;
       const brandValueChange =
@@ -826,6 +830,14 @@ export class SimulationEngine {
             ? cumulativeCustomerSatisfaction / companyProducts.length
             : 0,
         employeeSatisfaction: hr.employeeSatisfaction,
+        salaryCost: monthlySalaryCost,
+        marketingCost: totalMarketingCost,
+        rdCost: rdCost,
+        avgSalary: hr.averageSalary,
+        trainingBudget: hr.trainingBudget,
+        totalEmployees: hr.totalEmployees,
+        productivity: hr.productivity,
+        turnoverRate: hr.turnoverRate,
         sustainabilityScore:
           companyProducts.length > 0
             ? companyProducts.reduce(
