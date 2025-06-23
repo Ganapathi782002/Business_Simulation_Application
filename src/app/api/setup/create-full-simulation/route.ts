@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { getDB } from '@/lib/get-db';
-import { SimulationStatus, ProductStatus } from '@/components/simulation/types';
+import { ProductStatus } from '@/components/simulation/types';
 import { SimulationFactory } from '@/components/simulation/simulation-factory';
 
 interface WizardData {

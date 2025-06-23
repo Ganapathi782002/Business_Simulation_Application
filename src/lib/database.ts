@@ -23,6 +23,7 @@ export interface DatabaseService {
   getProductsByCompany(companyId: string): Promise<any[]>;
   createProduct(product: any): Promise<string>;
   updateProduct(id: string, product: any): Promise<void>;
+  deleteProduct(id: string): Promise<void>;
 
   // Decision operations
   getDecision(id: string): Promise<any>;
@@ -357,6 +358,10 @@ export class D1DatabaseService implements DatabaseService {
         id
       )
       .run();
+  }
+
+  async deleteProduct(id: string): Promise<void> {
+    await this.db.prepare("DELETE FROM products WHERE id = ?").bind(id).run();
   }
 
   // Decision operations
@@ -867,6 +872,10 @@ export class MockDatabaseService implements DatabaseService {
     if (!existing) return;
 
     this.products.set(id, { ...existing, ...product });
+  }
+
+  async deleteProduct(id: string): Promise<void> {
+    this.products.delete(id);
   }
 
   // Decision operations

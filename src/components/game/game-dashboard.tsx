@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Lightbulb, Zap } from "lucide-react";
 import { ManageRndDialog } from './manage-rnd-dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { AlertDialog, AlertDialogHeader, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogContent } from '../ui/alert-dialog';
 import { ManageHrDialog } from './manage-hr-dialog';
@@ -21,6 +21,7 @@ export function GameDashboard() {
   const { state, userCompany, companyProducts, advancePeriod, loading, error, saveState, submitDecision, isStateDirty } = useSimulation();
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [productToDiscontinue, setProductToDiscontinue] = useState<Product | null>(null);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   const handleStatusChange = (productId: string, newStatus: ProductStatus) => {
     const product = companyProducts.find(p => p.id === productId);
@@ -67,7 +68,7 @@ export function GameDashboard() {
 
   return (
     <div className="p-6 space-y-6">
-      <Alert variant="warning"> {/* Use the new "warning" variant */}
+      <Alert variant="warning">
         <Lightbulb className="h-4 w-4" />
         <AlertTitle className="font-semibold">How to Play a Turn</AlertTitle>
         <AlertDescription>
@@ -135,7 +136,7 @@ export function GameDashboard() {
           </div>
         ) : (
           <p className="text-sm text-muted-foreground p-4 border-2 border-dashed rounded-lg text-center">
-            No new decisions submitted for this period yet.
+            No new pending decisions for this period yet.
           </p>
         )}
       </div>
@@ -168,8 +169,12 @@ export function GameDashboard() {
                           <DropdownMenuItem onClick={() => handleStatusChange(p.id, ProductStatus.DEVELOPMENT)}>
                             Back to Development
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-500 hover:text-red-500 focus:text-red-500" onClick={() => handleDiscontinueClick(p)}>
+                          <DropdownMenuItem className="text-orange-500 hover:text-orange-900 focus:text-orange-500" onClick={() => handleDiscontinueClick(p)}>
                             Discontinue Product
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-red-500 hover:text-red-900 focus:text-red-500">
+                            Delete Product
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -186,6 +191,8 @@ export function GameDashboard() {
                     <p>Price: <span className="font-medium text-foreground">${p.sellingPrice.toLocaleString()}</span></p>
                     <p>Category: <span className="font-medium text-foreground">{capitalize(p.category)}</span></p>
                     <p>Current Inventory: <span className="font-medium text-foreground">{p.inventoryLevel.toLocaleString()} units</span></p>
+                    <p>Created at: <span className="font-medium text-foreground">{new Date(p.createdAt).toLocaleDateString()}</span></p>
+                    <p>Updated at: <span className="font-medium text-foreground">{new Date(p.updatedAt).toLocaleDateString()}</span></p>
                   </div>
                 </CardContent>
               </Card>
@@ -214,6 +221,34 @@ export function GameDashboard() {
               }}
             >
               Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={!!productToDelete} onOpenChange={(isOpen) => !isOpen && setProductToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete the product "{productToDelete?.name}" and all of its history. This action is irreversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (!productToDelete) return;
+                try {
+                  const response = await fetch(`/api/simulations/<span class="math-inline">\{state\.id\}/companies/</span>{userCompany.id}/products/${productToDelete.id}`, { method: 'DELETE' });
+                  if (!response.ok) throw new Error("Failed to delete product.");
+                  toast.success("Product deleted.");
+                  window.location.reload();
+                } catch (error) {
+                  toast.error("Error deleting product.");
+                }
+              }}
+            >
+              Yes, Delete Product
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

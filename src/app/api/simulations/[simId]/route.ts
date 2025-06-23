@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { getDB } from "@/lib/get-db";
-import { loadSimulationState } from "@/lib/simulation-persistence";
+import { loadSharedSimulationState } from "@/lib/simulation-persistence";
 import { auth } from "@/lib/auth";
 
 export async function DELETE(
@@ -51,13 +51,17 @@ export async function GET(
     const userId = decoded.id;
 
     const db = await getDB();
-    const initialState = await loadSimulationState(params.simId, db);
+    const initialState = await loadSharedSimulationState(params.simId, db);
 
     if (!initialState) {
       return NextResponse.json(
         { error: "Simulation not found" },
         { status: 404 }
       );
+    }
+
+    if (!initialState.companies) {
+        return NextResponse.json({ initialState, userHasCompany: false });
     }
 
     const userHasCompany = initialState.companies.some(

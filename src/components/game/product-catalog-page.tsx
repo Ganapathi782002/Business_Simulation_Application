@@ -72,19 +72,6 @@ export function ProductCatalogPage({ companyId, simulationId }: { companyId: str
                     <div><p className="text-xs text-muted-foreground">Inventory</p><p className="font-bold flex items-center justify-center"><Package className="h-4 w-4 mr-1"/>{product.inventoryLevel.toLocaleString()}</p></div>
                     <div><p className="text-xs text-muted-foreground">Last Period Profit</p><p className="font-bold flex items-center justify-center"><TrendingUp className="h-4 w-4 mr-1"/>{formatNum(latestPerf?.profit || 0)}</p></div>
                 </div>
-                <div className="h-[200px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={product.performanceHistory} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="period" tickFormatter={(p) => `P${p}`} fontSize={10} />
-                      <YAxis tickFormatter={(v) => formatNum(v)} fontSize={10} />
-                      <Tooltip contentStyle={{ fontSize: '12px', padding: '2px 8px' }} formatter={(value:number) => value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}/>
-                      <Legend verticalAlign='top' height={30} />
-                      <Line type="monotone" dataKey="profit" name="Profit" stroke="#82ca9d" strokeWidth={2} dot={{r: 3}} />
-                      <Line type="monotone" dataKey="revenue" name="Revenue" stroke="#8884d8" strokeWidth={2} dot={{r: 3}} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
               </CardContent>
             </Card>
           )

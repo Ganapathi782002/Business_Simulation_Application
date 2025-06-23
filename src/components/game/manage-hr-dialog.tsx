@@ -40,7 +40,9 @@ export function ManageHrDialog() {
   }, [isOpen, userCompany?.data]);
 
   useEffect(() => {
-    const newHiringCost = (hireCount || 0) * (initialSalary * 0.2);
+    const newHires = Number(hireCount) || 0;
+    const newAvgSalary = Number(averageSalary) || 0;
+    const newHiringCost = (hireCount || 0) * (newAvgSalary * 0.2);
     setHiringCost(newHiringCost);
     const currentTotalSalary = (initialEmployees * initialSalary);
     const newTotalSalary = ((initialEmployees + (hireCount || 0)) * (averageSalary || 0));

@@ -33,6 +33,7 @@ export interface Simulation {
   id: string;
   name: string;
   description: string;
+  config: string;
   currentPeriod: number;
   status: SimulationStatus;
   createdBy: string;
