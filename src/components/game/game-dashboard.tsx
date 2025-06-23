@@ -41,6 +41,10 @@ export function GameDashboard() {
     setAlertOpen(true);
   }
 
+  const handleDeleteClick = (product: Product) => {
+    setProductToDelete(product);
+  };
+
   if (loading || !state || !userCompany) {
     return (<div>Loading Simulation...</div>);
   }
@@ -173,7 +177,7 @@ export function GameDashboard() {
                             Discontinue Product
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-500 hover:text-red-900 focus:text-red-500">
+                          <DropdownMenuItem className="text-red-500 hover:text-red-900 focus:text-red-500" onClick={() => handleDeleteClick(p)}>
                             Delete Product
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -191,8 +195,6 @@ export function GameDashboard() {
                     <p>Price: <span className="font-medium text-foreground">${p.sellingPrice.toLocaleString()}</span></p>
                     <p>Category: <span className="font-medium text-foreground">{capitalize(p.category)}</span></p>
                     <p>Current Inventory: <span className="font-medium text-foreground">{p.inventoryLevel.toLocaleString()} units</span></p>
-                    <p>Created at: <span className="font-medium text-foreground">{new Date(p.createdAt).toLocaleDateString()}</span></p>
-                    <p>Updated at: <span className="font-medium text-foreground">{new Date(p.updatedAt).toLocaleDateString()}</span></p>
                   </div>
                 </CardContent>
               </Card>
@@ -239,7 +241,7 @@ export function GameDashboard() {
               onClick={async () => {
                 if (!productToDelete) return;
                 try {
-                  const response = await fetch(`/api/simulations/<span class="math-inline">\{state\.id\}/companies/</span>{userCompany.id}/products/${productToDelete.id}`, { method: 'DELETE' });
+                  const response = await fetch(`/api/simulations/${state.id}/companies/${userCompany.id}/products/${productToDelete.id}`, { method: 'DELETE' });
                   if (!response.ok) throw new Error("Failed to delete product.");
                   toast.success("Product deleted.");
                   window.location.reload();
