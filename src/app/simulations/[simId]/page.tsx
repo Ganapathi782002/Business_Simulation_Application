@@ -16,13 +16,13 @@ interface LobbyData {
     userCompanies: Company[];
 }
 
-function LobbyLoadingSkeleton({ count = 3 }: { count?: number }) {
+function LobbyLoadingSkeleton({ count = 1 }: { count?: number }) {
   return (
     <AppLayout>
       <div className="p-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-              {Array.from({ length: count > 0 ? count : 3 }).map((_, index) => (
+              {Array.from({ length: count > 0 ? count : 2 }).map((_, index) => (
                   <Card key={index}>
                       <CardHeader>
                         <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div>

@@ -29,13 +29,14 @@ interface ProductCreationFormProps {
 export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCreationFormProps) {
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('mid-range');
+  const [category, setCategory] = useState('mid_range');
   const [qualityRating, setQualityRating] = useState(5);
   const [innovationRating, setInnovationRating] = useState(5);
   const [sustainabilityRating, setSustainabilityRating] = useState(5);
   const [sellingPrice, setSellingPrice] = useState(150);
   const [productionCost, setProductionCost] = useState(0);
   const [rndCost, setRndCost] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const baseCost = category === 'premium' ? 50 : category === 'mid_range' ? 30 : 15;
@@ -47,6 +48,14 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
   }, [qualityRating, innovationRating, sustainabilityRating, category]);
 
   const handleFinishClick = () => {
+    if(!productName){
+      setError('Please enter a name for your product.');
+      return;
+    }
+    if(!description){
+      setError('Please enter description for your product.');
+      return;
+    }
     onFinish({
       productName,
       description,
@@ -125,6 +134,7 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
         )}
         <Button onClick={handleFinishClick} disabled={loading}>{loading ? 'Creating Simulation...' : 'Finish & Create'}</Button>
       </div>
+      {error && <p className="text-sm font-semibold text-red-500 mt-2">{error}</p>}
     </div>
   );
 }
