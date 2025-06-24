@@ -1,9 +1,7 @@
 "use client";
 
 import React from 'react';
-import { AuthProvider } from '../lib/auth-context';
 import { AuthPage } from '../components/auth/auth-page';
-import { SimulationProvider } from '../components/simulation/simulation-context';
 import { AppLayout } from '../components/layout/app-layout';
 import { Dashboard } from '../components/dashboard/dashboard';
 import { useAuth } from '../lib/auth-context';

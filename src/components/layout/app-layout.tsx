@@ -26,7 +26,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               <path d="M2 17l10 5 10-5"></path>
               <path d="M2 12l10 5 10-5"></path>
             </svg>
-            <span className="text-xl font-bold">BusinessSim</span>
+            <span className="text-xl text-gray-900 font-bold">BusinessSim</span>
           </SidebarLogo>
 
           <SidebarNav>
@@ -90,12 +90,12 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   {user?.name?.split(' ').map(n => n[0]).join('') || 'NN'}
                 </div>
                 <div>
-                  <div className="font-medium text-white">{user?.name}</div>
-                  <div className="text-xs text-gray-400">{user?.email}</div>
+                  <div className="font-medium text-gray-900">{user?.name}</div>
+                  <div className="text-xs font-bold text-gray-400">{user?.email}</div>
                 </div>
               </div>
-              <Button onClick={logout} variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+              <Button onClick={logout} variant="ghost" size="icon" className="text-gray-900 ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
               </Button>
             </div>
           </SidebarFooter>

@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter } from "next/font/google";
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/lib/auth-context';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <body className={`${inter.variable} ${inter.variable} antialiased`}><AuthProvider>{children}</AuthProvider><Toaster position="top-center"/></body>
     </html>
   )
