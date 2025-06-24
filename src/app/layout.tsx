@@ -21,8 +21,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="light">
-      <body className={`${inter.variable} ${inter.variable} antialiased`}><AuthProvider>{children}</AuthProvider><Toaster position="top-center"/></body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+          <Toaster position="top-center" />
+        </ThemeProvider>
+      </body>
     </html>
-  )
+  );
 }

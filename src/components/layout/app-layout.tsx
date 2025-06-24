@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState} from 'react';
 import { usePathname } from 'next/navigation';
 import { Sidebar, SidebarLogo, SidebarNav, SidebarNavGroup, SidebarNavItem, SidebarFooter } from '../ui/sidebar';
 import { Header } from '../ui/header';
@@ -8,13 +8,21 @@ import { Layout } from '../ui/layout';
 import { Button } from '../ui/button';
 import { useAuth } from '@/lib/auth-context';
 import { BarChart3, Users, Building2, Library, HandCoins, FlaskConical, Factory, Megaphone, Boxes } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const pathParts = pathname.split('/');
   const simId = pathParts.length > 2 && pathParts[1] === 'simulations' ? pathParts[2] : null;
   const companyId = pathParts[3] === 'company' ? pathParts[4] : null;
+  const { setTheme } = useTheme();
+
+  const handleLogout = () => {
+    setTheme('system');
+    logout();
+  };
 
   return (
     <Layout
@@ -94,7 +102,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   <div className="text-xs font-bold text-gray-400">{user?.email}</div>
                 </div>
               </div>
-              <Button onClick={logout} variant="ghost" size="icon" className="text-gray-900 ">
+              <Button onClick={handleLogout} variant="ghost" size="icon" className="text-gray-900 ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
               </Button>
             </div>
