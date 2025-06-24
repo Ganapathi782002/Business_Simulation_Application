@@ -31,7 +31,7 @@ globalThis.Request = CustomRequest;
 Request = globalThis.Request;
 // Makes the edge converter returns either a Response or a Request.
 globalThis.__dangerous_ON_edge_converter_returns_request = true;
-globalThis.__BUILD_TIMESTAMP_MS__ = 1750061566537;
+globalThis.__BUILD_TIMESTAMP_MS__ = 1750745053353;
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -24766,13 +24766,13 @@ var require_load_manifest = __commonJS({
         var sharedCache = /* @__PURE__ */ new Map();
         function loadManifest(path2, shouldCache = true, cache = sharedCache) {
             if (path2.endsWith(".next/routes-manifest.json")) {
-                return { "version": 3, "pages404": true, "caseSensitive": false, "basePath": "", "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }], "headers": [], "dynamicRoutes": [{ "page": "/api/simulations/[simId]", "regex": "^/api/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]", "regex": "^/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }], "staticRoutes": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/favicon.ico", "regex": "^/favicon\\.ico(?:/)?$", "routeKeys": {}, "namedRegex": "^/favicon\\.ico(?:/)?$" }, { "page": "/market", "regex": "^/market(?:/)?$", "routeKeys": {}, "namedRegex": "^/market(?:/)?$" }, { "page": "/products", "regex": "^/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/products(?:/)?$" }], "dataRoutes": [], "rsc": { "header": "RSC", "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch", "prefetchHeader": "Next-Router-Prefetch", "didPostponeHeader": "x-nextjs-postponed", "contentTypeHeader": "text/x-component", "suffix": ".rsc", "prefetchSuffix": ".prefetch.rsc" }, "rewrites": [] };
+                return { "version": 3, "pages404": true, "caseSensitive": false, "basePath": "", "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }], "headers": [], "dynamicRoutes": [{ "page": "/api/simulations/[simId]", "regex": "^/api/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/add-company", "regex": "^/api/simulations/([^/]+?)/add\\-company(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/add\\-company(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]/products", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)/products(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)/products(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]/products/[productId]", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)/products/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId", "nxtPproductId": "nxtPproductId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)/products/(?<nxtPproductId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/decisions", "regex": "^/api/simulations/([^/]+?)/decisions(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/decisions(?:/)?$" }, { "page": "/api/simulations/[simId]/lobby", "regex": "^/api/simulations/([^/]+?)/lobby(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/lobby(?:/)?$" }, { "page": "/api/simulations/[simId]/performance", "regex": "^/api/simulations/([^/]+?)/performance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/performance(?:/)?$" }, { "page": "/api/simulations/[simId]/state", "regex": "^/api/simulations/([^/]+?)/state(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/state(?:/)?$" }, { "page": "/simulations/[simId]", "regex": "^/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]", "regex": "^/simulations/([^/]+?)/company/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/competitors", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/competitors(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/competitors(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/finance", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/finance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/finance(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/hr", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/hr(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/hr(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/marketing", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/marketing(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/marketing(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/performance", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/performance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/performance(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/products", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/products(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/products(?:/)?$" }], "staticRoutes": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/favicon.ico", "regex": "^/favicon\\.ico(?:/)?$", "routeKeys": {}, "namedRegex": "^/favicon\\.ico(?:/)?$" }, { "page": "/market", "regex": "^/market(?:/)?$", "routeKeys": {}, "namedRegex": "^/market(?:/)?$" }, { "page": "/products", "regex": "^/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/products(?:/)?$" }], "dataRoutes": [], "rsc": { "header": "RSC", "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch", "prefetchHeader": "Next-Router-Prefetch", "didPostponeHeader": "x-nextjs-postponed", "contentTypeHeader": "text/x-component", "suffix": ".rsc", "prefetchSuffix": ".prefetch.rsc" }, "rewrites": [] };
             }
             if (path2.endsWith(".next/react-loadable-manifest.json")) {
                 return {};
             }
             if (path2.endsWith(".next/prerender-manifest.json")) {
-                return { "version": 4, "routes": { "/favicon.ico": { "initialHeaders": { "cache-control": "public, max-age=0, must-revalidate", "content-type": "image/x-icon", "x-next-cache-tags": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico" }, "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/favicon.ico", "dataRoute": null }, "/market": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/market", "dataRoute": "/market.rsc" }, "/products": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/products", "dataRoute": "/products.rsc" }, "/": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/", "dataRoute": "/index.rsc" } }, "dynamicRoutes": {}, "notFoundRoutes": [], "preview": { "previewModeId": "369941c9d2eb57b4f741b471e4215cbc", "previewModeSigningKey": "743ac8918993278a491dc004f4853d5ff1e8265249563ef63fab9db95e531422", "previewModeEncryptionKey": "243bcd1b6efc80c0635eb73f97b068d6a918affb7c642212fa8118a086bf54e2" } };
+                return { "version": 4, "routes": { "/favicon.ico": { "initialHeaders": { "cache-control": "public, max-age=0, must-revalidate", "content-type": "image/x-icon", "x-next-cache-tags": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico" }, "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/favicon.ico", "dataRoute": null }, "/market": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/market", "dataRoute": "/market.rsc" }, "/products": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/products", "dataRoute": "/products.rsc" }, "/": { "experimentalBypassFor": [{ "type": "header", "key": "Next-Action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/", "dataRoute": "/index.rsc" } }, "dynamicRoutes": {}, "notFoundRoutes": [], "preview": { "previewModeId": "910c05acdd5e6d03f1ea2d7683ff7748", "previewModeSigningKey": "486cf8da6ccbf213a5edd909958165e252fe4bbe3f2aa8c3de612bba8623b883", "previewModeEncryptionKey": "50d017a9065f05494f28dbad69ba16a779dd9aeecb6102c0980e54d7d3ca7229" } };
             }
             if (path2.endsWith(".next/build-manifest.json")) {
                 return {
@@ -24782,13 +24782,13 @@ var require_load_manifest = __commonJS({
                     "devFiles": [],
                     "ampDevFiles": [],
                     "lowPriorityFiles": [
-                        "static/8e_BjQyocFkNdWt_ljh2v/_buildManifest.js",
-                        "static/8e_BjQyocFkNdWt_ljh2v/_ssgManifest.js"
+                        "static/Z5sXQ--yQaZxy66xNasvU/_buildManifest.js",
+                        "static/Z5sXQ--yQaZxy66xNasvU/_ssgManifest.js"
                     ],
                     "rootMainFiles": [
                         "static/chunks/webpack-47c5900d36ea2928.js",
                         "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                        "static/chunks/656-ab3f93907f3d3296.js",
+                        "static/chunks/656-c834d8e3779fd2a5.js",
                         "static/chunks/main-app-354525d40aa9e99e.js"
                     ],
                     "pages": {
@@ -24809,7 +24809,7 @@ var require_load_manifest = __commonJS({
                 };
             }
             if (path2.endsWith(".next/app-path-routes-manifest.json")) {
-                return { "/_not-found/page": "/_not-found", "/api/auth/login/route": "/api/auth/login", "/api/auth/logout/route": "/api/auth/logout", "/api/auth/register/route": "/api/auth/register", "/api/setup/create-full-simulation/route": "/api/setup/create-full-simulation", "/api/simulations/[simId]/route": "/api/simulations/[simId]", "/api/simulations/route": "/api/simulations", "/api/users/me/route": "/api/users/me", "/favicon.ico/route": "/favicon.ico", "/market/page": "/market", "/page": "/", "/products/page": "/products", "/simulations/[simId]/page": "/simulations/[simId]" };
+                return { "/_not-found/page": "/_not-found", "/api/auth/login/route": "/api/auth/login", "/api/auth/logout/route": "/api/auth/logout", "/api/setup/create-full-simulation/route": "/api/setup/create-full-simulation", "/api/auth/register/route": "/api/auth/register", "/api/simulations/[simId]/add-company/route": "/api/simulations/[simId]/add-company", "/api/simulations/[simId]/companies/[companyId]/products/[productId]/route": "/api/simulations/[simId]/companies/[companyId]/products/[productId]", "/api/simulations/[simId]/companies/[companyId]/products/route": "/api/simulations/[simId]/companies/[companyId]/products", "/api/simulations/[simId]/companies/[companyId]/route": "/api/simulations/[simId]/companies/[companyId]", "/api/simulations/[simId]/decisions/route": "/api/simulations/[simId]/decisions", "/api/simulations/[simId]/lobby/route": "/api/simulations/[simId]/lobby", "/api/simulations/[simId]/performance/route": "/api/simulations/[simId]/performance", "/api/simulations/[simId]/route": "/api/simulations/[simId]", "/api/simulations/[simId]/state/route": "/api/simulations/[simId]/state", "/api/simulations/route": "/api/simulations", "/api/users/me/route": "/api/users/me", "/favicon.ico/route": "/favicon.ico", "/market/page": "/market", "/page": "/", "/products/page": "/products", "/simulations/[simId]/company/[companyId]/competitors/page": "/simulations/[simId]/company/[companyId]/competitors", "/simulations/[simId]/company/[companyId]/finance/page": "/simulations/[simId]/company/[companyId]/finance", "/simulations/[simId]/company/[companyId]/hr/page": "/simulations/[simId]/company/[companyId]/hr", "/simulations/[simId]/company/[companyId]/marketing/page": "/simulations/[simId]/company/[companyId]/marketing", "/simulations/[simId]/company/[companyId]/page": "/simulations/[simId]/company/[companyId]", "/simulations/[simId]/company/[companyId]/performance/page": "/simulations/[simId]/company/[companyId]/performance", "/simulations/[simId]/company/[companyId]/products/page": "/simulations/[simId]/company/[companyId]/products", "/simulations/[simId]/page": "/simulations/[simId]" };
             }
             if (path2.endsWith(".next/app-build-manifest.json")) {
                 return {
@@ -24817,57 +24817,150 @@ var require_load_manifest = __commonJS({
                         "/_not-found/page": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
                             "static/chunks/app/_not-found/page-30aec55603b006b1.js"
                         ],
                         "/layout": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
-                            "static/css/7340c2a706fa78db.css",
-                            "static/chunks/app/layout-0d105562244e5d2e.js"
+                            "static/css/d3fe27c0087b986f.css",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/app/layout-3461345c4410a1cb.js"
                         ],
                         "/market/page": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
-                            "static/chunks/849-174826f5d00e1787.js",
-                            "static/chunks/app/market/page-d6da56739353cdc5.js"
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/market/page-13543f8b6acb066b.js"
                         ],
                         "/page": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
-                            "static/chunks/653-4be6b012cf0fd0f4.js",
-                            "static/chunks/269-3eaadffe99a7fbdc.js",
-                            "static/chunks/app/page-76e4acea288c35d1.js"
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/26-12f8c6c7cb8b7a3d.js",
+                            "static/chunks/411-39fb48008240244a.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/627-1d09d129ebcf264e.js",
+                            "static/chunks/app/page-db6cbcbb459c8655.js"
                         ],
                         "/products/page": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
-                            "static/chunks/849-174826f5d00e1787.js",
-                            "static/chunks/app/products/page-6bd1e0259f10dbcd.js"
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/products/page-4edde20b7c74130a.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/competitors/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/competitors/page-3cc1589523d6c721.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/finance/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/finance/page-f2960792ae8a3f60.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/hr/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/hr/page-feeb1b7249f5a113.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/marketing/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/marketing/page-7a73d97545c18b83.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/26-12f8c6c7cb8b7a3d.js",
+                            "static/chunks/536-6dca607c5bd24df6.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/627-1d09d129ebcf264e.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/page-2b33e5f4161e5ad0.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/performance/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/performance/page-f97d9ac90b848011.js"
+                        ],
+                        "/simulations/[simId]/company/[companyId]/products/page": [
+                            "static/chunks/webpack-47c5900d36ea2928.js",
+                            "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
+                            "static/chunks/main-app-354525d40aa9e99e.js",
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/26-12f8c6c7cb8b7a3d.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/660-0c1077b2b01d2c43.js",
+                            "static/chunks/627-1d09d129ebcf264e.js",
+                            "static/chunks/app/simulations/[simId]/company/[companyId]/products/page-bd97c8c774feec42.js"
                         ],
                         "/simulations/[simId]/page": [
                             "static/chunks/webpack-47c5900d36ea2928.js",
                             "static/chunks/eae8abb3-5ef0f3dc1795fa43.js",
-                            "static/chunks/656-ab3f93907f3d3296.js",
+                            "static/chunks/656-c834d8e3779fd2a5.js",
                             "static/chunks/main-app-354525d40aa9e99e.js",
-                            "static/chunks/653-4be6b012cf0fd0f4.js",
-                            "static/chunks/849-174826f5d00e1787.js",
-                            "static/chunks/app/simulations/[simId]/page-709ee7f76e59c73a.js"
+                            "static/chunks/65-638d68bedeab4e85.js",
+                            "static/chunks/188-0458fac812902410.js",
+                            "static/chunks/479-5e9d331fd45e95d7.js",
+                            "static/chunks/26-12f8c6c7cb8b7a3d.js",
+                            "static/chunks/411-39fb48008240244a.js",
+                            "static/chunks/574-1d00f9a0a7eb1290.js",
+                            "static/chunks/627-1d09d129ebcf264e.js",
+                            "static/chunks/app/simulations/[simId]/page-d019c053c9c90aee.js"
                         ]
                     }
                 };
             }
             if (path2.endsWith(".next/server/server-reference-manifest.json")) {
-                return { "node": {}, "edge": {}, "encryptionKey": "prLpf0qbWGImq8mkHBJLmdVpXK7MrWN1rigBBPQ5thQ=" };
+                return { "node": {}, "edge": {}, "encryptionKey": "+dadaPawFhRSRKVu77xoZft2T+18V/RAjVpZohNKFx4=" };
             }
             if (path2.endsWith(".next/server/pages-manifest.json")) {
                 return { "/_app": "pages/_app.js", "/_error": "pages/_error.js", "/_document": "pages/_document.js", "/404": "pages/404.html" };
@@ -24891,15 +24984,30 @@ var require_load_manifest = __commonJS({
                     "/_not-found/page": "app/_not-found/page.js",
                     "/api/auth/login/route": "app/api/auth/login/route.js",
                     "/api/auth/logout/route": "app/api/auth/logout/route.js",
-                    "/api/auth/register/route": "app/api/auth/register/route.js",
                     "/api/setup/create-full-simulation/route": "app/api/setup/create-full-simulation/route.js",
+                    "/api/auth/register/route": "app/api/auth/register/route.js",
+                    "/api/simulations/[simId]/add-company/route": "app/api/simulations/[simId]/add-company/route.js",
+                    "/api/simulations/[simId]/companies/[companyId]/products/[productId]/route": "app/api/simulations/[simId]/companies/[companyId]/products/[productId]/route.js",
+                    "/api/simulations/[simId]/companies/[companyId]/products/route": "app/api/simulations/[simId]/companies/[companyId]/products/route.js",
+                    "/api/simulations/[simId]/companies/[companyId]/route": "app/api/simulations/[simId]/companies/[companyId]/route.js",
+                    "/api/simulations/[simId]/decisions/route": "app/api/simulations/[simId]/decisions/route.js",
+                    "/api/simulations/[simId]/lobby/route": "app/api/simulations/[simId]/lobby/route.js",
+                    "/api/simulations/[simId]/performance/route": "app/api/simulations/[simId]/performance/route.js",
                     "/api/simulations/[simId]/route": "app/api/simulations/[simId]/route.js",
+                    "/api/simulations/[simId]/state/route": "app/api/simulations/[simId]/state/route.js",
                     "/api/simulations/route": "app/api/simulations/route.js",
                     "/api/users/me/route": "app/api/users/me/route.js",
                     "/favicon.ico/route": "app/favicon.ico/route.js",
                     "/market/page": "app/market/page.js",
                     "/page": "app/page.js",
                     "/products/page": "app/products/page.js",
+                    "/simulations/[simId]/company/[companyId]/competitors/page": "app/simulations/[simId]/company/[companyId]/competitors/page.js",
+                    "/simulations/[simId]/company/[companyId]/finance/page": "app/simulations/[simId]/company/[companyId]/finance/page.js",
+                    "/simulations/[simId]/company/[companyId]/hr/page": "app/simulations/[simId]/company/[companyId]/hr/page.js",
+                    "/simulations/[simId]/company/[companyId]/marketing/page": "app/simulations/[simId]/company/[companyId]/marketing/page.js",
+                    "/simulations/[simId]/company/[companyId]/page": "app/simulations/[simId]/company/[companyId]/page.js",
+                    "/simulations/[simId]/company/[companyId]/performance/page": "app/simulations/[simId]/company/[companyId]/performance/page.js",
+                    "/simulations/[simId]/company/[companyId]/products/page": "app/simulations/[simId]/company/[companyId]/products/page.js",
                     "/simulations/[simId]/page": "app/simulations/[simId]/page.js"
                 };
             }
@@ -24931,6 +25039,62 @@ var require_load_manifest = __commonJS({
                 return {
                     __RSC_MANIFEST: {
                         "/simulations/[simId]/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/products/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/products/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/products/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/products/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/performance/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/performance/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/performance/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/performance/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/marketing/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/marketing/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/marketing/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/marketing/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/hr/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/hr/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/hr/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/hr/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/finance/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/finance/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/finance/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/finance/page"],
+                    },
+                };
+            }
+            if (path2.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/competitors/page_client-reference-manifest.js")) {
+                require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/competitors/page_client-reference-manifest.js");
+                return {
+                    __RSC_MANIFEST: {
+                        "/simulations/[simId]/company/[companyId]/competitors/page": globalThis.__RSC_MANIFEST["/simulations/[simId]/company/[companyId]/competitors/page"],
                     },
                 };
             }
@@ -25081,7 +25245,7 @@ var require_require = __commonJS({
         function requirePage(page, distDir, isAppPath) {
             const pagePath = getPagePath(page, distDir, void 0, isAppPath);
             if (pagePath.endsWith(".next/server/pages/404.html")) {
-                return "<!DOCTYPE html><html lang=\"en\" class=\"dark\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"stylesheet\" href=\"/_next/static/css/7340c2a706fa78db.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-47c5900d36ea2928.js\"/><script src=\"/_next/static/chunks/eae8abb3-5ef0f3dc1795fa43.js\" async=\"\"></script><script src=\"/_next/static/chunks/656-ab3f93907f3d3296.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-354525d40aa9e99e.js\" async=\"\"></script><meta name=\"robots\" content=\"noindex\"/><title>404: This page could not be found.</title><title>Business Simulation</title><meta name=\"description\" content=\"Generated by create next app\"/><meta name=\"next-size-adjust\"/><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script></head><body class=\"__variable_e8ce0c __variable_e8ce0c antialiased\"><div style=\"font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center\"><div><style>body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}</style><h1 class=\"next-error-h1\" style=\"display:inline-block;margin:0 20px 0 0;padding:0 23px 0 0;font-size:24px;font-weight:500;vertical-align:top;line-height:49px\">404</h1><div style=\"display:inline-block\"><h2 style=\"font-size:14px;font-weight:400;line-height:49px;margin:0\">This page could not be found.</h2></div></div></div><script src=\"/_next/static/chunks/webpack-47c5900d36ea2928.js\" async=\"\"></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,\"1:HL[\\\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n2:HL[\\\"/_next/static/css/7340c2a706fa78db.css\\\",\\\"style\\\"]\\n\"])</script><script>self.__next_f.push([1,\"3:I[6373,[],\\\"\\\"]\\n5:I[2146,[],\\\"\\\"]\\n6:I[3545,[],\\\"\\\"]\\nc:I[55,[],\\\"\\\"]\\n7:{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Segoe UI\\\\\\\",Roboto,Helvetica,Arial,sans-serif,\\\\\\\"Apple Color Emoji\\\\\\\",\\\\\\\"Segoe UI Emoji\\\\\\\"\\\",\\\"height\\\":\\\"100vh\\\",\\\"textAlign\\\":\\\"center\\\",\\\"display\\\":\\\"flex\\\",\\\"flexDirection\\\":\\\"column\\\",\\\"alignItems\\\":\\\"center\\\",\\\"justifyContent\\\":\\\"center\\\"}\\n8:{\\\"display\\\":\\\"inline-block\\\",\\\"margin\\\":\\\"0 20px 0 0\\\",\\\"padding\\\":\\\"0 23px 0 0\\\",\\\"fontSize\\\":24,\\\"fontWeight\\\":500,\\\"verticalAlign\\\":\\\"top\\\",\\\"lineHeight\\\":\\\"49px\\\"}\\n9:{\\\"display\\\":\\\"inline-block\\\"}\\na:{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0}\\nd:[]\\n\"])</script><script>self.__next_f.push([1,\"0:[\\\"$\\\",\\\"$L3\\\",null,{\\\"buildId\\\":\\\"8e_BjQyocFkNdWt_ljh2v\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"_not-found\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[\\\"/_not-found\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{}]}]},\\\"$undefined\\\",\\\"$undefined\\\",true],\\\"initialSeedData\\\":[\\\"\\\",{\\\"children\\\":[\\\"/_not-found\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{},[[\\\"$L4\\\",[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Segoe UI\\\\\\\",Roboto,Helvetica,Arial,sans-serif,\\\\\\\"Apple Color Emoji\\\\\\\",\\\\\\\"Segoe UI Emoji\\\\\\\"\\\",\\\"height\\\":\\\"100vh\\\",\\\"textAlign\\\":\\\"center\\\",\\\"display\\\":\\\"flex\\\",\\\"flexDirection\\\":\\\"column\\\",\\\"alignItems\\\":\\\"center\\\",\\\"justifyContent\\\":\\\"center\\\"},\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"style\\\",null,{\\\"dangerouslySetInnerHTML\\\":{\\\"__html\\\":\\\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\\\"}}],[\\\"$\\\",\\\"h1\\\",null,{\\\"className\\\":\\\"next-error-h1\\\",\\\"style\\\":{\\\"display\\\":\\\"inline-block\\\",\\\"margin\\\":\\\"0 20px 0 0\\\",\\\"padding\\\":\\\"0 23px 0 0\\\",\\\"fontSize\\\":24,\\\"fontWeight\\\":500,\\\"verticalAlign\\\":\\\"top\\\",\\\"lineHeight\\\":\\\"49px\\\"},\\\"children\\\":\\\"404\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"display\\\":\\\"inline-block\\\"},\\\"children\\\":[\\\"$\\\",\\\"h2\\\",null,{\\\"style\\\":{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0},\\\"children\\\":\\\"This page could not be found.\\\"}]}]]}]}]],null],null],null]},[null,[\\\"$\\\",\\\"$L5\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\",\\\"/_not-found\\\",\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L6\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":\\\"$undefined\\\",\\\"notFoundStyles\\\":\\\"$undefined\\\"}]],null]},[[[[\\\"$\\\",\\\"link\\\",\\\"0\\\",{\\\"rel\\\":\\\"stylesheet\\\",\\\"href\\\":\\\"/_next/static/css/7340c2a706fa78db.css\\\",\\\"precedence\\\":\\\"next\\\",\\\"crossOrigin\\\":\\\"$undefined\\\"}]],[\\\"$\\\",\\\"html\\\",null,{\\\"lang\\\":\\\"en\\\",\\\"className\\\":\\\"dark\\\",\\\"children\\\":[\\\"$\\\",\\\"body\\\",null,{\\\"className\\\":\\\"__variable_e8ce0c __variable_e8ce0c antialiased\\\",\\\"children\\\":[\\\"$\\\",\\\"$L5\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L6\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":\\\"$7\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"style\\\",null,{\\\"dangerouslySetInnerHTML\\\":{\\\"__html\\\":\\\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\\\"}}],[\\\"$\\\",\\\"h1\\\",null,{\\\"className\\\":\\\"next-error-h1\\\",\\\"style\\\":\\\"$8\\\",\\\"children\\\":\\\"404\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":\\\"$9\\\",\\\"children\\\":[\\\"$\\\",\\\"h2\\\",null,{\\\"style\\\":\\\"$a\\\",\\\"children\\\":\\\"This page could not be found.\\\"}]}]]}]}]],\\\"notFoundStyles\\\":[]}]}]}]],null],null],\\\"couldBeIntercepted\\\":false,\\\"initialHead\\\":[[\\\"$\\\",\\\"meta\\\",null,{\\\"name\\\":\\\"robots\\\",\\\"content\\\":\\\"noindex\\\"}],\\\"$Lb\\\"],\\\"globalErrorComponent\\\":\\\"$c\\\",\\\"missingSlots\\\":\\\"$Wd\\\"}]\\n\"])</script><script>self.__next_f.push([1,\"b:[[\\\"$\\\",\\\"meta\\\",\\\"0\\\",{\\\"name\\\":\\\"viewport\\\",\\\"content\\\":\\\"width=device-width, initial-scale=1\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"1\\\",{\\\"charSet\\\":\\\"utf-8\\\"}],[\\\"$\\\",\\\"title\\\",\\\"2\\\",{\\\"children\\\":\\\"Business Simulation\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"3\\\",{\\\"name\\\":\\\"description\\\",\\\"content\\\":\\\"Generated by create next app\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"4\\\",{\\\"name\\\":\\\"next-size-adjust\\\"}]]\\n4:null\\n\"])</script></body></html>";
+                return "<!DOCTYPE html><html lang=\"en\" class=\"dark\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"stylesheet\" href=\"/_next/static/css/d3fe27c0087b986f.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-47c5900d36ea2928.js\"/><script src=\"/_next/static/chunks/eae8abb3-5ef0f3dc1795fa43.js\" async=\"\"></script><script src=\"/_next/static/chunks/656-c834d8e3779fd2a5.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-354525d40aa9e99e.js\" async=\"\"></script><script src=\"/_next/static/chunks/188-0458fac812902410.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout-3461345c4410a1cb.js\" async=\"\"></script><meta name=\"robots\" content=\"noindex\"/><title>404: This page could not be found.</title><title>Business Simulation</title><meta name=\"description\" content=\"Generated by create next app\"/><meta name=\"next-size-adjust\"/><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script></head><body class=\"__variable_e8ce0c __variable_e8ce0c antialiased\"><div style=\"font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center\"><div><style>body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}</style><h1 class=\"next-error-h1\" style=\"display:inline-block;margin:0 20px 0 0;padding:0 23px 0 0;font-size:24px;font-weight:500;vertical-align:top;line-height:49px\">404</h1><div style=\"display:inline-block\"><h2 style=\"font-size:14px;font-weight:400;line-height:49px;margin:0\">This page could not be found.</h2></div></div></div><section aria-label=\"Notifications alt+T\" tabindex=\"-1\" aria-live=\"polite\" aria-relevant=\"additions text\" aria-atomic=\"false\"></section><script src=\"/_next/static/chunks/webpack-47c5900d36ea2928.js\" async=\"\"></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,\"1:HL[\\\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n2:HL[\\\"/_next/static/css/d3fe27c0087b986f.css\\\",\\\"style\\\"]\\n\"])</script><script>self.__next_f.push([1,\"3:I[6373,[],\\\"\\\"]\\n5:I[2146,[],\\\"\\\"]\\n6:I[3545,[],\\\"\\\"]\\n7:I[969,[\\\"188\\\",\\\"static/chunks/188-0458fac812902410.js\\\",\\\"185\\\",\\\"static/chunks/app/layout-3461345c4410a1cb.js\\\"],\\\"AuthProvider\\\"]\\nc:I[7586,[\\\"188\\\",\\\"static/chunks/188-0458fac812902410.js\\\",\\\"185\\\",\\\"static/chunks/app/layout-3461345c4410a1cb.js\\\"],\\\"Toaster\\\"]\\ne:I[55,[],\\\"\\\"]\\n8:{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Segoe UI\\\\\\\",Roboto,Helvetica,Arial,sans-serif,\\\\\\\"Apple Color Emoji\\\\\\\",\\\\\\\"Segoe UI Emoji\\\\\\\"\\\",\\\"height\\\":\\\"100vh\\\",\\\"textAlign\\\":\\\"center\\\",\\\"display\\\":\\\"flex\\\",\\\"flexDirection\\\":\\\"column\\\",\\\"alignItems\\\":\\\"center\\\",\\\"justifyContent\\\":\\\"center\\\"}\\n9:{\\\"display\\\":\\\"inline-block\\\",\\\"margin\\\":\\\"0 20px 0 0\\\",\\\"padding\\\":\\\"0 23px 0 0\\\",\\\"fontSize\\\":24,\\\"fontWeight\\\":500,\\\"verticalAlign\\\":\\\"top\\\",\\\"lineHeight\\\":\\\"49px\\\"}\\na:{\\\"display\\\":\\\"inline-block\\\"}\\nb:{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0}\\nf:[]\\n\"])</script><script>self.__next_f.push([1,\"0:[\\\"$\\\",\\\"$L3\\\",null,{\\\"buildId\\\":\\\"Z5sXQ--yQaZxy66xNasvU\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"_not-found\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[\\\"/_not-found\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{}]}]},\\\"$undefined\\\",\\\"$undefined\\\",true],\\\"initialSeedData\\\":[\\\"\\\",{\\\"children\\\":[\\\"/_not-found\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{},[[\\\"$L4\\\",[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"fontFamily\\\":\\\"system-ui,\\\\\\\"Segoe UI\\\\\\\",Roboto,Helvetica,Arial,sans-serif,\\\\\\\"Apple Color Emoji\\\\\\\",\\\\\\\"Segoe UI Emoji\\\\\\\"\\\",\\\"height\\\":\\\"100vh\\\",\\\"textAlign\\\":\\\"center\\\",\\\"display\\\":\\\"flex\\\",\\\"flexDirection\\\":\\\"column\\\",\\\"alignItems\\\":\\\"center\\\",\\\"justifyContent\\\":\\\"center\\\"},\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"style\\\",null,{\\\"dangerouslySetInnerHTML\\\":{\\\"__html\\\":\\\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\\\"}}],[\\\"$\\\",\\\"h1\\\",null,{\\\"className\\\":\\\"next-error-h1\\\",\\\"style\\\":{\\\"display\\\":\\\"inline-block\\\",\\\"margin\\\":\\\"0 20px 0 0\\\",\\\"padding\\\":\\\"0 23px 0 0\\\",\\\"fontSize\\\":24,\\\"fontWeight\\\":500,\\\"verticalAlign\\\":\\\"top\\\",\\\"lineHeight\\\":\\\"49px\\\"},\\\"children\\\":\\\"404\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":{\\\"display\\\":\\\"inline-block\\\"},\\\"children\\\":[\\\"$\\\",\\\"h2\\\",null,{\\\"style\\\":{\\\"fontSize\\\":14,\\\"fontWeight\\\":400,\\\"lineHeight\\\":\\\"49px\\\",\\\"margin\\\":0},\\\"children\\\":\\\"This page could not be found.\\\"}]}]]}]}]],null],null],null]},[null,[\\\"$\\\",\\\"$L5\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\",\\\"/_not-found\\\",\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L6\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":\\\"$undefined\\\",\\\"notFoundStyles\\\":\\\"$undefined\\\"}]],null]},[[[[\\\"$\\\",\\\"link\\\",\\\"0\\\",{\\\"rel\\\":\\\"stylesheet\\\",\\\"href\\\":\\\"/_next/static/css/d3fe27c0087b986f.css\\\",\\\"precedence\\\":\\\"next\\\",\\\"crossOrigin\\\":\\\"$undefined\\\"}]],[\\\"$\\\",\\\"html\\\",null,{\\\"lang\\\":\\\"en\\\",\\\"className\\\":\\\"dark\\\",\\\"children\\\":[\\\"$\\\",\\\"body\\\",null,{\\\"className\\\":\\\"__variable_e8ce0c __variable_e8ce0c antialiased\\\",\\\"children\\\":[[\\\"$\\\",\\\"$L7\\\",null,{\\\"children\\\":[\\\"$\\\",\\\"$L5\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L6\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":[[\\\"$\\\",\\\"title\\\",null,{\\\"children\\\":\\\"404: This page could not be found.\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":\\\"$8\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"style\\\",null,{\\\"dangerouslySetInnerHTML\\\":{\\\"__html\\\":\\\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\\\"}}],[\\\"$\\\",\\\"h1\\\",null,{\\\"className\\\":\\\"next-error-h1\\\",\\\"style\\\":\\\"$9\\\",\\\"children\\\":\\\"404\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"style\\\":\\\"$a\\\",\\\"children\\\":[\\\"$\\\",\\\"h2\\\",null,{\\\"style\\\":\\\"$b\\\",\\\"children\\\":\\\"This page could not be found.\\\"}]}]]}]}]],\\\"notFoundStyles\\\":[]}]}],[\\\"$\\\",\\\"$Lc\\\",null,{\\\"position\\\":\\\"top-center\\\"}]]}]}]],null],null],\\\"couldBeIntercepted\\\":false,\\\"initialHead\\\":[[\\\"$\\\",\\\"meta\\\",null,{\\\"name\\\":\\\"robots\\\",\\\"content\\\":\\\"noindex\\\"}],\\\"$Ld\\\"],\\\"globalErrorComponent\\\":\\\"$e\\\",\\\"missingSlots\\\":\\\"$Wf\\\"}]\\n\"])</script><script>self.__next_f.push([1,\"d:[[\\\"$\\\",\\\"meta\\\",\\\"0\\\",{\\\"name\\\":\\\"viewport\\\",\\\"content\\\":\\\"width=device-width, initial-scale=1\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"1\\\",{\\\"charSet\\\":\\\"utf-8\\\"}],[\\\"$\\\",\\\"title\\\",\\\"2\\\",{\\\"children\\\":\\\"Business Simulation\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"3\\\",{\\\"name\\\":\\\"description\\\",\\\"content\\\":\\\"Generated by create next app\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"4\\\",{\\\"name\\\":\\\"next-size-adjust\\\"}]]\\n4:null\\n\"])</script></body></html>";
             }
             if (pagePath.endsWith(".next/server/pages/_app.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/pages/_app.js");
@@ -25101,14 +25265,38 @@ var require_require = __commonJS({
             if (pagePath.endsWith(".next/server/app/api/auth/logout/route.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/auth/logout/route.js");
             }
-            if (pagePath.endsWith(".next/server/app/api/auth/register/route.js")) {
-                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/auth/register/route.js");
-            }
             if (pagePath.endsWith(".next/server/app/api/setup/create-full-simulation/route.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/setup/create-full-simulation/route.js");
             }
+            if (pagePath.endsWith(".next/server/app/api/auth/register/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/auth/register/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/add-company/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/add-company/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/companies/[companyId]/products/[productId]/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/companies/[companyId]/products/[productId]/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/companies/[companyId]/products/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/companies/[companyId]/products/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/companies/[companyId]/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/companies/[companyId]/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/decisions/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/decisions/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/lobby/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/lobby/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/performance/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/performance/route.js");
+            }
             if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/route.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/route.js");
+            }
+            if (pagePath.endsWith(".next/server/app/api/simulations/[simId]/state/route.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/[simId]/state/route.js");
             }
             if (pagePath.endsWith(".next/server/app/api/simulations/route.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/api/simulations/route.js");
@@ -25127,6 +25315,27 @@ var require_require = __commonJS({
             }
             if (pagePath.endsWith(".next/server/app/products/page.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/products/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/competitors/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/competitors/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/finance/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/finance/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/hr/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/hr/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/marketing/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/marketing/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/performance/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/performance/page.js");
+            }
+            if (pagePath.endsWith(".next/server/app/simulations/[simId]/company/[companyId]/products/page.js")) {
+                return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/company/[companyId]/products/page.js");
             }
             if (pagePath.endsWith(".next/server/app/simulations/[simId]/page.js")) {
                 return require("/home/ganapathisubramaniam/business_simulation_app/.open-next/.next/standalone/.next/server/app/simulations/[simId]/page.js");
@@ -31034,7 +31243,7 @@ var require_next_server = __commonJS({
                 return !!(0, _require.getMaybePagePath)(pathname, this.distDir, (_this_nextConfig_i18n = this.nextConfig.i18n) == null ? void 0 : _this_nextConfig_i18n.locales, this.enabledDirectories.app);
             }
             getBuildId() {
-                return "8e_BjQyocFkNdWt_ljh2v";
+                return "Z5sXQ--yQaZxy66xNasvU";
                 const buildIdFile = (0, _path.join)(this.distDir, _constants.BUILD_ID_FILE);
                 try {
                     return _fs.default.readFileSync(buildIdFile, "utf8").trim();
@@ -32505,11 +32714,11 @@ var NEXT_DIR = path.join("", ".next");
 var OPEN_NEXT_DIR = path.join("", ".open-next");
 debug({ NEXT_DIR, OPEN_NEXT_DIR });
 var NextConfig = { "env": {}, "webpack": null, "eslint": { "ignoreDuringBuilds": true }, "typescript": { "ignoreBuildErrors": true, "tsconfigPath": "tsconfig.json" }, "distDir": ".next", "cleanDistDir": true, "assetPrefix": "", "cacheMaxMemorySize": 52428800, "configOrigin": "next.config.mjs", "useFileSystemPublicRoutes": true, "generateEtags": true, "pageExtensions": ["tsx", "ts", "jsx", "js"], "poweredByHeader": true, "compress": true, "analyticsId": "", "images": { "deviceSizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840], "imageSizes": [16, 32, 48, 64, 96, 128, 256, 384], "path": "/_next/image", "loader": "default", "loaderFile": "", "domains": [], "disableStaticImages": false, "minimumCacheTTL": 60, "formats": ["image/webp"], "dangerouslyAllowSVG": false, "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;", "contentDispositionType": "inline", "remotePatterns": [], "unoptimized": false }, "devIndicators": { "buildActivity": true, "buildActivityPosition": "bottom-right" }, "onDemandEntries": { "maxInactiveAge": 6e4, "pagesBufferLength": 5 }, "amp": { "canonicalBase": "" }, "basePath": "", "sassOptions": {}, "trailingSlash": false, "i18n": null, "productionBrowserSourceMaps": false, "optimizeFonts": true, "excludeDefaultMomentLocales": true, "serverRuntimeConfig": {}, "publicRuntimeConfig": {}, "reactProductionProfiling": false, "reactStrictMode": null, "httpAgentOptions": { "keepAlive": true }, "outputFileTracing": true, "staticPageGenerationTimeout": 60, "swcMinify": true, "output": "standalone", "modularizeImports": { "@mui/icons-material": { "transform": "@mui/icons-material/{{member}}" }, "lodash": { "transform": "lodash/{{member}}" } }, "experimental": { "multiZoneDraftMode": false, "prerenderEarlyExit": false, "serverMinification": true, "serverSourceMaps": false, "linkNoTouchStart": false, "caseSensitiveRoutes": false, "clientRouterFilter": true, "clientRouterFilterRedirects": false, "fetchCacheKeyPrefix": "", "middlewarePrefetch": "flexible", "optimisticClientCache": true, "manualClientBasePath": false, "cpus": 7, "memoryBasedWorkersCount": false, "isrFlushToDisk": true, "workerThreads": false, "optimizeCss": false, "nextScriptWorkers": false, "scrollRestoration": false, "externalDir": false, "disableOptimizedLoading": false, "gzipSize": true, "craCompat": false, "esmExternals": true, "fullySpecified": false, "outputFileTracingRoot": "/home/ganapathisubramaniam/business_simulation_app", "swcTraceProfiling": false, "forceSwcTransforms": false, "largePageDataBytes": 128e3, "adjustFontFallbacks": false, "adjustFontFallbacksWithSizeAdjust": false, "typedRoutes": false, "instrumentationHook": false, "bundlePagesExternals": false, "parallelServerCompiles": false, "parallelServerBuildTraces": false, "ppr": false, "missingSuspenseWithCSRBailout": true, "optimizeServerReact": true, "useEarlyImport": false, "staleTimes": { "dynamic": 30, "static": 300 }, "optimizePackageImports": ["lucide-react", "date-fns", "lodash-es", "ramda", "antd", "react-bootstrap", "ahooks", "@ant-design/icons", "@headlessui/react", "@headlessui-float/react", "@heroicons/react/20/solid", "@heroicons/react/24/solid", "@heroicons/react/24/outline", "@visx/visx", "@tremor/react", "rxjs", "@mui/material", "@mui/icons-material", "recharts", "react-use", "@material-ui/core", "@material-ui/icons", "@tabler/icons-react", "mui-core", "react-icons/ai", "react-icons/bi", "react-icons/bs", "react-icons/cg", "react-icons/ci", "react-icons/di", "react-icons/fa", "react-icons/fa6", "react-icons/fc", "react-icons/fi", "react-icons/gi", "react-icons/go", "react-icons/gr", "react-icons/hi", "react-icons/hi2", "react-icons/im", "react-icons/io", "react-icons/io5", "react-icons/lia", "react-icons/lib", "react-icons/lu", "react-icons/md", "react-icons/pi", "react-icons/ri", "react-icons/rx", "react-icons/si", "react-icons/sl", "react-icons/tb", "react-icons/tfi", "react-icons/ti", "react-icons/vsc", "react-icons/wi"], "trustHostHeader": false, "isExperimentalCompile": false }, "configFileName": "next.config.mjs" };
-var BuildId = "8e_BjQyocFkNdWt_ljh2v";
+var BuildId = "Z5sXQ--yQaZxy66xNasvU";
 var HtmlPages = ["/404"];
-var RoutesManifest = { "basePath": "", "rewrites": { "beforeFiles": [], "afterFiles": [], "fallback": [] }, "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }], "routes": { "static": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/favicon.ico", "regex": "^/favicon\\.ico(?:/)?$", "routeKeys": {}, "namedRegex": "^/favicon\\.ico(?:/)?$" }, { "page": "/market", "regex": "^/market(?:/)?$", "routeKeys": {}, "namedRegex": "^/market(?:/)?$" }, { "page": "/products", "regex": "^/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/products(?:/)?$" }], "dynamic": [{ "page": "/api/simulations/[simId]", "regex": "^/api/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]", "regex": "^/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }], "data": { "static": [], "dynamic": [] } }, "locales": [] };
+var RoutesManifest = { "basePath": "", "rewrites": { "beforeFiles": [], "afterFiles": [], "fallback": [] }, "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }], "routes": { "static": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/favicon.ico", "regex": "^/favicon\\.ico(?:/)?$", "routeKeys": {}, "namedRegex": "^/favicon\\.ico(?:/)?$" }, { "page": "/market", "regex": "^/market(?:/)?$", "routeKeys": {}, "namedRegex": "^/market(?:/)?$" }, { "page": "/products", "regex": "^/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/products(?:/)?$" }], "dynamic": [{ "page": "/api/simulations/[simId]", "regex": "^/api/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/add-company", "regex": "^/api/simulations/([^/]+?)/add\\-company(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/add\\-company(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]/products", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)/products(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)/products(?:/)?$" }, { "page": "/api/simulations/[simId]/companies/[companyId]/products/[productId]", "regex": "^/api/simulations/([^/]+?)/companies/([^/]+?)/products/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId", "nxtPproductId": "nxtPproductId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/companies/(?<nxtPcompanyId>[^/]+?)/products/(?<nxtPproductId>[^/]+?)(?:/)?$" }, { "page": "/api/simulations/[simId]/decisions", "regex": "^/api/simulations/([^/]+?)/decisions(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/decisions(?:/)?$" }, { "page": "/api/simulations/[simId]/lobby", "regex": "^/api/simulations/([^/]+?)/lobby(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/lobby(?:/)?$" }, { "page": "/api/simulations/[simId]/performance", "regex": "^/api/simulations/([^/]+?)/performance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/performance(?:/)?$" }, { "page": "/api/simulations/[simId]/state", "regex": "^/api/simulations/([^/]+?)/state(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/api/simulations/(?<nxtPsimId>[^/]+?)/state(?:/)?$" }, { "page": "/simulations/[simId]", "regex": "^/simulations/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]", "regex": "^/simulations/([^/]+?)/company/([^/]+?)(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/competitors", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/competitors(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/competitors(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/finance", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/finance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/finance(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/hr", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/hr(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/hr(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/marketing", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/marketing(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/marketing(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/performance", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/performance(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/performance(?:/)?$" }, { "page": "/simulations/[simId]/company/[companyId]/products", "regex": "^/simulations/([^/]+?)/company/([^/]+?)/products(?:/)?$", "routeKeys": { "nxtPsimId": "nxtPsimId", "nxtPcompanyId": "nxtPcompanyId" }, "namedRegex": "^/simulations/(?<nxtPsimId>[^/]+?)/company/(?<nxtPcompanyId>[^/]+?)/products(?:/)?$" }], "data": { "static": [], "dynamic": [] } }, "locales": [] };
 var MiddlewareManifest = { "version": 3, "middleware": {}, "functions": {}, "sortedMiddleware": [] };
-var AppPathRoutesManifest = { "/_not-found/page": "/_not-found", "/api/auth/login/route": "/api/auth/login", "/api/auth/logout/route": "/api/auth/logout", "/api/auth/register/route": "/api/auth/register", "/api/setup/create-full-simulation/route": "/api/setup/create-full-simulation", "/api/simulations/[simId]/route": "/api/simulations/[simId]", "/api/simulations/route": "/api/simulations", "/api/users/me/route": "/api/users/me", "/favicon.ico/route": "/favicon.ico", "/market/page": "/market", "/page": "/", "/products/page": "/products", "/simulations/[simId]/page": "/simulations/[simId]" };
+var AppPathRoutesManifest = { "/_not-found/page": "/_not-found", "/api/auth/login/route": "/api/auth/login", "/api/auth/logout/route": "/api/auth/logout", "/api/setup/create-full-simulation/route": "/api/setup/create-full-simulation", "/api/auth/register/route": "/api/auth/register", "/api/simulations/[simId]/add-company/route": "/api/simulations/[simId]/add-company", "/api/simulations/[simId]/companies/[companyId]/products/[productId]/route": "/api/simulations/[simId]/companies/[companyId]/products/[productId]", "/api/simulations/[simId]/companies/[companyId]/products/route": "/api/simulations/[simId]/companies/[companyId]/products", "/api/simulations/[simId]/companies/[companyId]/route": "/api/simulations/[simId]/companies/[companyId]", "/api/simulations/[simId]/decisions/route": "/api/simulations/[simId]/decisions", "/api/simulations/[simId]/lobby/route": "/api/simulations/[simId]/lobby", "/api/simulations/[simId]/performance/route": "/api/simulations/[simId]/performance", "/api/simulations/[simId]/route": "/api/simulations/[simId]", "/api/simulations/[simId]/state/route": "/api/simulations/[simId]/state", "/api/simulations/route": "/api/simulations", "/api/users/me/route": "/api/users/me", "/favicon.ico/route": "/favicon.ico", "/market/page": "/market", "/page": "/", "/products/page": "/products", "/simulations/[simId]/company/[companyId]/competitors/page": "/simulations/[simId]/company/[companyId]/competitors", "/simulations/[simId]/company/[companyId]/finance/page": "/simulations/[simId]/company/[companyId]/finance", "/simulations/[simId]/company/[companyId]/hr/page": "/simulations/[simId]/company/[companyId]/hr", "/simulations/[simId]/company/[companyId]/marketing/page": "/simulations/[simId]/company/[companyId]/marketing", "/simulations/[simId]/company/[companyId]/page": "/simulations/[simId]/company/[companyId]", "/simulations/[simId]/company/[companyId]/performance/page": "/simulations/[simId]/company/[companyId]/performance", "/simulations/[simId]/company/[companyId]/products/page": "/simulations/[simId]/company/[companyId]/products", "/simulations/[simId]/page": "/simulations/[simId]" };
 process.env.NEXT_BUILD_ID = BuildId;
 init_logger();
 function setNodeEnv() {

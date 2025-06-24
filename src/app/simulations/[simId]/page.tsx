@@ -16,18 +16,26 @@ interface LobbyData {
     userCompanies: Company[];
 }
 
-function LobbyLoadingSkeleton() {
-    return (
-      <AppLayout>
-        <div className="p-6">
-            <div className="h-8 w-1/2 bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse mb-8"></div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card><CardHeader><div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div></CardHeader><CardFooter><div className="h-10 w-full bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div></CardFooter></Card>
-                <Card><CardHeader><div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div></CardHeader><CardFooter><div className="h-10 w-full bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div></CardFooter></Card>
-            </div>
-        </div>
-      </AppLayout>
-    );
+function LobbyLoadingSkeleton({ count = 3 }: { count?: number }) {
+  return (
+    <AppLayout>
+      <div className="p-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+              {Array.from({ length: count > 0 ? count : 3 }).map((_, index) => (
+                  <Card key={index}>
+                      <CardHeader>
+                        <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div>
+                      </CardHeader>
+                      <CardFooter>
+                        <div className="h-10 w-full bg-gray-200 dark:bg-gray-800 rounded-md animate-pulse"></div>
+                      </CardFooter>
+                  </Card>
+              ))}
+          </div>
+      </div>
+    </AppLayout>
+  );
 }
 
 export default function SimulationLobbyPage({ params }: { params: { simId: string } }) {
@@ -69,7 +77,9 @@ export default function SimulationLobbyPage({ params }: { params: { simId: strin
         }
     };
 
-    if (loading) return <LobbyLoadingSkeleton />;
+
+
+    if (loading) return <LobbyLoadingSkeleton count={userCompanies.length}/>;
     if (error) return <AppLayout><div className="p-6 text-red-500">Error: {error}</div></AppLayout>;
     if (!simulation) return <AppLayout><div className="p-6">Simulation not found.</div></AppLayout>;
 

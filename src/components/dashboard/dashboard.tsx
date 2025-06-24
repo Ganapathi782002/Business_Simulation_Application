@@ -52,8 +52,10 @@ export function Dashboard() {
     }
   };
 
+  const count_of_simulations = simulations.length
+
   if (loading) {
-    return <DashboardLoadingSkeleton />;
+    return <DashboardLoadingSkeleton count={2}/>;
   }
 
   if (error) {
@@ -124,18 +126,27 @@ export function Dashboard() {
   );
 }
 
-function DashboardLoadingSkeleton() {
-    return (
-        <div className="p-6">
-            <div className="flex justify-between items-center mb-6">
-                <Skeleton className="h-8 w-64" />
-                <Skeleton className="h-10 w-44" />
+function DashboardLoadingSkeleton({ count = 2 }: { count?: number }) {
+  return (
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-10 w-44" />
+      </div>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: count }).map((_, index) => (
+          <Card key={index}>
+            <div className="h-28 w-full bg-gray-200 dark:bg-gray-800 animate-pulse" />
+            <div className="p-4">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-full mt-2" />
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card><div className="h-28 w-full bg-gray-200 dark:bg-gray-800" /><div className="p-4"><Skeleton className="h-6 w-3/4" /><Skeleton className="h-4 w-full mt-2" /></div><CardFooter><Skeleton className="h-10 w-full" /></CardFooter></Card>
-                <Card><div className="h-28 w-full bg-gray-200 dark:bg-gray-800" /><div className="p-4"><Skeleton className="h-6 w-3/4" /><Skeleton className="h-4 w-full mt-2" /></div><CardFooter><Skeleton className="h-10 w-full" /></CardFooter></Card>
-                <Card><div className="h-28 w-full bg-gray-200 dark:bg-gray-800" /><div className="p-4"><Skeleton className="h-6 w-3/4" /><Skeleton className="h-4 w-full mt-2" /></div><CardFooter><Skeleton className="h-10 w-full" /></CardFooter></Card>
-            </div>
-        </div>
-    )
+            <CardFooter>
+              <Skeleton className="h-10 w-full" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </div>
+  )
 }
