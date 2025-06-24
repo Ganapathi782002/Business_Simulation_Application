@@ -38,7 +38,7 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
   const [rndCost, setRndCost] = useState(0);
 
   useEffect(() => {
-    const baseCost = category === 'premium' ? 50 : category === 'mid-range' ? 30 : 15;
+    const baseCost = category === 'premium' ? 50 : category === 'mid_range' ? 30 : 15;
     const newProductionCost = baseCost + (qualityRating * 10) + (innovationRating * 5) + (sustainabilityRating * 3);
     setProductionCost(newProductionCost);
 
@@ -73,7 +73,7 @@ export function ProductCreationForm({ onFinish, onPrevious, loading }: ProductCr
             <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="budget">Budget - Base Cost: 15$</SelectItem>
-              <SelectItem value="mid-range">Mid-Range - Base Cost: 30$</SelectItem>
+              <SelectItem value="mid_range">Mid-Range - Base Cost: 30$</SelectItem>
               <SelectItem value="premium">Premium - Base Cost: 50$</SelectItem>
             </SelectContent>
           </Select>

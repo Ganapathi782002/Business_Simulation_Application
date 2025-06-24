@@ -14,9 +14,9 @@ export function ManageHrDialog() {
   const { userCompany, submitDecision } = useSimulation();
   const [isOpen, setOpen] = useState(false);
 
-  const companyData = userCompany?.data ? JSON.parse(userCompany.data) : {};
+  //const companyData = userCompany?.data ? JSON.parse(userCompany.data) : {};
 
-  const [initialEmployees, setInitialEmployees] = useState(100);
+  const [initialEmployees, setInitialEmployees] = useState(50);
   const [initialSalary, setInitialSalary] = useState(50000);
 
   const [hireCount, setHireCount] = useState(0);
@@ -30,7 +30,7 @@ export function ManageHrDialog() {
       try {
         const companyData = JSON.parse(userCompany.data);
         const hrData = companyData.humanResources || {};
-        setInitialEmployees(hrData.totalEmployees || 100);
+        setInitialEmployees(hrData.totalEmployees || 50);
         setInitialSalary(hrData.averageSalary || 50000);
         setAverageSalary(hrData.averageSalary || 50000);
       } catch (e) {

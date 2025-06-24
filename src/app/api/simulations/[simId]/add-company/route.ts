@@ -45,8 +45,8 @@ export async function POST(
       name: companyName,
       description: `A new company founded in simulation ${params.simId}`,
       logoUrl: null,
-      cashBalance: 5000000 - product.rndCost, // Starting cash includes R&D cost deduction
-      totalAssets: 5000000 - product.rndCost,
+      cashBalance: 10000000 - product.rndCost, // Starting cash includes R&D cost deduction
+      totalAssets: 10000000 - product.rndCost,
       totalLiabilities: 0,
       creditRating: 'A',
       brandValue: 50,

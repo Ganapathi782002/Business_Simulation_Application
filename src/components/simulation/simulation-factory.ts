@@ -35,7 +35,7 @@ export class SimulationFactory {
           id: `market_${simId}_0`,
           simulationId: simId,
           period: 0,
-          totalMarketSize: 1000000,
+          totalMarketSize: 10000000,
           segmentDistribution: JSON.stringify({
             premium: 0.2,
             mid_range: 0.5,
@@ -44,8 +44,6 @@ export class SimulationFactory {
           economicIndicators: JSON.stringify({
             gdp_growth: 0.02,
             inflation_rate: 0.015,
-            interest_rate: 0.03,
-            unemployment_rate: 0.05,
           }),
           consumerPreferences: JSON.stringify({
             premium: {

@@ -68,7 +68,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
                 <SidebarNavGroup title="Departments">
                   <SidebarNavItem href={`/simulations/${simId}/company/${companyId}/hr`} active={pathname.endsWith('/hr')} icon={<Users className="w-5 h-5" />}>Human Resources</SidebarNavItem>
-                  <SidebarNavItem href="#" active={false} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
+                  <SidebarNavItem href={`/simulations/${simId}/company/${companyId}/marketing`} active={pathname.endsWith('/marketing')} icon={<Megaphone className="w-5 h-s" />}>Marketing</SidebarNavItem>
                   <SidebarNavItem href="#" active={false} icon={<Factory className="w-5 h-5" />}>Production</SidebarNavItem>
                   <SidebarNavItem href={`/simulations/${simId}/company/${companyId}/finance`} active={pathname.endsWith('/finance')} icon={<HandCoins className="w-5 h-5" />}>Finance</SidebarNavItem>
                   <SidebarNavItem href="#" active={false} icon={<FlaskConical className="w-5 h-5" />}>R&D</SidebarNavItem>

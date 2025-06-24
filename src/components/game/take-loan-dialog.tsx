@@ -13,9 +13,8 @@ export function TakeLoanDialog() {
   const [isOpen, setOpen] = useState(false);
   const [amount, setAmount] = useState(50000);
 
-  // For now, interest rate and term are fixed, but could be inputs later
-  const interestRate = 0.05; // 5%
-  const term = 12; // 12 months
+  const interestRate = 0.05;
+  const term = 12;
 
   const handleConfirmLoan = () => {
     if (amount <= 0) {

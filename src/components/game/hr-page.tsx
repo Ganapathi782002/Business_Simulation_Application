@@ -34,7 +34,7 @@ export function HrPage() {
         <Card><CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Turnover Rate</CardTitle><UserMinus className="h-4 w-4 text-muted-foreground" /></CardHeader><CardContent><div className="text-2xl font-bold">{hrData.turnoverRate ? `${(hrData.turnoverRate * 100).toFixed(1)}%` : '-'}</div></CardContent></Card>
       </div>
 
-      {/* Charts Section Will now be here */}
+      {/* Charts Section will be here */}
     </div>
   );
 }

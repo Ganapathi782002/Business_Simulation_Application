@@ -30,7 +30,7 @@ export async function POST(
     }
 
     const fullDecision = {
-      companyId: companyId, // Use the ID directly from the request body
+      companyId: companyId,
       period: simulation.current_period,
       type: type,
       data: data,

@@ -250,7 +250,7 @@ export function GameDashboard() {
                 }
               }}
             >
-              Yes, Delete Product
+              Delete Product
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

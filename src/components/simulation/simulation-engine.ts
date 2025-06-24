@@ -718,7 +718,7 @@ export class SimulationEngine {
     const allActiveProducts = this.state.products.filter(
       (p) => p.status === ProductStatus.ACTIVE
     );
-    this.state.companies.forEach(company => {
+    this.state.companies.forEach((company) => {
       const companyData = JSON.parse(company.data || "{}");
       let hr = companyData.humanResources;
       if (!hr) {
@@ -750,16 +750,15 @@ export class SimulationEngine {
       companyData.humanResources = hr;
       company.data = JSON.stringify(companyData);
 
-      
-
       let totalRevenue = 0,
         totalCosts = 0,
         totalMarketShare = 0,
         cumulativeCustomerSatisfaction = 0,
-        totalMarketingCost = 0, totalProductionCost = 0;
+        totalMarketingCost = 0,
+        totalProductionCost = 0;
 
       const companyProducts = allActiveProducts.filter(
-        p => p.companyId === company.id
+        (p) => p.companyId === company.id
       );
 
       if (companyProducts.length > 0) {
@@ -772,7 +771,7 @@ export class SimulationEngine {
           totalRevenue += perf.revenue;
           totalCosts += perf.costs;
           totalMarketingCost += product.marketingBudget;
-          totalProductionCost += (perf.salesVolume * product.productionCost);
+          totalProductionCost += perf.salesVolume * product.productionCost;
           totalMarketShare += perf.marketShare;
           cumulativeCustomerSatisfaction += perf.customerSatisfaction;
           this.state.productPerformance.push({
@@ -796,9 +795,13 @@ export class SimulationEngine {
 
       // Add salary costs to total costs
       const monthlySalaryCost = (hr.totalEmployees * hr.averageSalary) / 12;
-      const decisionsForPeriod = this.state.decisions.filter(d => d.period === currentPeriod && d.companyId === company.id);
-      const rdCost = decisionsForPeriod.filter(d => d.type === 'research').reduce((sum, d) => sum + JSON.parse(d.data).amount, 0);
-      totalCosts += monthlySalaryCost + rdCost
+      const decisionsForPeriod = this.state.decisions.filter(
+        (d) => d.period === currentPeriod && d.companyId === company.id
+      );
+      const rdCost = decisionsForPeriod
+        .filter((d) => d.type === "research")
+        .reduce((sum, d) => sum + JSON.parse(d.data).amount, 0);
+      totalCosts += monthlySalaryCost + rdCost;
 
       const profit = totalRevenue - totalCosts;
       const brandValueChange =
@@ -920,9 +923,18 @@ export class SimulationEngine {
     );
 
     const segment = product.category;
+    console.log(`[Calc] Product Category (Segment): ${segment}`);
     const segmentShare = segmentDistribution[segment] || 0;
+    console.log(`[Calc] Market Share for this Segment: ${segmentShare}`);
     const segmentSize = marketConditions.totalMarketSize * segmentShare;
+    console.log(
+      `[Calc] Total Addressable Market Size for Segment: ${segmentSize}`
+    );
     const segmentPreferences = consumerPreferences[segment] || {};
+    console.log(
+      `[Calc] Consumer Preferences for this Segment:`,
+      segmentPreferences
+    );
 
     const qualityScore =
       product.qualityRating * (segmentPreferences.quality_sensitivity ?? 0.5);
@@ -934,77 +946,75 @@ export class SimulationEngine {
     const innovationScore =
       product.innovationRating *
       (segmentPreferences.innovation_preference ?? 0.5);
-    const sustainabilityScore =
-      product.sustainabilityRating *
+    product.sustainabilityRating *
       (segmentPreferences.sustainability_preference ?? 0.5);
     const marketingEffectiveness =
       Math.sqrt(product.marketingBudget ?? 0) * 0.15;
 
     const attractiveness =
-      qualityScore +
-      priceScore +
-      innovationScore +
-      sustainabilityScore +
-      marketingEffectiveness;
+      qualityScore + priceScore + innovationScore + marketingEffectiveness;
 
-    let segmentMarketShare = 0;
+    console.log(
+      `[Calc] Attractiveness Scores: Quality=${qualityScore.toFixed(
+        2
+      )}, Price=${priceScore.toFixed(2)}, Innovation=${innovationScore.toFixed(
+        2
+      )}, Marketing=${marketingEffectiveness.toFixed(2)}`
+    );
+    console.log(
+      `[Calc] Total Attractiveness for This Product: ${attractiveness.toFixed(
+        2
+      )}`
+    );
+
+    let totalAttractivenessInSegment = 0;
     const allProductsInSegment = allActiveProducts.filter(
       (p) => p.category === segment
     );
 
-    const totalAttractivenessInSegment = allProductsInSegment.reduce(
-      (sum, p) => {
-        const pSegmentPrefs = consumerPreferences[p.category] || {};
-        const pQualityScore =
-          p.qualityRating * (pSegmentPrefs.quality_sensitivity ?? 0.5);
-        const pPriceScore =
-          p.sellingPrice > 0
-            ? (10 - p.sellingPrice / 150) *
-              (pSegmentPrefs.price_sensitivity ?? 0.5)
-            : 0;
-        const pInnovationScore =
-          p.innovationRating * (pSegmentPrefs.innovation_preference ?? 0.5);
-        const pSustainabilityScore =
-          p.sustainabilityRating *
-          (pSegmentPrefs.sustainability_preference ?? 0.5);
-        const pMarketingEffectiveness =
-          Math.sqrt(p.marketingBudget ?? 0) * 0.15;
-        return (
-          sum +
-          pQualityScore +
-          pPriceScore +
-          pInnovationScore +
-          pSustainabilityScore +
-          pMarketingEffectiveness
-        );
-      },
-      0
+    allProductsInSegment.forEach((p) => {
+      const pSegmentPrefs = consumerPreferences[p.category] || {};
+      const pQualityScore =
+        p.qualityRating * (pSegmentPrefs.quality_sensitivity ?? 0.5);
+      const pPriceScore =
+        p.sellingPrice > 0
+          ? (10 - p.sellingPrice / 150) *
+            (pSegmentPrefs.price_sensitivity ?? 0.5)
+          : 0;
+      const pInnovationScore =
+        p.innovationRating * (pSegmentPrefs.innovation_preference ?? 0.5);
+      const pMarketingEffectiveness = Math.sqrt(p.marketingBudget ?? 0) * 0.15;
+      totalAttractivenessInSegment +=
+        pQualityScore +
+        pPriceScore +
+        pInnovationScore +
+        pMarketingEffectiveness;
+    });
+    console.log(
+      `[Calc] Total Attractiveness of ALL products in this segment: ${totalAttractivenessInSegment.toFixed(
+        2
+      )}`
     );
 
-    if (totalAttractivenessInSegment > 0) {
-      segmentMarketShare = attractiveness / totalAttractivenessInSegment;
-    }
+    const segmentMarketShare = totalAttractivenessInSegment > 0 ? attractiveness / totalAttractivenessInSegment : 0;
+    console.log(`[Calc] Calculated Segment Market Share: ${(segmentMarketShare * 100).toFixed(2)}%`);
 
     const potentialSales =
       product.sellingPrice > 0
         ? Math.round((segmentSize * segmentMarketShare) / product.sellingPrice)
         : 0;
+    console.log(`[Calc] Calculated Potential Sales:  ${potentialSales}`);
     const salesVolume = Math.min(product.inventoryLevel, potentialSales);
+    console.log(`[Calc] Final Sales Volume (units) based on inventory of ${product.inventoryLevel}: ${salesVolume}`);
 
     const revenue = salesVolume * product.sellingPrice;
     const costs =
       salesVolume * product.productionCost + product.marketingBudget;
 
-    const valueSatisfaction =
-      product.sellingPrice > 0
-        ? (product.qualityRating / product.sellingPrice) * 15
-        : 0;
-    const inventorySatisfaction =
-      potentialSales > 0 ? salesVolume / potentialSales : 1;
-    const customerSatisfaction = Math.min(
-      100,
-      valueSatisfaction * 5 + inventorySatisfaction * 10
-    );
+    const customerSatisfaction = Math.min(100, (product.qualityRating / 5) * 50 + (attractiveness / 10) * 50);
+
+    console.log(`[Calc] Final Revenue: $${revenue}, Final Costs: $${costs}`);
+    console.log(`----------------------------------------------------------`);
 
     return {
       salesVolume,

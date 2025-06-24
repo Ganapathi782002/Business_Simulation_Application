@@ -127,7 +127,7 @@ export default function SimulationLobbyPage({ params }: { params: { simId: strin
 
                 {userCompanies.length === 0 && (
                     <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                        <h2 className="text-xl font-semibold">You have no companies in this simulation.</h2>
+                        <h2 className="text-xl text-black font-semibold">You have no companies in this simulation.</h2>
                         <p className="text-gray-500 mt-2 mb-4">Click the button above to establish your first company.</p>
                     </div>
                 )}
