@@ -1,7 +1,6 @@
 'use server'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import { headers } from 'next/headers'
-export const runtime = 'edge';
 
 // 增加计数并记录访问
 export async function incrementAndLog() {
