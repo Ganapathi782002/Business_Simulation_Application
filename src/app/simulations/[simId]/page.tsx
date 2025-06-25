@@ -81,14 +81,14 @@ export default function SimulationLobbyPage({ params }: { params: { simId: strin
 
     if (loading) return <LobbyLoadingSkeleton count={userCompanies.length}/>;
     if (error) return <AppLayout><div className="p-6 text-red-500">Error: {error}</div></AppLayout>;
-    if (!simulation) return <AppLayout><div className="p-6">Simulation not found.</div></AppLayout>;
+    if (!simulation) return <AppLayout><div className="p-6 text-gray-500">Simulation not found.</div></AppLayout>;
 
     return (
         <AppLayout>
             <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-2xl text-black font-bold">Below are the companies in: {simulation.name}</h1>
+                        <h1 className="text-2xl text-gray-500 font-bold">Below are the companies in: {simulation.name}</h1>
                         <p className="text-muted-foreground">Select a company to manage or create a new one.</p>
                     </div>
                     <SimulationSetupWizard 

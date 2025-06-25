@@ -29,7 +29,7 @@ export function PerformancePage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl text-black font-bold">Performance Review</h1>
+      <h1 className="text-2xl text-gray-600 font-bold">Performance Review</h1>
 
       {historicalPerformance.length === 0 ? (
         <p className="text-black">No performance history available yet. Advance a few periods to see your results.</p>

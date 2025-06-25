@@ -10,7 +10,7 @@ import { Users, Smile, TrendingUp, UserMinus } from 'lucide-react';
 export function HrPage() {
   const { state, userCompany } = useSimulation();
 
-  if (!state || !userCompany) return <div className='p-6'>Loading HR Data...</div>;
+  if (!state || !userCompany) return <div className='p-6 text-gray-500'>Loading HR Data...</div>;
 
   const history = state.performanceResults
     .filter(p => p.period < state.currentPeriod)
@@ -22,7 +22,7 @@ export function HrPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl text-black font-bold">Human Resources Department</h1>
+        <h1 className="text-2xl text-gray-500 font-bold">Human Resources Department</h1>
         <ManageHrDialog />
       </div>
 

@@ -24,7 +24,7 @@ export function MarketingPage({ initialCompany, initialHistory }: MarketingPageP
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl text-black font-bold">Marketing Department</h1>
+        <h1 className="text-2xl text-gray-500 font-bold">Marketing Department</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

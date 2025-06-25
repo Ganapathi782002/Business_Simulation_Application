@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeToggle } from './theme-toggle';
+import { cn } from '@/lib/utils';
 
 interface HeaderProps {
   title: string;
@@ -7,14 +8,20 @@ interface HeaderProps {
   className?: string;
 }
 
-export function Header({ title, actions, className = '' }: HeaderProps) {
+export function Header({ title, actions, className }: HeaderProps) {
   return (
-    <div className={`bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between ${className}`}>
-      <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+    <header className={cn(
+      "sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-6",
+      className
+    )}>
+      <div className="flex-1">
+        <h1 className="text-lg font-semibold">{title}</h1>
+      </div>
+
       <div className="flex items-center gap-4">
+        {actions}
         <ThemeToggle />
       </div>
-      {actions && <div className="flex items-center space-x-4">{actions}</div>}
-    </div>
+    </header>
   );
 }

@@ -46,13 +46,13 @@ export function ProductCatalogPage({ companyId, simulationId }: { companyId: str
     fetchData();
   }, [companyId, simulationId]);
 
-  if (loading) return <div className="p-6">Loading Product Catalog...</div>;
+  if (loading) return <div className="p-6 text-gray-500">Loading Product Catalog...</div>;
   if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl text-black font-bold">Product Catalog & Management</h1>
+        <h1 className="text-2xl text-gray-500 font-bold">Product Catalog & Management</h1>
         <AddProductDialog />
       </div>
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">

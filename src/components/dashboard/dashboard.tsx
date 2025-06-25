@@ -65,13 +65,13 @@ export function Dashboard() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl text-black font-bold">Your Simulations</h1>
+        <h1 className="text-2xl text-gray-600 font-bold">Your Simulations</h1>
         <SimulationSetupWizard />
       </div>
 
       {simulations.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
-          <h2 className="text-xl text-black font-semibold">No Simulations Found</h2>
+          <h2 className="text-xl text-gray-600 font-semibold">No Simulations Found</h2>
           <p className="text-gray-500 mt-2 mb-4">Get started by creating your first simulation.</p>
           <SimulationSetupWizard />
         </div>

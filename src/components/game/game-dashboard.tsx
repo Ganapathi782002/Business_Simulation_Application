@@ -84,7 +84,7 @@ export function GameDashboard() {
       </Alert>
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl text-black font-bold">Company Name: {userCompany.name}</h1>
+          <h1 className="text-2xl text-gray-500 font-bold">Company Name: {userCompany.name}</h1>
           <p className="text-gray-500">Period {state.currentPeriod} - {state.name}</p>
         </div>
         <div className="flex items-center space-x-2">
@@ -131,7 +131,7 @@ export function GameDashboard() {
       </div>
 
       <div>
-        <h2 className="text-xl text-black font-bold mb-4">Pending Decisions for Period {state.currentPeriod}</h2>
+        <h2 className="text-xl text-gray-500 font-bold mb-4">Pending Decisions for Period {state.currentPeriod}</h2>
         {pendingDecisions.length > 0 ? (
           <div className="space-y-3">
             {pendingDecisions.map(decision => (
@@ -147,7 +147,7 @@ export function GameDashboard() {
 
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl text-black font-bold">Your Products</h2>
+          <h2 className="text-xl text-gray-500 font-bold">Your Products</h2>
           <AddProductDialog />
         </div>
         {companyProducts.length > 0 ? (

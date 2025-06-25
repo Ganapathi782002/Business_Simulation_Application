@@ -15,7 +15,7 @@ export function CompetitorAnalysisPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl text-black font-bold">Competitor Analysis</h1>
+      <h1 className="text-2xl text-gray-500 font-bold">Competitor Analysis</h1>
 
       <Card>
         <CardHeader>
