@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-export const runtime = 'edge';
 import { cookies } from 'next/headers'
 import { error } from 'console';
 export async function POST(req: NextRequest) {
