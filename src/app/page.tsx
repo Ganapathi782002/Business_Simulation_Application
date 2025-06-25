@@ -5,6 +5,7 @@ import { AuthPage } from '../components/auth/auth-page';
 import { AppLayout } from '../components/layout/app-layout';
 import { Dashboard } from '../components/dashboard/dashboard';
 import { useAuth } from '../lib/auth-context';
+export const runtime = 'edge';
 
 // Main app component that handles authentication state
 function AppContent() {

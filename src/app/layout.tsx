@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/lib/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
+export const runtime = 'edge';
 
 const inter = Inter({
   subsets: ["latin"],
