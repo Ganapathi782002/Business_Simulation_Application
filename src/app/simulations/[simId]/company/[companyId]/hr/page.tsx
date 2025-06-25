@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { AppLayout } from '@/components/layout/app-layout';
 import { auth } from '@/lib/auth';
 import { SimulationState } from '@/components/simulation/types';
+export const runtime = 'edge';
 
 export default async function HumanResourcesPage({ params }: { params: { simId: string; companyId: string } }) {
 

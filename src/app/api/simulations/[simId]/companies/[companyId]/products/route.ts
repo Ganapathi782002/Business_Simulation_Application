@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'edge';
 import { auth } from '@/lib/auth';
 import { getDB } from '@/lib/get-db';
 import { ProductStatus } from '@/components/simulation/types';

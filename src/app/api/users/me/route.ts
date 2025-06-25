@@ -1,4 +1,5 @@
 import { getDB } from "@/lib/get-db";
+export const runtime = 'edge';
 import jwt  from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";

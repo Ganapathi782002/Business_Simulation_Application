@@ -6,6 +6,7 @@ import { notFound, redirect } from 'next/navigation';
 import { AppLayout } from '@/components/layout/app-layout';
 import { SimulationState } from '@/components/simulation/types';
 import { auth } from '@/lib/auth';
+export const runtime = 'edge';
 
 export default async function CompanyDashboardPage({ params }: { params: { simId: string; companyId: string } }) {
   const session = await auth();

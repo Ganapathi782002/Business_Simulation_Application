@@ -3,6 +3,7 @@ import { getDB } from '@/lib/get-db';
 import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers'
+export const runtime = 'edge';
 export async function POST(req: NextRequest) {
     try {
         const { email, password }: any = await req.json();

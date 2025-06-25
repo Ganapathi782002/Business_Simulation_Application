@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'edge';
 import { getDB } from '@/lib/get-db';
 import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'

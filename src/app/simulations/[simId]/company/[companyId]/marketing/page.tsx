@@ -4,6 +4,7 @@ import { AppLayout } from '@/components/layout/app-layout';
 import { MarketingPage } from '@/components/game/marketing-page';
 import { notFound, redirect } from 'next/navigation';
 import { Company, PerformanceResults } from '@/components/simulation/types';
+export const runtime = 'edge';
 
 async function getMarketingPageData(companyId: string) {
     const db = await getDB();
