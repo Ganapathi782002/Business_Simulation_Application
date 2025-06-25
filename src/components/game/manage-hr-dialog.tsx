@@ -73,7 +73,7 @@ export function ManageHrDialog() {
       <DialogTrigger asChild>
         <Button variant="default">Human Resources</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Human Resources Management</DialogTitle>
           <DialogDescription>Make your HR decisions for the upcoming period.</DialogDescription>
